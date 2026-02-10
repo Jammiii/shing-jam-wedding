@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shing & Jam's Wedding | RSVP</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/frontend/style.css">
+    <link rel="icon" type="image/png" sizes="16x16" href="/frontend/images/ICON.png">
+</head>
+<body>
+
+<div id="envelopeContainer">
+    <video id="envelopeVideo" autoplay muted loop playsinline>
+        <source src="/frontend/images/BACKGROUND.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="env">
+        <input type="checkbox" id="open-env"/>
+        <div class="top-wrapper">
+            <label for="open-env" class="top"></label>
+            <div class="envelope-monogram">
+                <img src="/frontend/images/MONOGRAM.png" alt="S&J Monogram" class="monogram-img">
+            </div>
+        </div>
+        <div class="rest"></div>
+        <!-- The content div should be outside the top-wrapper -->
+        <div class="content">
+            <h2>Shing & Jam!!</h2>
+            <p>We're getting married! You are invited.</p>
+        </div>
+    </div>
+</div>
+
+<div id="weddingContent">
+    <!-- Background Music -->
+    <audio id="backgroundMusic" loop>
+        <source src="/frontend/images/TAHANAN.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <!-- Door Animation Elements -->
+    <div class="door-animation">
+        <div class="door left" style="background-image: url('/frontend/images/ONE.jpg'); background-position: left center;"></div>
+        <div class="door right" style="background-image: url('/frontend/images/ONE.jpg'); background-position: right center;"></div>
+    </div>
+
+    <!-- Background Photos (no controls) -->
+    <div class="hero-backgrounds">
+        <div class="bg-slide active" style="background-image: url('/frontend/images/ONE.jpg');"></div>
+        <div class="bg-slide" style="background-image: url('/frontend/images/TWO.jpg');"></div>
+        <div class="bg-slide" style="background-image: url('/frontend/images/THREE.jpeg');"></div>
+    </div>
+
+    <div class="hero-content fade-in">
+        <h1>Shing & Jam</h1>
+        <p class="tagline">Two hearts, one beginning</p>
+        <p class="wedding-date">March 26, 2027 • LaSersita Casitas</p>
+
+        <div class="cta-group">
+            <a href="#messages" class="cta-button message-btn">
+                <i class="fas fa-envelope"></i>
+                <span class="btn-text">Send Message</span>
+            </a>
+            <a href="#rsvp" class="cta-button rsvp-btn">
+                <i class="fas fa-calendar-check"></i>
+                <span class="btn-text">RSVP Now</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="nav-monogram">
+                    <img src="/frontend/images/MONOGRAM.PNG" alt="S&J" class="nav-monogram-img">
+                </div>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#countdown-section"><i class="fas fa-clock"></i> Countdown</a></li>
+                <li><a href="#story"><i class="fas fa-book-open"></i> Our Story</a></li>
+                <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="#messages"><i class="fas fa-envelope"></i> Messages</a></li>
+                <li><a href="#details"><i class="fas fa-info-circle"></i> Details</a></li>
+                <li><a href="#entourage"><i class="fas fa-users"></i> Entourage</a></li>
+                <li><a href="#sponsors"><i class="fas fa-handshake"></i> Sponsors</a></li>
+                <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
+                <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Countdown Section -->
+    <section id="countdown-section" class="countdown-section">
+        <div class="countdown-container">
+            <h2 class="section-title">Countdown to Our Special Day</h2>
+            <div id="countdown-secondary" class="countdown-secondary">
+                <div class="countdown-item-secondary">
+                    <span id="days-sec" class="countdown-number-secondary">00</span>
+                    <span class="countdown-label-secondary">Days</span>
+                </div>
+                <div class="countdown-item-secondary">
+                    <span id="hours-sec" class="countdown-number-secondary">00</span>
+                    <span class="countdown-label-secondary">Hours</span>
+                </div>
+                <div class="countdown-item-secondary">
+                    <span id="minutes-sec" class="countdown-number-secondary">00</span>
+                    <span class="countdown-label-secondary">Minutes</span>
+                </div>
+                <div class="countdown-item-secondary">
+                    <span id="seconds-sec" class="countdown-number-secondary">00</span>
+                    <span class="countdown-label-secondary">Seconds</span>
+                </div>
+            </div>
+            <p class="countdown-note">March 26, 2027 • LaSersita Casitas, Mindoro</p>
+        </div>
+    </section>
+
+    <!-- Save the Date Section -->
+    <section class="save-the-date">
+        <div class="save-the-date-content">
+            <h2>Save The Date</h2>
+            <div class="date-container">
+                <div class="date-item">
+                    <span class="date-number">26</span>
+                    <span class="date-label">March</span>
+                </div>
+                <div class="date-item">
+                    <span class="date-number">2027</span>
+                    <span class="date-label">Year</span>
+                </div>
+            </div>
+            <div class="location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>LaSersita Casitas, Mindoro</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Timeline -->
+    <section id="story" class="story-section">
+        <h2 class="section-title">Our Love Story</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2013</div>
+                <div class="timeline-content">
+                    <h3>First Meeting</h3>
+                    <p>We first met at first year high school. It was not much but .</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2021</div>
+                <div class="timeline-content">
+                    <h3>First Date</h3>
+                    <p>Our first official date was together with her family at vikings.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2024</div>
+                <div class="timeline-content">
+                    <h3>First Plan together</h3>
+                    <p>We got our first house and lot to building our life together in the future.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-date">2026</div>
+                <div class="timeline-content">
+                    <h3>The Proposal</h3>
+                    <p>On a beautiful summer night, Jam got down on one knee.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Photo Gallery -->
+    <section id="gallery" class="gallery-section">
+        <h2 class="section-title">Our Journey Together</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Engagement Photo">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Beach Vacation">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain Hike">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Proposal Moment">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Anniversary Dinner">
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Family Gathering">
+            </div>
+        </div>
+    </section>
+    <!-- Details Section -->
+    <section id="details" class="details-section">
+        <div class="details-container">
+            <h2 class="section-title">Wedding Details</h2>
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Date & Time</h3>
+                    <p>March 26, 2027</p>
+                    <p>1:00 PM Ceremony</p>
+                    <p>3:00 PM Reception</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Venue</h3>
+                    <p>LaSersita Casitas Hall</p>
+                    <p>Mansalay, Oreintal Mindoro</p>
+                    <p>PH, HI 96753</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Reception</h3>
+                    <p>Cocktails & Dinner</p>
+                    <p>Open Bar Available</p>
+                    <p>Live Music & Dancing</p>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3>Accommodations</h3>
+                    <p>Room Block Available</p>
+                    <p>Group Code: SM2024</p>
+                    <p>Contact for Details</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Entourage Section -->
+    <section id="entourage" class="entourage-section">
+        <div class="entourage-container">
+            <h2 class="section-title">The Wedding Entourage</h2>
+            <div class="entourage-grid">
+                <div class="entourage-category">
+                    <h3><i class="fas fa-crown"></i> Bride's Side</h3>
+                    <ul class="entourage-list">
+                        <li><strong>Maid of Honor:</strong> Jessica Parker</li>
+                        <li><strong>Bridesmaids:</strong> Amanda Lee, Chloe Smith</li>
+                        <li><strong>Flower Girl:</strong> Lily Johnson</li>
+                        <li><strong>Parents:</strong> Mr. & Mrs. Johnson</li>
+                    </ul>
+                </div>
+                <div class="entourage-category">
+                    <h3><i class="fas fa-crown"></i> Groom's Side</h3>
+                    <ul class="entourage-list">
+                        <li><strong>Best Man:</strong> David Wilson</li>
+                        <li><strong>Groomsmen:</strong> Michael Brown, Chris Taylor</li>
+                        <li><strong>Ring Bearer:</strong> Noah Williams</li>
+                        <li><strong>Parents:</strong> Mr. & Mrs. Smith</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sponsors Section -->
+    <section id="sponsors" class="sponsors-section">
+        <div class="sponsors-container">
+            <h2 class="section-title">Our Generous Sponsors</h2>
+            <p class="sponsors-intro">Special thanks to our partners who made this day possible</p>
+            <div class="sponsors-grid">
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">
+                        <i class="fas fa-camera-retro"></i>
+                    </div>
+                    <h4>Elegant Photography</h4>
+                    <p>Capturing your precious moments</p>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h4>Gourmet Delights</h4>
+                    <p>Fine catering services</p>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h4>Luxury Transport</h4>
+                    <p>Premium transportation</p>
+                </div>
+                <div class="sponsor-card">
+                    <div class="sponsor-logo">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <h4>Diamond Jewels</h4>
+                    <p>Exquisite jewelry</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="faq-container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What is the dress code? <i class="fas fa-chevron-down"></i></h4>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Formal attire. Ladies: Evening gowns or cocktail dresses. Gentlemen: Suits or tuxedos.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Is there parking available? <i class="fas fa-chevron-down"></i></h4>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, complimentary valet parking will be provided at the venue.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Can I bring a plus one? <i class="fas fa-chevron-down"></i></h4>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Please check your invitation for the number of guests allotted.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What time should I arrive? <i class="fas fa-chevron-down"></i></h4>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Please arrive 30 minutes before the ceremony (3:30 PM).</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>Are children welcome? <i class="fas fa-chevron-down"></i></h4>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, children are welcome! Please indicate their attendance in your RSVP.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h4>What food options are available? <i class="fas fa-chevron-down"></i></h4>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer beef, fish, vegetarian, and vegan options. Please specify in your RSVP.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <img id="lightboxImg" class="lightbox-img" src="" alt="">
+            <button class="lightbox-close">&times;</button>
+        </div>
+    </div>
+
+    <!-- RSVP Section -->
+    <section id="rsvp" class="rsvp-section">
+        <h2 class="section-title">RSVP</h2>
+        <div class="rsvp-container">
+            <div id="deadlineMessage" class="message error" style="display: none;">
+                <i class="fas fa-exclamation-circle"></i> RSVP deadline has passed. Please contact the couple directly.
+            </div>
+
+            <div id="rsvpMessage" class="message"></div>
+
+            <form id="rsvpForm" class="rsvp-form">
+                <div class="form-group">
+                    <label for="guest_name"><i class="fas fa-user"></i> Full Name *</label>
+                    <input type="text" id="guest_name" name="guest_name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label for="attendance"><i class="fas fa-calendar-check"></i> Will you attend? *</label>
+                    <select id="attendance" name="attendance" required>
+                        <option value="">Please select...</option>
+                        <option value="Accepts with pleasure">Accepts with pleasure</option>
+                        <option value="Regretfully declines">Regretfully declines</option>
+                    </select>
+                </div>
+
+                <div id="guestCountGroup" class="form-group conditional-field">
+                    <label for="guest_count"><i class="fas fa-users"></i> Number of Guests *</label>
+                    <select id="guest_count" name="guest_count">
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                        <option value="5">5 Guests</option>
+                    </select>
+                </div>
+
+                <div id="mealPreferenceGroup" class="form-group conditional-field">
+                    <label for="meal_preference"><i class="fas fa-utensils"></i> Meal Preference *</label>
+                    <select id="meal_preference" name="meal_preference">
+                        <option value="">Select preference...</option>
+                        <option value="Beef Wellington">Beef Wellington</option>
+                        <option value="Salmon en Croûte">Salmon en Croûte</option>
+                        <option value="Vegetarian Risotto">Vegetarian Risotto</option>
+                        <option value="Vegan Buddha Bowl">Vegan Buddha Bowl</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="guest_message"><i class="fas fa-heart"></i> Message for the Couple (Optional)</label>
+                    <textarea id="guest_message" name="guest_message" rows="4" placeholder="Share your well wishes or special requests..."></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="submit-btn">
+                    Submit RSVP <i class="fas fa-paper-plane"></i>
+                </button>
+                <div id="spinner" class="spinner"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Messages Section -->
+    <section id="messages" class="messages-section">
+        <div class="messages-container">
+            <h2 class="section-title">Messages for the Couple</h2>
+            <div class="messages-grid" id="messagesGrid">
+                <div class="message-card">
+                    <div class="message-header">
+                        <div class="message-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="message-author">
+                            <h4>Emily Johnson</h4>
+                            <span class="message-date">Mar 26, 2027</span>
+                        </div>
+                    </div>
+                    <div class="message-content">
+                        <p>So excited for your big day! Wishing you both a lifetime of happiness and love.</p>
+                    </div>
+                </div>
+                <div class="message-card">
+                    <div class="message-header">
+                        <div class="message-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="message-author">
+                            <h4>Robert Chen</h4>
+                            <span class="message-date">Mar 26, 2027</span>
+                        </div>
+                    </div>
+                    <div class="message-content">
+                        <p>Congratulations! Can't wait to celebrate with you. The journey ahead is beautiful!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="add-message-form">
+                <h3>Leave a Message</h3>
+                <form id="messageForm">
+                    <div class="form-group">
+                        <input type="text" id="messageName" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="messageContent" placeholder="Your message for the couple..." rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Post Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">
+                        <i class="fa-solid fa-ring ring-icon"></i> Shing & Jam
+                    </h3>
+                    <p class="footer-text">March 27, 2027</p>
+                    <p class="footer-text">La Sersita Casitas and WaterSpa Beach Resort by Cocotel Mansalay, Or.Mindoro</p>
+                    <p class="footer-quote">“Hearts intertwined, dreams aligned, love everlasting through all moments together.”</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">
+                        <i class="fas fa-church ceremony-icon"></i> Ceremony
+                    </h4>
+                    <p class="footer-text">La Sersita Casitas and WaterSpa Beach Resort by Cocotel Mansalay, Or.Mindoro</p>
+                    <p class="footer-text"><i class="far fa-clock"></i> 1:00 PM</p>
+
+                    <h4 class="footer-subtitle" style="margin-top: 1.5rem;">
+                        <i class="fas fa-glass-cheers reception-icon"></i> Reception
+                    </h4>
+                    <p class="footer-text">La Sersita Casitas Lobby Hall</p>
+                    <p class="footer-text"><i class="far fa-clock"></i> 3:00 NN</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-subtitle">Share Us</h4>
+                    <div class="footer-social">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                    </div>
+
+                    <h4 class="footer-subtitle" style="margin-top: 1.5rem;">
+                        <i class="fas fa-link quicklinks-icon"></i> Quick Links
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#story"><i class="fas fa-book-open"></i> Our Story</a></li>
+                        <li><a href="#details"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                        <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
+                        <li><a href="#messages"><i class="fas fa-camera"></i> Messages & Share</a></li>
+                        <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Shing & Jam. All rights reserved.</p>
+                <p class="footer-heart">Made with 💕 for our special day</p>
+                <p class="footer-developer">
+                    <i class="fas fa-code"></i> Developed by Jam Ruga
+                </p>
+                <div class="footer-contact">
+                    Want a website like this? Contact me
+                    <a href="https://www.facebook.com/jamma.ruga/" target="_blank" class="contact-link">
+                        <i class="fab fa-facebook"></i> @Jam Samson Ruga
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Music Toggle -->
+    <div class="music-toggle">
+        <button id="musicToggle" class="music-btn">
+            <i class="fas fa-volume-mute"></i>
+        </button>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+        <div class="admin-content">
+            <button id="logoutBtn" class="logout-btn" style="float: right;">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+
+            <h2><i class="fas fa-chart-bar"></i> RSVP Dashboard</h2>
+
+            <!-- Login Form (initially shown) -->
+            <div id="loginFormContainer">
+                <h3>Admin Login</h3>
+                <form id="adminLoginForm" class="rsvp-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Stats & Data (shown after login) -->
+            <div id="adminContent" style="display: none;">
+                <div id="statsContainer" class="admin-stats">
+                    <!-- Stats will be loaded here -->
+                </div>
+
+                <button id="exportBtn" class="submit-btn" style="margin: 1rem 0;">
+                    <i class="fas fa-download"></i> Export to CSV
+                </button>
+
+                <h3>All RSVPs</h3>
+                <div style="overflow-x: auto;">
+                    <table id="rsvpTable" class="rsvp-table">
+                        <thead>
+                            <tr>
+                                <th>Guest Name</th>
+                                <th>Attendance</th>
+                                <th>Guest Count</th>
+                                <th>Meal Preference</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- RSVPs will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- JavaScript -->
+      <script src="/frontend/script.js"></script>
+
+</body>
+</html>

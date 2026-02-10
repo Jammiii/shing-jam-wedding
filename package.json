@@ -1,0 +1,14 @@
+{
+  "name": "shing-jam-wedding",
+  "version": "1.0.0",
+  "description": "Shing & Jam Wedding RSVP Website",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}
