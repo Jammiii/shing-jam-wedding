@@ -38,36 +38,42 @@
       </div>
     </div>
   </div>
-
   <nav class="main-nav">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <div class="nav-monogram">
-          <img src="/frontend/images/MONOGRAM.png" alt="S&J" class="nav-monogram-img">
-        </div>
+      <div class="nav-container">
+        <div class="nav-brand" href="#home">
+          <div class="nav-monogram">
+            <img src="/frontend/images/MONOGRAM.png" alt="S&J" class="nav-monogram-img">
+          </div>
 
-        <div class="nav-minimal">
-          <span class="minimal-couple">Shing <span class="amp">&</span> Jam</span>
-          <span class="minimal-Hashtag">󠁯#LetShingandJamTogether󠁯󠁏</span>
+          <div class="nav-minimal">
+            <span class="minimal-couple">Shing <span class="amp">&</span> Jam</span>
+            <span class="minimal-Hashtag">󠁯#LetShingandJamTogether󠁯󠁏</span>
+          </div>
         </div>
+        <button class="nav-toggle" id="navToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="#countdown-section"><i class="fas fa-clock"></i> Countdown</a></li>
+          <li><a href="#story"><i class="fas fa-book-open"></i> Our Story</a></li>
+          <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
+          <li><a href="#messages"><i class="fas fa-envelope"></i> Messages</a></li>
+          <li><a href="#details"><i class="fas fa-info-circle"></i> Details</a></li>
+          <li><a href="#entourage"><i class="fas fa-users"></i> Entourage</a></li>
+          <li><a href="#sponsors"><i class="fas fa-handshake"></i> Sponsors</a></li>
+          <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
+          <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        </ul>
       </div>
-      <button class="nav-toggle" id="navToggle">
-        <i class="fas fa-bars"></i>
+    </nav>
+
+  <!-- Music Toggle -->
+  <div class="music-toggle">
+      <button id="musicToggle" class="music-btn">
+        <i class="fas fa-volume-mute"></i>
       </button>
-      <ul class="nav-menu" id="navMenu">
-        <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#countdown-section"><i class="fas fa-clock"></i> Countdown</a></li>
-        <li><a href="#story"><i class="fas fa-book-open"></i> Our Story</a></li>
-        <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
-        <li><a href="#messages"><i class="fas fa-envelope"></i> Messages</a></li>
-        <li><a href="#details"><i class="fas fa-info-circle"></i> Details</a></li>
-        <li><a href="#entourage"><i class="fas fa-users"></i> Entourage</a></li>
-        <li><a href="#sponsors"><i class="fas fa-handshake"></i> Sponsors</a></li>
-        <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
-        <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
-      </ul>
     </div>
-  </nav>
 
   <div id="weddingContent">
     <!-- Background Music -->
@@ -137,22 +143,13 @@
 
     <!-- Save the Date Section -->
     <section class="save-the-date">
-      <div class="save-the-date-content">
-        <h2>Save The Date</h2>
-        <div class="date-container">
-          <div class="date-item">
-            <span class="date-number">26</span>
-            <span class="date-label">March</span>
-          </div>
-          <div class="date-item">
-            <span class="date-number">2027</span>
-            <span class="date-label">Year</span>
-          </div>
-        </div>
-        <div class="location">
-          <i class="fas fa-map-marker-alt"></i>
-          <span>LaSersita Casitas, Mindoro</span>
-        </div>
+      <div class="video-container">
+        <iframe
+          src="https://www.youtube.com/embed/O-5OLi7JO6o?autoplay=1&mute=1&loop=1&playlist=O-5OLi7JO6o&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
       </div>
     </section>
 
@@ -268,19 +265,19 @@
           <div class="entourage-category">
             <h3><i class="fas fa-crown"></i> Bride's Side</h3>
             <ul class="entourage-list">
-              <li><strong>Maid of Honor:</strong> Jessica Parker</li>
-              <li><strong>Bridesmaids:</strong> Amanda Lee, Chloe Smith</li>
-              <li><strong>Flower Girl:</strong> Lily Johnson</li>
-              <li><strong>Parents:</strong> Mr. & Mrs. Johnson</li>
+              <li><strong>Maid of Honor:</strong> </li>
+              <li><strong>Bridesmaids:</strong> </li>
+              <li><strong>Flower Girl:</strong> </li>
+              <li><strong>Parents:</strong> </li>
             </ul>
           </div>
           <div class="entourage-category">
             <h3><i class="fas fa-crown"></i> Groom's Side</h3>
             <ul class="entourage-list">
-              <li><strong>Best Man:</strong> David Wilson</li>
-              <li><strong>Groomsmen:</strong> Michael Brown, Chris Taylor</li>
-              <li><strong>Ring Bearer:</strong> Noah Williams</li>
-              <li><strong>Parents:</strong> Mr. & Mrs. Smith</li>
+              <li><strong>Best Man:</strong> </li>
+              <li><strong>Groomsmen:</strong> </li>
+              <li><strong>Ring Bearer:</strong> </li>
+              <li><strong>Parents:</strong> </li>
             </ul>
           </div>
         </div>
@@ -403,7 +400,43 @@
         <form id="rsvpForm" class="rsvp-form">
           <div class="form-group">
             <label for="guest_name"><i class="fas fa-user"></i> Full Name *</label>
-            <input type="text" id="guest_name" name="guest_name" required placeholder="Enter your full name">
+            <select id="guest_name" name="guest_name" required>
+              <option value="">Select your name...</option>
+              <option value="Raquel Castillo">Raquel Castillo</option>
+              <option value="Allan Tijuana">Allan Tijuana</option>
+              <option value="Lovelyn Tijuan">Lovelyn Tijuan</option>
+              <option value="Arlyn Malic">Arlyn Malic</option>
+              <option value="Jowelyn Tijulan">Jowelyn Tijulan</option>
+              <option value="Robert Castillo">Robert Castillo</option>
+              <option value="Jesus Geronimo">Jesus Geronimo</option>
+              <option value="Rico Malic">Rico Malic</option>
+              <option value="Annjane Tijulan">Annjane Tijulan</option>
+              <option value="Allen Jay Tijulan">Allen Jay Tijulan</option>
+              <option value="Kiray Tijulan">Kiray Tijulan</option>
+              <option value="John William Malic">John William Malic</option>
+              <option value="John Paul Malic">John Paul Malic</option>
+              <option value="John Kyle Malic">John Kyle Malic</option>
+              <option value="Razey Cielo Castillo">Razey Cielo Castillo</option>
+              <option value="Heaven Geronimo">Heaven Geronimo</option>
+              <option value="Magnus Geronimo">Magnus Geronimo</option>
+              <option value="Luke Malic">Luke Malic</option>
+              <option value="Annalyn Soriano">Annalyn Soriano</option>
+              <option value="Anacleto Basilio">Anacleto Basilio</option>
+              <option value="Cecilia Basilio">Cecilia Basilio</option>
+              <option value="Mary Grace Basilio">Mary Grace Basilio</option>
+              <option value="Anna Grace Basilio">Anna Grace Basilio</option>
+              <option value="Mark Caliv Basilio">Mark Caliv Basilio</option>
+              <option value="Noeme Grace Basilio">Noeme Grace Basilio</option>
+              <option value="Mark Ezekiel Basilio">Mark Ezekiel Basilio</option>
+              <option value="Lea Raquel Grace Basilio">Lea Raquel Grace Basilio</option>
+              <option value="Realita Basilio">Realita Basilio</option>
+              <option value="Elvira Ravino">Elvira Ravino</option>
+              <option value="Ageline Basilio">Ageline Basilio</option>
+              <option value="Sanghyun Kim">Sanghyun Kim</option>
+              <option value="Benny Basilio">Benny Basilio</option>
+              <option value="Bebeth Basilio">Bebeth Basilio</option>
+              <option value="Nicole Basilio">Nicole Basilio</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -412,28 +445,6 @@
               <option value="">Please select...</option>
               <option value="Accepts with pleasure">Accepts with pleasure</option>
               <option value="Regretfully declines">Regretfully declines</option>
-            </select>
-          </div>
-
-          <div id="guestCountGroup" class="form-group conditional-field">
-            <label for="guest_count"><i class="fas fa-users"></i> Number of Guests *</label>
-            <select id="guest_count" name="guest_count">
-              <option value="1">1 Guest</option>
-              <option value="2">2 Guests</option>
-              <option value="3">3 Guests</option>
-              <option value="4">4 Guests</option>
-              <option value="5">5 Guests</option>
-            </select>
-          </div>
-
-          <div id="mealPreferenceGroup" class="form-group conditional-field">
-            <label for="meal_preference"><i class="fas fa-utensils"></i> Meal Preference *</label>
-            <select id="meal_preference" name="meal_preference">
-              <option value="">Select preference...</option>
-              <option value="Beef Wellington">Beef Wellington</option>
-              <option value="Salmon en Croûte">Salmon en Croûte</option>
-              <option value="Vegetarian Risotto">Vegetarian Risotto</option>
-              <option value="Vegan Buddha Bowl">Vegan Buddha Bowl</option>
             </select>
           </div>
 
@@ -566,13 +577,6 @@
       </div>
     </footer>
 
-    <!-- Music Toggle -->
-    <div class="music-toggle">
-      <button id="musicToggle" class="music-btn">
-        <i class="fas fa-volume-mute"></i>
-      </button>
-    </div>
-
     <!-- Admin Panel -->
     <div id="adminPanel" class="admin-panel">
       <div class="admin-content">
@@ -639,4 +643,3 @@
 </body>
 
 </html>
-
