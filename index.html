@@ -585,40 +585,44 @@
     <!-- Admin Panel -->
     <div id="adminPanel" class="admin-panel">
       <div class="admin-content">
-        <button id="logoutBtn" class="logout-btn" style="float: right;">
-          <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-
-        <h2><i class="fas fa-chart-bar"></i> RSVP Dashboard</h2>
-
+        <button class="close-btn" onclick="document.getElementById('adminPanel').style.display='none'">&times;</button>
+        
+        <h2 style="text-align: center; margin-bottom: 20px; color: #333;">
+          <i class="fas fa-chart-bar"></i> RSVP Dashboard
+        </h2>
+    
         <!-- Login Form (initially shown) -->
         <div id="loginFormContainer">
           <h3>Admin Login</h3>
           <form id="adminLoginForm" class="rsvp-form">
             <div class="form-group">
               <label for="username">Username</label>
-              <input type="text" id="username" name="username" required>
+              <input type="text" id="username" name="username" required placeholder="Enter username">
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" id="password" name="password" required>
+              <input type="password" id="password" name="password" required placeholder="Enter password">
             </div>
             <button type="submit" class="submit-btn">
               <i class="fas fa-sign-in-alt"></i> Login
             </button>
           </form>
         </div>
-
+    
         <!-- Stats & Data (shown after login) -->
         <div id="adminContent" style="display: none;">
+          <button id="logoutBtn" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
+          
           <div id="statsContainer" class="admin-stats">
             <!-- Stats will be loaded here -->
           </div>
-
+    
           <button id="exportBtn" class="submit-btn" style="margin: 1rem 0;">
             <i class="fas fa-download"></i> Export to CSV
           </button>
-
+    
           <h3>All RSVPs</h3>
           <div style="overflow-x: auto;">
             <table id="rsvpTable" class="rsvp-table">
