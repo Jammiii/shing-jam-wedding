@@ -122,41 +122,31 @@ document.addEventListener("DOMContentLoaded", function () {
   // Wedding Date
   const weddingDate = new Date("2027-03-26T13:00:00");
 
-  // Initialize Countdown
+  // Update countdown every second - MODIFIED VERSION
   function updateCountdown() {
     const now = new Date();
     const diff = weddingDate - now;
-
+  
     if (diff <= 0) {
-      countdownElement.innerHTML =
-        '<div class="countdown-item"><span class="countdown-number">🎉</span><span class="countdown-label">Wedding Day!</span></div>';
+      // Only update secondary countdown
+      const countdownSec = document.getElementById("countdown-secondary");
+      if (countdownSec) {
+        countdownSec.innerHTML =
+          '<div class="countdown-item-secondary"><span class="countdown-number-secondary">🎉</span><span class="countdown-label-secondary">Wedding Day!</span></div>';
+      }
       return;
     }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    document.getElementById("days").textContent = days
-      .toString()
-      .padStart(2, "0");
-    document.getElementById("hours").textContent = hours
-      .toString()
-      .padStart(2, "0");
-    document.getElementById(
-      "minutes"
-    ).textContent = minutes.toString().padStart(2, "0");
-    document.getElementById(
-      "seconds"
-    ).textContent = seconds.toString().padStart(2, "0");
+  
+    // Remove the primary countdown updates since those elements don't exist
+    // Just call updateSecondaryCountdown instead
+    updateSecondaryCountdown();
   }
-
-  // Secondary Countdown
+  
+  // Keep updateSecondaryCountdown as is
   function updateSecondaryCountdown() {
     const now = new Date();
     const diff = weddingDate - now;
-
+  
     if (diff <= 0) {
       const countdownSec = document.getElementById("countdown-secondary");
       if (countdownSec) {
@@ -165,25 +155,22 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       return;
     }
-
+  
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
+  
     const daysSec = document.getElementById("days-sec");
     const hoursSec = document.getElementById("hours-sec");
     const minutesSec = document.getElementById("minutes-sec");
     const secondsSec = document.getElementById("seconds-sec");
-
+  
     if (daysSec) daysSec.textContent = days.toString().padStart(2, "0");
     if (hoursSec) hoursSec.textContent = hours.toString().padStart(2, "0");
-    if (minutesSec)
-      minutesSec.textContent = minutes.toString().padStart(2, "0");
-    if (secondsSec)
-      secondsSec.textContent = seconds.toString().padStart(2, "0");
+    if (minutesSec) minutesSec.textContent = minutes.toString().padStart(2, "0");
+    if (secondsSec) secondsSec.textContent = seconds.toString().padStart(2, "0");
   }
-
   // Conditional form fields
   if (attendanceSelect) {
     attendanceSelect.addEventListener("change", function () {
