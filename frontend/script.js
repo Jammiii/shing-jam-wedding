@@ -481,6 +481,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (token && user) {
       // Already logged in, load data directly
+      document.getElementById("loginFormContainer").style.display = "none";
+      document.getElementById("adminContent").style.display = "block";
       await loadAdminData();
     } else {
       // Show login form
@@ -510,7 +512,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Update admin login form
   if (adminLoginForm) {
     adminLoginForm.addEventListener("submit", async function (e) {
       e.preventDefault();
@@ -524,8 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const submitBtn = this.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML =
-        '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
 
       try {
         const response = await fetch("/api/login", {
@@ -543,11 +543,15 @@ document.addEventListener("DOMContentLoaded", function () {
           localStorage.setItem("adminToken", result.token);
           localStorage.setItem("adminUser", result.username);
 
+          // Hide login form, show admin content
+          document.getElementById("loginFormContainer").style.display = "none";
+          document.getElementById("adminContent").style.display = "block";
+
           // Load admin data
           await loadAdminData();
           showMessage("Login successful!", "success");
         } else {
-          showMessage(result.error || "Login failed", "error");
+          showMessage(result.error || "Invalid username or password", "error");
         }
       } catch (error) {
         console.error("Login error:", error);
