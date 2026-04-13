@@ -1064,4 +1064,213 @@ if (logoutBtn) {
   }, 100);
 
   console.log("Wedding RSVP App initialized");
+// Admin Modal Functions
+function openAdminModal() {
+  const modal = document.getElementById('adminModal');
+  modal.classList.add('show');
+  
+  // Check if already logged in
+  const token = localStorage.getItem('adminToken');
+  const user = localStorage.getItem('adminUser');
+  
+  if (token && user) {
+    showAdminDashboard();
+  } else {
+    showAdminLogin();
+  }
+}
+
+function closeAdminModal() {
+  const modal = document.getElementById('adminModal');
+  modal.classList.remove('show');
+}
+
+function showAdminLogin() {
+  document.getElementById('adminLoginSection').style.display = 'block';
+  document.getElementById('adminDashboardSection').style.display = 'none';
+  document.getElementById('adminLoginForm').reset();
+  document.getElementById('adminLoginError').style.display = 'none';
+}
+
+function showAdminDashboard() {
+  document.getElementById('adminLoginSection').style.display = 'none';
+  document.getElementById('adminDashboardSection').style.display = 'block';
+  loadAdminDashboard();
+}
+
+async function handleAdminLogin(event) {
+  event.preventDefault();
+  
+  const username = document.getElementById('adminUsername').value;
+  const password = document.getElementById('adminPassword').value;
+  const loginBtn = document.getElementById('adminLoginBtn');
+  const errorDiv = document.getElementById('adminLoginError');
+  
+  // Show loading state
+  loginBtn.disabled = true;
+  loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+  errorDiv.style.display = 'none';
+  
+  try {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    
+    const result = await response.json();
+    
+    if (result.success) {
+      localStorage.setItem('adminToken', result.token);
+      localStorage.setItem('adminUser', result.username);
+      showAdminDashboard();
+    } else {
+      errorDiv.textContent = result.error || 'Invalid credentials';
+      errorDiv.style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    errorDiv.textContent = 'Network error. Please try again.';
+    errorDiv.style.display = 'block';
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+  }
+}
+
+function handleAdminLogout() {
+  localStorage.removeItem('adminToken');
+  localStorage.removeItem('adminUser');
+  showAdminLogin();
+}
+
+async function loadAdminDashboard() {
+  const statsContainer = document.getElementById('adminStatsContainer');
+  const tableBody = document.getElementById('adminRsvpTableBody');
+  
+  // Show loading state
+  statsContainer.innerHTML = '<div class="admin-loading"><i class="fas fa-spinner fa-spin"></i><p>Loading dashboard...</p></div>';
+  tableBody.innerHTML = '<tr><td colspan="6" class="admin-loading">Loading RSVPs...</td></tr>';
+  
+  try {
+    const response = await fetch('/api/stats');
+    const data = await response.json();
+    
+    if (data.stats) {
+      // Update stats
+      statsContainer.innerHTML = `
+        <div class="admin-stat-card">
+          <span class="admin-stat-number">${data.stats.total_responses || 0}</span>
+          <span class="admin-stat-label">Total Responses</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-number">${data.stats.total_guests || 0}</span>
+          <span class="admin-stat-label">Total Guests</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-number">${data.stats.attending_count || 0}</span>
+          <span class="admin-stat-label">Attending</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-number">${data.stats.declining_count || 0}</span>
+          <span class="admin-stat-label">Declining</span>
+        </div>
+        <div class="admin-stat-card">
+          <span class="admin-stat-number">${data.stats.messages_count || 0}</span>
+          <span class="admin-stat-label">Messages</span>
+        </div>
+      `;
+      
+      // Update table
+      tableBody.innerHTML = '';
+      const rsvps = data.stats.recent_rsvps || [];
+      
+      if (rsvps.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 20px;">No RSVPs yet</td></tr>';
+      } else {
+        rsvps.forEach(rsvp => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${escapeHtml(rsvp.guest_name || '')}</td>
+            <td>${escapeHtml(rsvp.attendance || '')}</td>
+            <td>${rsvp.guest_count || 0}</td>
+            <td>${escapeHtml(rsvp.meal_preference || '-')}</td>
+            <td>${escapeHtml(rsvp.message || '-')}</td>
+            <td>${new Date(rsvp.submission_date).toLocaleDateString()}</td>
+          `;
+          tableBody.appendChild(row);
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Error loading dashboard:', error);
+    statsContainer.innerHTML = '<div class="admin-error-message">Failed to load dashboard data</div>';
+    tableBody.innerHTML = '<tr><td colspan="6" class="admin-error-message">Failed to load RSVPs</td></tr>';
+  }
+}
+
+async function refreshAdminData() {
+  await loadAdminDashboard();
+}
+
+async function exportRSVPs() {
+  try {
+    const response = await fetch('/api/export');
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `wedding-rsvps-${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } else {
+      alert('Export failed. Please try again.');
+    }
+  } catch (error) {
+    console.error('Export error:', error);
+    alert('Export failed. Please try again.');
+  }
+}
+
+// Update admin link click handler
+document.addEventListener('DOMContentLoaded', function() {
+  const adminLink = document.getElementById('adminLink');
+  if (adminLink) {
+    adminLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      openAdminModal();
+    });
+  }
+  
+  // Close modal when clicking outside
+  const modal = document.getElementById('adminModal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeAdminModal();
+      }
+    });
+  }
+  
+  // Close on escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('adminModal');
+      if (modal && modal.classList.contains('show')) {
+        closeAdminModal();
+      }
+    }
+  });
+});
+
+// Helper function to escape HTML
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}  
 });
