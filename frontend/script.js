@@ -465,41 +465,61 @@ if (adminLink) {
 
 async function showAdminPanel() {
   if (!adminPanel) {
-    console.error("Admin panel element not found!");
+    console.error("❌ Admin panel element not found!");
     return;
   }
 
-  console.log("Showing admin panel"); // Debug
+  console.log("🟢 Showing admin panel");
   adminPanel.style.display = "block";
 
   // Check if already logged in from localStorage
   const token = localStorage.getItem("adminToken");
   const user = localStorage.getItem("adminUser");
 
-  console.log("Token exists:", !!token); // Debug
+  console.log("📝 Token exists:", !!token);
+  console.log("📝 User exists:", !!user);
+  console.log("📝 Token value:", token ? token.substring(0, 20) + "..." : "null");
+  console.log("📝 User value:", user || "null");
 
   const loginFormContainer = document.getElementById("loginFormContainer");
   const adminContent = document.getElementById("adminContent");
 
+  console.log("🔍 loginFormContainer exists:", !!loginFormContainer);
+  console.log("🔍 adminContent exists:", !!adminContent);
+
   if (!loginFormContainer || !adminContent) {
-    console.error("Login form or admin content elements not found!");
+    console.error("❌ Login form or admin content elements not found!");
+    console.log("🔍 Checking all elements in adminPanel:");
+    if (adminPanel) {
+      console.log("Admin panel HTML:", adminPanel.innerHTML.substring(0, 500));
+    }
     return;
   }
 
   if (token && user) {
     // Already logged in, load data directly
-    console.log("Already logged in, loading admin data"); // Debug
+    console.log("🟢 Already logged in, loading admin data");
     loginFormContainer.style.display = "none";
     adminContent.style.display = "block";
     await loadAdminData();
   } else {
     // Show login form
-    console.log("Not logged in, showing login form"); // Debug
+    console.log("🟢 Not logged in, showing login form");
     loginFormContainer.style.display = "block";
     adminContent.style.display = "none";
+    
+    // Clear any previous form values
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
+    if (usernameInput) usernameInput.value = '';
+    if (passwordInput) passwordInput.value = '';
   }
+  
+  console.log("✅ Final display states:");
+  console.log("  - loginFormContainer:", loginFormContainer.style.display);
+  console.log("  - adminContent:", adminContent.style.display);
 }
-
+  
 async function loadAdminData() {
   try {
     console.log("Loading admin data..."); // Debug
