@@ -1,9 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Script loaded - checking elements:");
-  console.log("adminLink:", document.getElementById("adminLink"));
-  console.log("adminPanel:", document.getElementById("adminPanel"));
-  console.log("loginFormContainer:", document.getElementById("loginFormContainer"));
-  console.log("adminLoginForm:", document.getElementById("adminLoginForm"));
   // Envelope and Wedding Content Elements
   const envelopeContainer = document.getElementById("envelopeContainer");
   const weddingContent = document.getElementById("weddingContent");
@@ -108,13 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const messageDiv = document.getElementById("rsvpMessage");
   const submitBtn = document.getElementById("submitBtn");
   const spinner = document.getElementById("spinner");
-  const adminLink = document.getElementById("adminLink");
-  const adminPanel = document.getElementById("adminPanel");
-  const adminLoginForm = document.getElementById("adminLoginForm");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const exportBtn = document.getElementById("exportBtn");
-  const statsContainer = document.getElementById("statsContainer");
-  const rsvpTableBody = document.querySelector("#rsvpTable tbody");
   const deadlineMessage = document.getElementById("deadlineMessage");
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
@@ -122,55 +110,77 @@ document.addEventListener("DOMContentLoaded", function () {
   // Wedding Date
   const weddingDate = new Date("2027-03-26T13:00:00");
 
-  // Update countdown every second - MODIFIED VERSION
+  // Initialize Countdown
   function updateCountdown() {
     const now = new Date();
     const diff = weddingDate - now;
-  
+
+    // Check if primary countdown elements exist before trying to update them
+    const daysElement = document.getElementById("days");
+    const hoursElement = document.getElementById("hours");
+    const minutesElement = document.getElementById("minutes");
+    const secondsElement = document.getElementById("seconds");
+    
     if (diff <= 0) {
-      // Only update secondary countdown
-      const countdownSec = document.getElementById("countdown-secondary");
-      if (countdownSec) {
-        countdownSec.innerHTML =
-          '<div class="countdown-item-secondary"><span class="countdown-number-secondary">🎉</span><span class="countdown-label-secondary">Wedding Day!</span></div>';
+      // Update primary countdown if it exists
+      if (daysElement && hoursElement && minutesElement && secondsElement) {
+        const countdownElement = document.getElementById("countdown");
+        if (countdownElement) {
+          countdownElement.innerHTML =
+            '<div class="countdown-item"><span class="countdown-number">🎉</span><span class="countdown-label">Wedding Day!</span></div>';
+        }
       }
+      
+      // Update secondary countdown
+      updateSecondaryCountdown();
       return;
     }
-  
-    // Remove the primary countdown updates since those elements don't exist
-    // Just call updateSecondaryCountdown instead
-    updateSecondaryCountdown();
-  }
-  
-  // Keep updateSecondaryCountdown as is
-  function updateSecondaryCountdown() {
-    const now = new Date();
-    const diff = weddingDate - now;
-  
-    if (diff <= 0) {
-      const countdownSec = document.getElementById("countdown-secondary");
-      if (countdownSec) {
-        countdownSec.innerHTML =
-          '<div class="countdown-item-secondary"><span class="countdown-number-secondary">🎉</span><span class="countdown-label-secondary">Wedding Day!</span></div>';
-      }
-      return;
-    }
-  
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-  
+
+    // Only update if elements exist
+    if (daysElement) daysElement.textContent = days.toString().padStart(2, "0");
+    if (hoursElement) hoursElement.textContent = hours.toString().padStart(2, "0");
+    if (minutesElement) minutesElement.textContent = minutes.toString().padStart(2, "0");
+    if (secondsElement) secondsElement.textContent = seconds.toString().padStart(2, "0");
+
+    // Always update secondary countdown
+    updateSecondaryCountdown();
+  }
+
+  // Secondary Countdown
+  function updateSecondaryCountdown() {
+    const now = new Date();
+    const diff = weddingDate - now;
+
+    if (diff <= 0) {
+      const countdownSec = document.getElementById("countdown-secondary");
+      if (countdownSec) {
+        countdownSec.innerHTML =
+          '<div class="countdown-item-secondary"><span class="countdown-number-secondary">🎉</span><span class="countdown-label-secondary">Wedding Day!</span></div>';
+      }
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
     const daysSec = document.getElementById("days-sec");
     const hoursSec = document.getElementById("hours-sec");
     const minutesSec = document.getElementById("minutes-sec");
     const secondsSec = document.getElementById("seconds-sec");
-  
+
     if (daysSec) daysSec.textContent = days.toString().padStart(2, "0");
     if (hoursSec) hoursSec.textContent = hours.toString().padStart(2, "0");
     if (minutesSec) minutesSec.textContent = minutes.toString().padStart(2, "0");
     if (secondsSec) secondsSec.textContent = seconds.toString().padStart(2, "0");
   }
+
   // Conditional form fields
   if (attendanceSelect) {
     attendanceSelect.addEventListener("change", function () {
@@ -261,11 +271,6 @@ document.addEventListener("DOMContentLoaded", function () {
           rsvpForm.reset();
           guestCountGroup.classList.remove("visible");
           mealPreferenceGroup.classList.remove("visible");
-
-          // Update admin panel if open
-          if (adminPanel && adminPanel.style.display === "block") {
-            await loadAdminData();
-          }
         } else {
           showMessage(result.error || "An error occurred", "error");
         }
@@ -454,222 +459,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Check RSVP deadline on load
   checkRSVPDeadline();
 
-// Admin Panel Functions - UPDATED VERSION
-if (adminLink) {
-  adminLink.addEventListener("click", function (e) {
-    e.preventDefault();
-    console.log("Admin link clicked"); // Debug
-    showAdminPanel();
-  });
-}
-
-async function showAdminPanel() {
-  if (!adminPanel) {
-    console.error("❌ Admin panel element not found!");
-    return;
-  }
-
-  console.log("🟢 Showing admin panel");
-  adminPanel.style.display = "block";
-
-  // Check if already logged in from localStorage
-  const token = localStorage.getItem("adminToken");
-  const user = localStorage.getItem("adminUser");
-
-  console.log("📝 Token exists:", !!token);
-  console.log("📝 User exists:", !!user);
-  console.log("📝 Token value:", token ? token.substring(0, 20) + "..." : "null");
-  console.log("📝 User value:", user || "null");
-
-  const loginFormContainer = document.getElementById("loginFormContainer");
-  const adminContent = document.getElementById("adminContent");
-
-  console.log("🔍 loginFormContainer exists:", !!loginFormContainer);
-  console.log("🔍 adminContent exists:", !!adminContent);
-
-  if (!loginFormContainer || !adminContent) {
-    console.error("❌ Login form or admin content elements not found!");
-    console.log("🔍 Checking all elements in adminPanel:");
-    if (adminPanel) {
-      console.log("Admin panel HTML:", adminPanel.innerHTML.substring(0, 500));
-    }
-    return;
-  }
-
-  if (token && user) {
-    // Already logged in, load data directly
-    console.log("🟢 Already logged in, loading admin data");
-    loginFormContainer.style.display = "none";
-    adminContent.style.display = "block";
-    await loadAdminData();
-  } else {
-    // Show login form
-    console.log("🟢 Not logged in, showing login form");
-    loginFormContainer.style.display = "block";
-    adminContent.style.display = "none";
-    
-    // Clear any previous form values
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    if (usernameInput) usernameInput.value = '';
-    if (passwordInput) passwordInput.value = '';
-  }
-  
-  console.log("✅ Final display states:");
-  console.log("  - loginFormContainer:", loginFormContainer.style.display);
-  console.log("  - adminContent:", adminContent.style.display);
-}
-  
-async function loadAdminData() {
-  try {
-    console.log("Loading admin data..."); // Debug
-
-    // Load stats and RSVPs
-    const response = await fetch("/api/stats");
-    console.log("Stats response:", response.status); // Debug
-
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Stats data:", data); // Debug
-      updateStats(data.stats);
-      updateRSVPTable(data.stats.recent_rsvps || []);
-
-      // Show admin content
-      document.getElementById("loginFormContainer").style.display = "none";
-      document.getElementById("adminContent").style.display = "block";
-    } else {
-      const errorText = await response.text();
-      console.error("Failed to load admin data:", errorText);
-      showMessage("Failed to load admin data. Check console for details.", "error");
-    }
-  } catch (error) {
-    console.error("Error loading admin data:", error);
-    showMessage("Error loading admin data: " + error.message, "error");
-  }
-}
-
-// Update admin login form handler
-if (adminLoginForm) {
-  adminLoginForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-    const data = {
-      username: formData.get("username"),
-      password: formData.get("password")
-    };
-
-    console.log("Attempting login with username:", data.username); // Debug
-
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
-      console.log("Login response status:", response.status); // Debug
-      const result = await response.json();
-      console.log("Login result:", result); // Debug
-
-      if (response.ok && result.success) {
-        // Store token in localStorage
-        localStorage.setItem("adminToken", result.token);
-        localStorage.setItem("adminUser", result.username);
-
-        // Hide login form, show admin content
-        document.getElementById("loginFormContainer").style.display = "none";
-        document.getElementById("adminContent").style.display = "block";
-
-        // Load admin data
-        await loadAdminData();
-        showMessage("Login successful!", "success");
-      } else {
-        showMessage(result.error || "Invalid username or password", "error");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      showMessage("Network error. Please check your connection.", "error");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalText;
-    }
-  });
-}
-
-// Update logout function
-if (logoutBtn) {
-  logoutBtn.addEventListener("click", function () {
-    console.log("Logging out"); // Debug
-    localStorage.removeItem("adminToken");
-    localStorage.removeItem("adminUser");
-
-    document.getElementById("loginFormContainer").style.display = "block";
-    document.getElementById("adminContent").style.display = "none";
-
-    showMessage("Logged out successfully", "success");
-  });
-}
-  // Update export function
-  if (exportBtn) {
-    exportBtn.addEventListener("click", async function () {
-      try {
-        const response = await fetch("/api/export");
-        if (response.ok) {
-          const blob = await response.blob();
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "wedding-rsvps.csv";
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-        } else {
-          showMessage("Export failed", "error");
-        }
-      } catch (error) {
-        console.error("Export error:", error);
-        showMessage("Export failed", "error");
-      }
-    });
-  }
-
-  // Update stats display
-  function updateStats(data) {
-    if (!statsContainer || !data) return;
-
-    statsContainer.innerHTML = `
-            <div class="stat-card">
-                <span class="stat-number">${data.total_responses || 0}</span>
-                <span>Total Responses</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">${data.total_guests || 0}</span>
-                <span>Total Guests</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">${data.attending_count || 0}</span>
-                <span>Attending</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">${data.declining_count || 0}</span>
-                <span>Declining</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-number">${data.messages_count || 0}</span>
-                <span>Messages</span>
-            </div>
-        `;
-  }
-
   async function checkRSVPDeadline() {
     if (!deadlineMessage) return;
 
@@ -695,47 +484,21 @@ if (logoutBtn) {
     }
   }
 
-  function updateRSVPTable(rsvps) {
-    if (!rsvpTableBody) return;
-
-    rsvpTableBody.innerHTML = "";
-
-    rsvps.forEach((rsvp) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-                <td>${escapeHtml(rsvp.guest_name || "")}</td>
-                <td>${escapeHtml(rsvp.attendance || "")}</td>
-                <td>${rsvp.guest_count || "-"}</td>
-                <td>${escapeHtml(rsvp.meal_preference || "-")}</td>
-                <td>${escapeHtml(rsvp.message || "-")}</td>
-                <td>${new Date(rsvp.submission_date).toLocaleDateString()}</td>
-            `;
-      rsvpTableBody.appendChild(row);
-    });
-  }
-
-  // Also add this escapeHtml function if not already defined
+  // Helper function to escape HTML
   function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement("div");
     div.textContent = text;
     return div.innerHTML;
-  }
-
-  // Close admin panel when clicking outside
-  if (adminPanel) {
-    adminPanel.addEventListener("click", function (e) {
-      if (e.target === adminPanel) {
-        adminPanel.style.display = "none";
-      }
-    });
   }
 
   // Keyboard shortcuts
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeLightbox();
-      if (adminPanel && adminPanel.style.display === "block") {
-        adminPanel.style.display = "none";
+      const modal = document.getElementById('adminModal');
+      if (modal && modal.classList.contains('show')) {
+        closeAdminModal();
       }
     }
   });
@@ -850,13 +613,6 @@ if (logoutBtn) {
         messagesGrid.removeChild(messagesGrid.lastChild);
       }
     }
-
-    // Helper function to prevent XSS
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
   }
 
   // Add home link functionality - this handles the scrolling
@@ -868,7 +624,7 @@ if (logoutBtn) {
         behavior: "smooth"
       });
 
-      // Close mobile menu if open (optional - add this to the existing handler)
+      // Close mobile menu if open
       const navMenu = document.getElementById('navMenu');
       const navToggle = document.getElementById('navToggle');
       if (navMenu && navMenu.classList.contains('active')) {
@@ -880,7 +636,6 @@ if (logoutBtn) {
     });
   });
 
-  // No separate nav-brand click handler needed!
   // Initialize FAQ and Message Form
   initFAQ();
   initMessageForm();
@@ -1018,9 +773,9 @@ if (logoutBtn) {
     if (bgSlides.length > 0) {
       // Preload images for smooth transition
       const images = [
-        "/images/ONE.jpg",
-        "/images/TWO.jpg",
-        "/images/THREE.jpeg"
+        "/frontend/images/ONE.jpg",
+        "/frontend/images/TWO.jpg",
+        "/frontend/images/THREE.jpeg"
       ];
 
       let loadedImages = 0;
@@ -1058,15 +813,45 @@ if (logoutBtn) {
     }
   }
 
-  // Remove old carousel/background functions and replace with:
+  // Initialize background slider
   setTimeout(() => {
     initBackgroundSlider();
   }, 100);
 
+  // ==========================================
+  // ADMIN MODAL FUNCTIONS (NEW)
+  // ==========================================
+
+  // Set up admin link click handler
+  const adminLink = document.getElementById("adminLink");
+  if (adminLink) {
+    adminLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      openAdminModal();
+    });
+  }
+
+  // Close modal when clicking outside
+  const modal = document.getElementById('adminModal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeAdminModal();
+      }
+    });
+  }
+
   console.log("Wedding RSVP App initialized");
-// Admin Modal Functions
+});
+
+// ==========================================
+// ADMIN MODAL FUNCTIONS (GLOBAL)
+// ==========================================
+
 function openAdminModal() {
   const modal = document.getElementById('adminModal');
+  if (!modal) return;
+  
   modal.classList.add('show');
   
   // Check if already logged in
@@ -1082,19 +867,30 @@ function openAdminModal() {
 
 function closeAdminModal() {
   const modal = document.getElementById('adminModal');
-  modal.classList.remove('show');
+  if (modal) {
+    modal.classList.remove('show');
+  }
 }
 
 function showAdminLogin() {
-  document.getElementById('adminLoginSection').style.display = 'block';
-  document.getElementById('adminDashboardSection').style.display = 'none';
-  document.getElementById('adminLoginForm').reset();
-  document.getElementById('adminLoginError').style.display = 'none';
+  const loginSection = document.getElementById('adminLoginSection');
+  const dashboardSection = document.getElementById('adminDashboardSection');
+  const loginForm = document.getElementById('adminLoginForm');
+  const errorDiv = document.getElementById('adminLoginError');
+  
+  if (loginSection) loginSection.style.display = 'block';
+  if (dashboardSection) dashboardSection.style.display = 'none';
+  if (loginForm) loginForm.reset();
+  if (errorDiv) errorDiv.style.display = 'none';
 }
 
 function showAdminDashboard() {
-  document.getElementById('adminLoginSection').style.display = 'none';
-  document.getElementById('adminDashboardSection').style.display = 'block';
+  const loginSection = document.getElementById('adminLoginSection');
+  const dashboardSection = document.getElementById('adminDashboardSection');
+  
+  if (loginSection) loginSection.style.display = 'none';
+  if (dashboardSection) dashboardSection.style.display = 'block';
+  
   loadAdminDashboard();
 }
 
@@ -1147,6 +943,8 @@ function handleAdminLogout() {
 async function loadAdminDashboard() {
   const statsContainer = document.getElementById('adminStatsContainer');
   const tableBody = document.getElementById('adminRsvpTableBody');
+  
+  if (!statsContainer || !tableBody) return;
   
   // Show loading state
   statsContainer.innerHTML = '<div class="admin-loading"><i class="fas fa-spinner fa-spin"></i><p>Loading dashboard...</p></div>';
@@ -1235,42 +1033,10 @@ async function exportRSVPs() {
   }
 }
 
-// Update admin link click handler
-document.addEventListener('DOMContentLoaded', function() {
-  const adminLink = document.getElementById('adminLink');
-  if (adminLink) {
-    adminLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      openAdminModal();
-    });
-  }
-  
-  // Close modal when clicking outside
-  const modal = document.getElementById('adminModal');
-  if (modal) {
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeAdminModal();
-      }
-    });
-  }
-  
-  // Close on escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      const modal = document.getElementById('adminModal');
-      if (modal && modal.classList.contains('show')) {
-        closeAdminModal();
-      }
-    }
-  });
-});
-
-// Helper function to escape HTML
+// Helper function to escape HTML (global)
 function escapeHtml(text) {
   if (!text) return '';
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
-}  
-});
+}
