@@ -1,3 +1,4 @@
+// api/login.js - Updated version
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -13,17 +14,21 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const { username, password } = req.body;
+
+      // Use environment variable or fallback
+      const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';
       const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Simplengta0///';
 
       console.log('Login attempt:', { username, passwordProvided: !!password });
 
-      if (username === 'admin' && password === ADMIN_PASSWORD) {
-        const token = Buffer.from(`admin:${Date.now()}:${Math.random()}`).toString('base64');
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        // Create a simple token
+        const token = Buffer.from(`${username}:${Date.now()}:${Math.random()}`).toString('base64');
 
         res.status(200).json({
           success: true,
           token,
-          username: 'admin',
+          username: username,
           message: 'Login successful'
         });
       } else {
@@ -34,7 +39,10 @@ export default async function handler(req, res) {
       }
     } catch (error) {
       console.error('Server error:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error'
+      });
     }
   } else {
     res.setHeader('Allow', ['POST']);
