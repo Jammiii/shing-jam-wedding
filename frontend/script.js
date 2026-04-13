@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("Script loaded - checking elements:");
+  console.log("adminLink:", document.getElementById("adminLink"));
+  console.log("adminPanel:", document.getElementById("adminPanel"));
+  console.log("loginFormContainer:", document.getElementById("loginFormContainer"));
+  console.log("adminLoginForm:", document.getElementById("adminLoginForm"));
   // Envelope and Wedding Content Elements
   const envelopeContainer = document.getElementById("envelopeContainer");
   const weddingContent = document.getElementById("weddingContent");
