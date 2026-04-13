@@ -462,120 +462,149 @@ document.addEventListener("DOMContentLoaded", function () {
   // Check RSVP deadline on load
   checkRSVPDeadline();
 
-  // Admin Panel Functions
-  if (adminLink) {
-    adminLink.addEventListener("click", function (e) {
-      e.preventDefault();
-      showAdminPanel();
-    });
+// Admin Panel Functions - UPDATED VERSION
+if (adminLink) {
+  adminLink.addEventListener("click", function (e) {
+    e.preventDefault();
+    console.log("Admin link clicked"); // Debug
+    showAdminPanel();
+  });
+}
+
+async function showAdminPanel() {
+  if (!adminPanel) {
+    console.error("Admin panel element not found!");
+    return;
   }
 
-  async function showAdminPanel() {
-    if (!adminPanel) return;
+  console.log("Showing admin panel"); // Debug
+  adminPanel.style.display = "block";
 
-    adminPanel.style.display = "block";
+  // Check if already logged in from localStorage
+  const token = localStorage.getItem("adminToken");
+  const user = localStorage.getItem("adminUser");
 
-    // Check if already logged in from localStorage
-    const token = localStorage.getItem("adminToken");
-    const user = localStorage.getItem("adminUser");
+  console.log("Token exists:", !!token); // Debug
 
-    if (token && user) {
-      // Already logged in, load data directly
+  const loginFormContainer = document.getElementById("loginFormContainer");
+  const adminContent = document.getElementById("adminContent");
+
+  if (!loginFormContainer || !adminContent) {
+    console.error("Login form or admin content elements not found!");
+    return;
+  }
+
+  if (token && user) {
+    // Already logged in, load data directly
+    console.log("Already logged in, loading admin data"); // Debug
+    loginFormContainer.style.display = "none";
+    adminContent.style.display = "block";
+    await loadAdminData();
+  } else {
+    // Show login form
+    console.log("Not logged in, showing login form"); // Debug
+    loginFormContainer.style.display = "block";
+    adminContent.style.display = "none";
+  }
+}
+
+async function loadAdminData() {
+  try {
+    console.log("Loading admin data..."); // Debug
+
+    // Load stats and RSVPs
+    const response = await fetch("/api/stats");
+    console.log("Stats response:", response.status); // Debug
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Stats data:", data); // Debug
+      updateStats(data.stats);
+      updateRSVPTable(data.stats.recent_rsvps || []);
+
+      // Show admin content
       document.getElementById("loginFormContainer").style.display = "none";
       document.getElementById("adminContent").style.display = "block";
-      await loadAdminData();
     } else {
-      // Show login form
-      document.getElementById("loginFormContainer").style.display = "block";
-      document.getElementById("adminContent").style.display = "none";
+      const errorText = await response.text();
+      console.error("Failed to load admin data:", errorText);
+      showMessage("Failed to load admin data. Check console for details.", "error");
     }
+  } catch (error) {
+    console.error("Error loading admin data:", error);
+    showMessage("Error loading admin data: " + error.message, "error");
   }
+}
 
-  async function loadAdminData() {
+// Update admin login form handler
+if (adminLoginForm) {
+  adminLoginForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = {
+      username: formData.get("username"),
+      password: formData.get("password")
+    };
+
+    console.log("Attempting login with username:", data.username); // Debug
+
+    const submitBtn = this.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+
     try {
-      // Load stats and RSVPs
-      const response = await fetch("/api/stats");
-      if (response.ok) {
-        const data = await response.json();
-        updateStats(data.stats);
-        updateRSVPTable(data.stats.recent_rsvps || []);
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
 
-        // Show admin content
+      console.log("Login response status:", response.status); // Debug
+      const result = await response.json();
+      console.log("Login result:", result); // Debug
+
+      if (response.ok && result.success) {
+        // Store token in localStorage
+        localStorage.setItem("adminToken", result.token);
+        localStorage.setItem("adminUser", result.username);
+
+        // Hide login form, show admin content
         document.getElementById("loginFormContainer").style.display = "none";
         document.getElementById("adminContent").style.display = "block";
+
+        // Load admin data
+        await loadAdminData();
+        showMessage("Login successful!", "success");
       } else {
-        showMessage("Failed to load admin data", "error");
+        showMessage(result.error || "Invalid username or password", "error");
       }
     } catch (error) {
-      console.error("Error loading admin data:", error);
-      showMessage("Error loading admin data", "error");
+      console.error("Login error:", error);
+      showMessage("Network error. Please check your connection.", "error");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalText;
     }
-  }
+  });
+}
 
-  if (adminLoginForm) {
-    adminLoginForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
+// Update logout function
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", function () {
+    console.log("Logging out"); // Debug
+    localStorage.removeItem("adminToken");
+    localStorage.removeItem("adminUser");
 
-      const formData = new FormData(this);
-      const data = {
-        username: formData.get("username"),
-        password: formData.get("password")
-      };
+    document.getElementById("loginFormContainer").style.display = "block";
+    document.getElementById("adminContent").style.display = "none";
 
-      const submitBtn = this.querySelector('button[type="submit"]');
-      const originalText = submitBtn.innerHTML;
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-
-      try {
-        const response = await fetch("/api/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-
-        if (response.ok && result.success) {
-          // Store token in localStorage
-          localStorage.setItem("adminToken", result.token);
-          localStorage.setItem("adminUser", result.username);
-
-          // Hide login form, show admin content
-          document.getElementById("loginFormContainer").style.display = "none";
-          document.getElementById("adminContent").style.display = "block";
-
-          // Load admin data
-          await loadAdminData();
-          showMessage("Login successful!", "success");
-        } else {
-          showMessage(result.error || "Invalid username or password", "error");
-        }
-      } catch (error) {
-        console.error("Login error:", error);
-        showMessage("Network error. Please try again.", "error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-      }
-    });
-  }
-
-  // Update logout function
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", function () {
-      localStorage.removeItem("adminToken");
-      localStorage.removeItem("adminUser");
-
-      document.getElementById("loginFormContainer").style.display = "block";
-      document.getElementById("adminContent").style.display = "none";
-
-      showMessage("Logged out successfully", "success");
-    });
-  }
-
+    showMessage("Logged out successfully", "success");
+  });
+}
   // Update export function
   if (exportBtn) {
     exportBtn.addEventListener("click", async function () {
