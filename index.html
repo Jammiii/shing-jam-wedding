@@ -40,16 +40,16 @@
   </div>
   <nav class="main-nav">
       <div class="nav-container">
-        <div class="nav-brand" href="#home">
+         <a href="#home" class="nav-brand" style="text-decoration: none;">
           <div class="nav-monogram">
             <img src="/frontend/images/MONOGRAM.png" alt="S&J" class="nav-monogram-img">
           </div>
 
-          <div class="nav-minimal">
+          <a href="#home" class="nav-minimal" style="text-decoration: none;">
             <span class="minimal-couple">Shing <span class="amp">&</span> Jam</span>
             <span class="minimal-Hashtag">󠁯#LetShingandJamTogether󠁯󠁏</span>
-          </div>
-        </div>
+          </a>
+        </a>
         <button class="nav-toggle" id="navToggle">
           <i class="fas fa-bars"></i>
         </button>
@@ -448,6 +448,15 @@
             </select>
           </div>
 
+          <div id="mealPreferenceGroup" class="form-group conditional-field" style="display: none;">
+            <label for="meal_preference"><i class="fas fa-utensils"></i> Meal Preference *</label>
+            <select id="meal_preference" name="meal_preference">
+              <option value="">Please select...</option>
+              <option value="No Pork">No Pork</option>
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="No Restrictions">No Restrictions</option>
+            </select>
+          </div>
           <div class="form-group">
             <label for="guest_message"><i class="fas fa-heart"></i> Message for the Couple (Optional)</label>
             <textarea id="guest_message" name="guest_message" rows="4" placeholder="Share your well wishes or special requests..."></textarea>
@@ -567,11 +576,13 @@
           <p class="footer-developer">
             <i class="fas fa-code"></i> Developed by Jam Ruga
           </p>
+
           <div class="admin-link">
             <a href="#" id="adminLink">
               <i class="fas fa-lock"></i> Admin Access
             </a>
-          </div>          
+          </div>
+
           <div class="footer-contact">
             Want a website like this? Contact me
             <a href="https://www.facebook.com/jamma.ruga/" target="_blank" class="contact-link">
@@ -582,91 +593,56 @@
       </div>
     </footer>
 
-    <!-- Admin Panel Modal -->
-    <div id="adminModal" class="admin-modal">
-      <div class="admin-modal-content">
-        <span class="admin-modal-close" onclick="closeAdminModal()">&times;</span>
-        
-        <!-- Login Form -->
-        <div id="adminLoginSection">
-          <div class="admin-modal-header">
-            <h2><i class="fas fa-lock"></i> Admin Login</h2>
-            <p>Please enter your credentials to access the dashboard</p>
-          </div>
-          
-          <form id="adminLoginForm" onsubmit="handleAdminLogin(event)">
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="admin-panel">
+      <div class="admin-content">
+        <button id="logoutBtn" class="logout-btn" style="float: right;">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+
+        <h2><i class="fas fa-chart-bar"></i> RSVP Dashboard</h2>
+
+        <!-- Login Form (initially shown) -->
+        <div id="loginFormContainer">
+          <h3>Admin Login</h3>
+          <form id="adminLoginForm" class="rsvp-form">
             <div class="form-group">
-              <label for="adminUsername">
-                <i class="fas fa-user"></i> Username
-              </label>
-              <input 
-                type="text" 
-                id="adminUsername" 
-                name="username" 
-                required 
-                placeholder="Enter username"
-                autocomplete="username"
-              >
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" required>
             </div>
-            
             <div class="form-group">
-              <label for="adminPassword">
-                <i class="fas fa-key"></i> Password
-              </label>
-              <input 
-                type="password" 
-                id="adminPassword" 
-                name="password" 
-                required 
-                placeholder="Enter password"
-                autocomplete="current-password"
-              >
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required>
             </div>
-            
-            <button type="submit" class="admin-login-btn" id="adminLoginBtn">
+            <button type="submit" class="submit-btn">
               <i class="fas fa-sign-in-alt"></i> Login
             </button>
-            
-            <div id="adminLoginError" class="admin-error-message" style="display: none;"></div>
           </form>
         </div>
-        
-        <!-- Dashboard Section (hidden initially) -->
-        <div id="adminDashboardSection" style="display: none;">
-          <div class="admin-modal-header">
-            <h2><i class="fas fa-chart-bar"></i> RSVP Dashboard</h2>
-            <button onclick="handleAdminLogout()" class="admin-logout-btn">
-              <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
-          </div>
-          
-          <div id="adminStatsContainer" class="admin-stats-grid">
+
+        <!-- Stats & Data (shown after login) -->
+        <div id="adminContent" style="display: none;">
+          <div id="statsContainer" class="admin-stats">
             <!-- Stats will be loaded here -->
           </div>
-          
-          <div class="admin-actions">
-            <button onclick="exportRSVPs()" class="admin-export-btn">
-              <i class="fas fa-download"></i> Export to CSV
-            </button>
-            <button onclick="refreshAdminData()" class="admin-refresh-btn">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-          </div>
-          
-          <h3>Recent RSVPs</h3>
-          <div class="admin-table-wrapper">
-            <table id="adminRsvpTable" class="admin-table">
+
+          <button id="exportBtn" class="submit-btn" style="margin: 1rem 0;">
+            <i class="fas fa-download"></i> Export to CSV
+          </button>
+
+          <h3>All RSVPs</h3>
+          <div style="overflow-x: auto;">
+            <table id="rsvpTable" class="rsvp-table">
               <thead>
                 <tr>
                   <th>Guest Name</th>
                   <th>Attendance</th>
-                  <th>Guests</th>
-                  <th>Meal</th>
+                  <th>Meal Preference</th>
                   <th>Message</th>
                   <th>Date</th>
                 </tr>
               </thead>
-              <tbody id="adminRsvpTableBody">
+              <tbody>
                 <!-- RSVPs will be loaded here -->
               </tbody>
             </table>
