@@ -41,7 +41,9 @@ document.addEventListener("DOMContentLoaded", function() {
                             setTimeout(() => {
                                 envelopeContainer.style.display = "none";
                                 weddingContent.style.display = "block";
-                                initFAQ();
+                                document.addEventListener("DOMContentLoaded", function () {
+                                  initFAQ();
+                                });
                                 weddingContent.style.opacity = "0";
                                 weddingContent.style.transform = "translateY(30px) scale(0.98)";
                                 weddingContent.style.transition = "opacity 1.2s ease, transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)";
