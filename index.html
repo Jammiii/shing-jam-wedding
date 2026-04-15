@@ -38,6 +38,7 @@
       </div>
     </div>
   </div>
+
   <nav class="main-nav">
       <div class="nav-container">
          <a href="#home" class="nav-brand" style="text-decoration: none;">
@@ -394,7 +395,7 @@
               <h4>What food options are available? <i class="fas fa-chevron-down"></i></h4>
             </div>
             <div class="faq-answer">
-              <p>We offer beef, fish, vegetarian, and vegan options. Please specify in your RSVP.</p>
+              <p>We prepare No pork, Vegetarian, and No restriction food options. Please specify in your RSVP.</p>
             </div>
           </div>
         </div>
@@ -497,37 +498,10 @@
       <div class="messages-container">
         <h2 class="section-title">Messages for the Couple</h2>
         <div class="messages-grid" id="messagesGrid">
-          <div class="message-card">
-            <div class="message-header">
-              <div class="message-avatar">
-                <i class="fas fa-user-circle"></i>
-              </div>
-              <div class="message-author">
-                <h4>Emily Johnson</h4>
-                <span class="message-date">Mar 26, 2027</span>
-              </div>
-            </div>
-            <div class="message-content">
-              <p>So excited for your big day! Wishing you both a lifetime of happiness and love.</p>
-            </div>
-          </div>
-          <div class="message-card">
-            <div class="message-header">
-              <div class="message-avatar">
-                <i class="fas fa-user-circle"></i>
-              </div>
-              <div class="message-author">
-                <h4>Robert Chen</h4>
-                <span class="message-date">Mar 26, 2027</span>
-              </div>
-            </div>
-            <div class="message-content">
-              <p>Congratulations! Can't wait to celebrate with you. The journey ahead is beautiful!</p>
-            </div>
-          </div>
+          <!-- Real messages will be loaded here dynamically -->
         </div>
         <div class="add-message-form">
-          <h3>Leave a Message</h3>
+          <h3>Share And Leave Your Love </h3>
           <form id="messageForm">
             <div class="form-group">
               <input type="text" id="messageName" placeholder="Your Name" required>
@@ -539,6 +513,75 @@
               <i class="fas fa-paper-plane"></i> Post Message
             </button>
           </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gift Registry -->
+    <section id="gift-registry" class="gift-registry-section">
+      <div class="gift-container">
+        <div class="gift-header">
+          <h2 class="section-title">Gift Registry</h2>
+          <p class="gift-subtitle">Your presence means the world to us. If you would like to give a gift, we would be grateful for a cash contribution, as it allows us to better meet our needs compared to material items.</p>
+        </div>
+
+        <div class="gift-grid">
+          <!-- GCash Card -->
+          <div class="gift-card">
+            <div class="gift-card-header">
+              <h3>GCash</h3>
+              <p>Digital Wallet Transfer</p>
+            </div>
+            <div class="gift-card-body">
+              <div class="qr-container">
+                <img src="/frontend/images/GCASH.jpg" alt="GCash QR Code" class="qr-code" loading="lazy">
+              </div>
+              <div class="account-details">
+                <p><strong>Account Name:</strong> Aguinaldo Ruga Jr</p>
+                <p><strong>Account Number:</strong> <span class="account-number" id="gcashNumber">0915 123 4567</span></p>
+                <button class="copy-btn" data-copy="gcashNumber">
+                  <i class="fas fa-copy"></i> Copy Number
+                </button>
+              </div>
+              <p style="font-size: 0.85rem; color: #888; margin-top: 1rem;">
+                <i class="fas fa-mobile-alt"></i> Scan QR or send via GCash
+              </p>
+            </div>
+          </div>
+
+          <!-- PNB Bank Card -->
+          <div class="gift-card">
+            <div class="gift-card-header">
+              <h3>PNB</h3>
+              <p>Bank Transfer / Deposit</p>
+            </div>
+            <div class="gift-card-body">
+              <div class="qr-container">
+                <img src="/frontend/images/PNB.jpg" alt="PNB QR Code" class="qr-code" loading="lazy">
+              </div>
+              <div class="account-details">
+                <p><strong>Account Name:</strong> Shing &amp; Jam Wedding</p>
+                <p><strong>Account Number:</strong> <span class="account-number" id="pnbNumber">1234 5678 9012</span></p>
+                <button class="copy-btn" data-copy="pnbNumber">
+                  <i class="fas fa-copy"></i> Copy Number
+                </button>
+              </div>
+              <p style="font-size: 0.85rem; color: #888; margin-top: 1rem;">
+                <i class="fas fa-university"></i> PNB - Philippine National Bank
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="gift-note">
+          <p>
+            <i class="fas fa-gift"></i> Your generosity means the world to us.
+            <i class="fas fa-heart heart-icon"></i>
+          </p>
+          <p style="font-size: 0.95rem;">
+            For cash gifts, you may also hand it personally during the reception.
+            <br>Thank you for being part of our special day!
+          </p>
         </div>
       </div>
     </section>
@@ -560,13 +603,13 @@
             <h4 class="footer-subtitle">
               <i class="fas fa-church ceremony-icon"></i> Ceremony
             </h4>
-            <p class="footer-text">L.D Ignacio's Island Hotel and Resort Garden</p>
+            <p class="footer-text">L.D Ignacio's Garden</p>
             <p class="footer-text"><i class="far fa-clock"></i> 4:00 PM</p>
 
             <h4 class="footer-subtitle" style="margin-top: 1.5rem;">
               <i class="fas fa-glass-cheers reception-icon"></i> Reception
             </h4>
-            <p class="footer-text">L.D Ignacio's Island Hotel and Resort Reception Hall</p>
+            <p class="footer-text">L.D Ignacio's Reception Hall</p>
             <p class="footer-text"><i class="far fa-clock"></i> 7:00 PM</p>
           </div>
 
