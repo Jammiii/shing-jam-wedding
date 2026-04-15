@@ -468,26 +468,53 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    async function loadAdminData() {
-        try {
-            // Load stats and RSVPs
-            const response = await fetch("/api/stats");
-            if (response.ok) {
-                const data = await response.json();
-                updateStats(data.stats);
-                updateRSVPTable(data.stats.recent_rsvps || []);
+    // LOGIN
+    adminLoginForm.addEventListener("submit", async function(e) {
+      e.preventDefault();
 
-                // Show admin content
-                document.getElementById("loginFormContainer").style.display = "none";
-                document.getElementById("adminContent").style.display = "block";
-            } else {
-                showMessage("Failed to load admin data", "error");
-            }
-        } catch (error) {
-            console.error("Error loading admin data:", error);
-            showMessage("Error loading admin data", "error");
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        localStorage.setItem("adminToken", data.token);
+        loadAdminData();
+      } else {
+        alert("Login failed");
+      }
+    });
+
+    // LOAD ADMIN DATA
+    async function loadAdminData() {
+      const token = localStorage.getItem("adminToken");
+
+      const res = await fetch("/api/stats", {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
+      });
+
+      if (!res.ok) {
+        alert("Unauthorized");
+        return;
+      }
+
+      const data = await res.json();
+
+      updateStats(data.stats);
+      updateRSVPTable(data.stats.recent_rsvps);
+
+      document.getElementById("loginFormContainer").style.display = "none";
+      document.getElementById("adminContent").style.display = "block";
     }
+
 
     // Update admin login form
     if (adminLoginForm) {
@@ -550,30 +577,24 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Update export function
-    if (exportBtn) {
-        exportBtn.addEventListener("click", async function() {
-            try {
-                const response = await fetch("/api/export");
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "wedding-rsvps.csv";
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
-                } else {
-                    showMessage("Export failed", "error");
-                }
-            } catch (error) {
-                console.error("Export error:", error);
-                showMessage("Export failed", "error");
-            }
-        });
-    }
+    // EXPORT
+    exportBtn.addEventListener("click", async () => {
+      const token = localStorage.getItem("adminToken");
+
+      const res = await fetch("/api/export", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "rsvps.csv";
+      a.click();
+    });
 
     // Update stats display
     function updateStats(data) {
