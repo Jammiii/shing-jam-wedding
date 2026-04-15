@@ -995,11 +995,11 @@ h4,
 
 .sponsor-card h4 {
   margin-bottom: 0.5rem;
-  color: white;
+  color: var(--emerald-dark);
 }
 
 .sponsor-card p {
-  color: rgba(255, 255, 255, 0.8);
+  color: #555;
 }
 
 .sponsors-intro {
@@ -1013,19 +1013,95 @@ h4,
 .entourage-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .entourage-list li {
-  margin: 0.8rem 0;
-  padding-left: 1.5rem;
+  margin: clamp(0.5rem, 4vw, 0.8rem) 0;
+  padding-left: clamp(1.2rem, 5vw, 1.8rem);
   position: relative;
+  font-size: clamp(0.875rem, 4vw, 1rem);
+  line-height: 1.5;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .entourage-list li {
+    margin: 0.7rem 0;
+    padding-left: 1.8rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .entourage-list li {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    font-size: 1.125rem;
+  }
+}
+
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .entourage-list li {
+    margin: 0.9rem 0;
+    padding-left: 1.6rem;
+  }
 }
 
 .entourage-list li:before {
   content: "❖";
   position: absolute;
   left: 0;
-  color: var(--gold-primary);
+  top: 0;
+  color: var(--gold-primary, #c9a84c);
+  font-size: clamp(0.75rem, 3.5vw, 0.9rem);
+
+  transform: translateY(0.1em);
+}
+
+
+@media (max-width: 768px) {
+  .entourage-list li:before {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .entourage-list li {
+    margin: 0.6rem 0;
+    padding-left: 1.6rem;
+    font-size: 0.875rem;
+  }
+
+  .entourage-list li:before {
+    font-size: 0.8rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .entourage-list li {
+    transition: transform 0.2s ease, padding-left 0.2s ease;
+  }
+
+  .entourage-list li:hover {
+    padding-left: clamp(1.4rem, 5.5vw, 2.1rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .entourage-list li {
+    transition: none;
+  }
+
+  .entourage-list li:hover {
+    padding-left: clamp(1.2rem, 5vw, 1.8rem);
+  }
 }
 
 /* FAQ Styles */
