@@ -1005,5 +1005,128 @@ document.addEventListener("DOMContentLoaded", function() {
             updateBackground();
         }
     }
-    console.log("Wedding RSVP App initialized");
-});
+
+    const copyButtons = document.querySelectorAll('.copy-btn');
+
+    copyButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('data-copy');
+          const targetElement = document.getElementById(targetId);
+
+          if (targetElement) {
+            const textToCopy = targetElement.textContent.trim();
+
+            // Create temporary input element
+            const tempInput = document.createElement('input');
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+              const successful = document.execCommand('copy');
+              if (successful) {
+                // Show success feedback
+                const originalText = this.innerHTML;
+                this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                this.style.background = 'linear-gradient(135deg, #28a745, #1e7e34)';
+                this.style.color = 'white';
+
+                setTimeout(() => {
+                  this.innerHTML = originalText;
+                  this.style.background = '';
+                  this.style.color = '';
+                }, 2000);
+              } else {
+                alert('Please copy manually: ' + textToCopy);
+              }
+            } catch (err) {
+              alert('Please copy manually: ' + textToCopy);
+            }
+
+            document.body.removeChild(tempInput);
+          }
+        });
+      });
+
+      // ========== GIFT GRID TOGGLE FUNCTIONALITY ==========
+      const toggleBtn = document.getElementById('toggleGiftGridBtn');
+      const giftGridWrapper = document.getElementById('giftGridWrapper');
+      const giftGrid = document.getElementById('giftGrid');
+      const emptyMessage = document.getElementById('emptyGiftMessage');
+      const toggleIcon = toggleBtn.querySelector('i');
+      const toggleText = toggleBtn.querySelector('span');
+
+      // Load saved preference from localStorage
+      function loadGridPreference() {
+        const isHidden = localStorage.getItem('giftGridHidden') === 'true';
+
+        if (isHidden) {
+          // Hide grid, show empty message
+          if (giftGridWrapper) giftGridWrapper.style.display = 'none';
+          if (emptyMessage) emptyMessage.style.display = 'block';
+          if (toggleIcon) {
+            toggleIcon.className = 'fas fa-eye';
+          }
+          if (toggleText) toggleText.textContent = 'Show Gift Registry';
+        } else {
+          // Show grid, hide empty message
+          if (giftGridWrapper) giftGridWrapper.style.display = 'block';
+          if (emptyMessage) emptyMessage.style.display = 'none';
+          if (toggleIcon) {
+            toggleIcon.className = 'fas fa-eye-slash';
+          }
+          if (toggleText) toggleText.textContent = 'Hide Gift Registry';
+        }
+      }
+
+      // Toggle grid visibility with animation
+      function toggleGiftGrid() {
+        const isHidden = localStorage.getItem('giftGridHidden') === 'true';
+
+        if (isHidden) {
+          // Show grid
+          if (giftGridWrapper) {
+            giftGridWrapper.style.display = 'block';
+            // Add animation class to cards
+            const cards = document.querySelectorAll('.gift-card');
+            cards.forEach((card, index) => {
+              card.style.animation = 'none';
+              setTimeout(() => {
+                card.style.animation = 'cardFadeIn 0.6s ease forwards';
+              }, 10);
+            });
+          }
+          if (emptyMessage) emptyMessage.style.display = 'none';
+          if (toggleIcon) toggleIcon.className = 'fas fa-eye-slash';
+          if (toggleText) toggleText.textContent = 'Hide Gift Registry';
+          localStorage.setItem('giftGridHidden', 'false');
+        } else {
+          // Hide grid
+          if (giftGridWrapper) {
+            giftGridWrapper.style.display = 'none';
+          }
+          if (emptyMessage) emptyMessage.style.display = 'block';
+          if (toggleIcon) toggleIcon.className = 'fas fa-eye';
+          if (toggleText) toggleText.textContent = 'Show Gift Registry';
+          localStorage.setItem('giftGridHidden', 'true');
+        }
+
+        // Add button click animation
+        toggleBtn.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          toggleBtn.style.transform = '';
+        }, 150);
+      }
+
+      // Add click event to toggle button
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', toggleGiftGrid);
+      }
+
+      // Load saved preference on page load
+      loadGridPreference();
+
+        console.log("Wedding RSVP App initialized");
+    });
