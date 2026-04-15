@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@400;500&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/frontend/style.css">
@@ -525,52 +526,63 @@
           <p class="gift-subtitle">Your presence means the world to us. If you would like to give a gift, we would be grateful for a cash contribution, as it allows us to better meet our needs compared to material items.</p>
         </div>
 
-        <div class="gift-grid">
-          <!-- GCash Card -->
-          <div class="gift-card">
-            <div class="gift-card-header">
-              <h3>GCash</h3>
-              <p>Digital Wallet Transfer</p>
-            </div>
-            <div class="gift-card-body">
-              <div class="qr-container">
-                <img src="/frontend/images/GCASH.jpg" alt="GCash QR Code" class="qr-code" loading="lazy">
-              </div>
-              <div class="account-details">
-                <p><strong>Account Name:</strong> Aguinaldo Ruga Jr</p>
-                <p><strong>Account Number:</strong> <span class="account-number" id="gcashNumber">0915 123 4567</span></p>
-                <button class="copy-btn" data-copy="gcashNumber">
-                  <i class="fas fa-copy"></i> Copy Number
-                </button>
-              </div>
-              <p style="font-size: 0.85rem; color: #888; margin-top: 1rem;">
-                <i class="fas fa-mobile-alt"></i> Scan QR or send via GCash
-              </p>
-            </div>
-          </div>
+        <!-- Global Toggle Button for entire gift grid -->
+        <div class="global-toggle-wrapper">
+          <button id="toggleGiftGridBtn" class="global-toggle-btn">
+            <i class="fas fa-eye-slash"></i>
+            <span>Hide Gift Registry</span>
+          </button>
+        </div>
 
-          <!-- PNB Bank Card -->
-          <div class="gift-card">
-            <div class="gift-card-header">
-              <h3>PNB</h3>
-              <p>Bank Transfer / Deposit</p>
+        <!-- Gift Grid Wrapper for animation -->
+        <div id="giftGridWrapper" class="gift-grid-wrapper">
+          <div id="giftGrid" class="gift-grid">
+            <!-- GCash Card -->
+            <div class="gift-card" data-gift="gcash">
+              <div class="gift-card-header">
+                <h3>GCash</h3>
+                <p>Digital Wallet Transfer</p>
+              </div>
+              <div class="gift-card-body">
+                <div class="qr-container">
+                  <img src="/frontend/images/GCASH.jpg" alt="GCash QR Code" class="qr-code" loading="lazy">
+                </div>
+                <div class="account-details">
+                  <p><strong>Account Name:</strong> Aguinaldo Ruga Jr</p>
+                  <p><strong>Account Number:</strong> <span class="account-number" id="gcashNumber">0915 123 4567</span></p>
+                  <button class="copy-btn" data-copy="gcashNumber">
+                    <i class="fas fa-copy"></i> Copy Number
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="gift-card-body">
-              <div class="qr-container">
-                <img src="/frontend/images/PNB.jpg" alt="PNB QR Code" class="qr-code" loading="lazy">
+
+            <!-- PNB Bank Card -->
+            <div class="gift-card" data-gift="pnb">
+              <div class="gift-card-header">
+                <h3>PNB</h3>
+                <p>Bank Transfer / Deposit</p>
               </div>
-              <div class="account-details">
-                <p><strong>Account Name:</strong> Shing &amp; Jam Wedding</p>
-                <p><strong>Account Number:</strong> <span class="account-number" id="pnbNumber">1234 5678 9012</span></p>
-                <button class="copy-btn" data-copy="pnbNumber">
-                  <i class="fas fa-copy"></i> Copy Number
-                </button>
+              <div class="gift-card-body">
+                <div class="qr-container">
+                  <img src="/frontend/images/PNB.jpg" alt="PNB QR Code" class="qr-code" loading="lazy">
+                </div>
+                <div class="account-details">
+                  <p><strong>Account Name:</strong> Aguinaldo &amp; Zeprah Account</p>
+                  <p><strong>Account Number:</strong> <span class="account-number" id="pnbNumber">1234 5678 9012</span></p>
+                  <button class="copy-btn" data-copy="pnbNumber">
+                    <i class="fas fa-copy"></i> Copy Number
+                  </button>
+                </div>
               </div>
-              <p style="font-size: 0.85rem; color: #888; margin-top: 1rem;">
-                <i class="fas fa-university"></i> PNB - Philippine National Bank
-              </p>
             </div>
           </div>
+        </div>
+
+        <!-- Empty State Message (shown when grid is hidden) -->
+        <div id="emptyGiftMessage" class="empty-gift-message" style="display: none;">
+          <i class="fas fa-gift"></i>
+          <p>Click "Show Gift Registry" to view QR.</p>
         </div>
 
         <div class="gift-note">
