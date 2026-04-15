@@ -1154,6 +1154,272 @@ h4,
   transform: rotate(180deg);
 }
 
+/* Give Registry Section */
+.gift-registry-section {
+  padding: 7rem 2rem;
+  background: linear-gradient(135deg, var(--ivory) 0%, #faf0e6 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.gift-registry-section::before {
+  content: "❖";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 8rem;
+  opacity: 0.03;
+  color: var(--emerald-primary);
+  font-family: "Playfair Display", serif;
+  pointer-events: none;
+}
+
+.gift-registry-section::after {
+  content: "❖";
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 8rem;
+  opacity: 0.03;
+  color: var(--emerald-primary);
+  font-family: "Playfair Display", serif;
+  pointer-events: none;
+  transform: rotate(180deg);
+}
+
+.gift-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gift-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.gift-header .section-title {
+  margin-bottom: 1rem;
+}
+
+.gift-header .section-title::after,
+.gift-header .section-title::before {
+  display: none;
+}
+
+.gift-header .section-title {
+  padding-bottom: 1rem;
+}
+
+.gift-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+  font-family: "Playfair Display", serif;
+}
+
+.gift-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+  margin: 3rem 0;
+}
+
+.gift-card {
+  background: white;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  position: relative;
+}
+
+.gift-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.15);
+}
+
+.gift-card-header {
+  background: linear-gradient(135deg, var(--emerald-primary) 0%, var(--emerald-dark) 100%);
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.gift-card-header h3 {
+  color: var(--gold-primary);
+  font-size: 1.8rem;
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  letter-spacing: 1px;
+}
+
+.gift-card-header p {
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+}
+
+.gift-card-body {
+  padding: 2rem;
+  text-align: center;
+}
+
+.qr-container {
+  margin-bottom: 1.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.qr-code {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  background: white;
+  padding: 0.8rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.qr-code:hover {
+  transform: scale(1.05);
+  border-color: var(--gold-primary);
+}
+
+.account-details {
+  background: linear-gradient(135deg, #f8f5f0 0%, #f0ebe2 100%);
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
+  margin: 1rem 0;
+}
+
+.account-details p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+.account-details strong {
+  color: var(--emerald-dark);
+  font-weight: 600;
+}
+
+.account-number {
+  font-family: monospace;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+  background: white;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  margin: 0.5rem 0;
+  border: 1px dashed var(--gold-primary);
+}
+
+.copy-btn {
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+  border: none;
+  color: var(--emerald-dark);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.8rem;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.copy-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold-primary) 100%);
+}
+
+.copy-btn i {
+  font-size: 0.9rem;
+}
+
+.gift-note {
+  text-align: center;
+  margin-top: 2.5rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(4, 99, 7, 0.05) 0%, rgba(212, 175, 55, 0.05) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.gift-note p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.gift-note i {
+  color: var(--gold-primary);
+  margin: 0 0.2rem;
+}
+
+.gift-note .heart-icon {
+  color: #e74c3c;
+  animation: heartbeat 1.5s ease infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .gift-registry-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .gift-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .qr-code {
+    width: 180px;
+    height: 180px;
+  }
+
+  .gift-card-header h3 {
+    font-size: 1.5rem;
+  }
+
+  .account-number {
+    font-size: 1rem;
+    word-break: break-all;
+  }
+
+  .gift-note p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .qr-code {
+    width: 160px;
+    height: 160px;
+  }
+
+  .gift-card-body {
+    padding: 1.5rem;
+  }
+
+  .account-details p {
+    font-size: 0.85rem;
+  }
+}
+
 /* Form Styles */
 .rsvp-container {
   background: white;
