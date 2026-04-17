@@ -242,7 +242,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 } catch (error) {
                     console.error("Submission error:", error);
-                
+
                     showMessage(
                         "Submission successful!",
                         "success")
@@ -619,6 +619,28 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         `;
     }
+    async function loadMessages() {
+        try {
+            const res = await fetch("/api/messages");
+            const data = await res.json();
+
+            const messagesGrid = document.getElementById("messagesGrid");
+            if (!messagesGrid) return;
+
+            messagesGrid.innerHTML = "";
+
+            data.forEach(msg => {
+                addMessageToGrid({
+                    name: msg.name,
+                    content: msg.content,
+                    date: msg.date
+                }, false); //
+            });
+
+        } catch (error) {
+            console.error("Failed to load messages:", error);
+        }
+    }
 
     async function checkRSVPDeadline() {
         if (!deadlineMessage) return;
@@ -744,12 +766,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         showMessage("Thank you for your message!", "success");
                         this.reset();
 
-                        // Add new message to the grid immediately
                         addMessageToGrid({
                             name,
                             content: message,
                             date: new Date().toISOString()
-                        });
+                        }, true);
                     } else {
                         showMessage(result.error || "Failed to post message", "error");
                     }
@@ -833,10 +854,9 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // No separate nav-brand click handler needed!
-    // Initialize FAQ and Message Form
     initFAQ();
     initMessageForm();
+    loadMessages();
 
     // Enhanced scroll animations for cards
     const enhancedObserver = new IntersectionObserver((entries) => {
