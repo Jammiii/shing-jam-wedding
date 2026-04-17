@@ -788,49 +788,22 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Function to add message to grid
-        function addMessageToGrid(message) {
+        function addMessageToGrid(message, prepend = true) {
             const messagesGrid = document.getElementById("messagesGrid");
             if (!messagesGrid) return;
 
             const messageCard = document.createElement("div");
             messageCard.className = "message-card";
             messageCard.classList.add("message-enter");
-            
-            messageCard.innerHTML = `
-                <div class="message-header">
-                    <h4>${escapeHtml(message.name)}</h4>
-                    <span>${date}</span>
-                </div>
-                <p>${escapeHtml(message.content)}</p>
-            
-                <div class="message-actions">
-                    <button class="like-btn">❤️ <span>0</span></button>
-                </div>
-            `;
-            const likeBtn = messageCard.querySelector(".like-btn");
-            
-            if (likeBtn) {
-                likeBtn.addEventListener("click", function () {
-                    const countSpan = this.querySelector("span");
-                    let count = parseInt(countSpan.textContent) || 0;
-            
-                    countSpan.textContent = count + 1;
-                    this.classList.add("liked");
-                });
-            }
-            
-            if (prepend) {
-                messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
-            } else {
-                messagesGrid.appendChild(messageCard);
-            }
 
+            // ✅ DEFINE DATE FIRST
             const date = new Date(message.date).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric"
             });
 
+            // ✅ SINGLE HTML ONLY (no duplicate overwrite)
             messageCard.innerHTML = `
                 <div class="message-header">
                     <div class="message-avatar">
@@ -841,21 +814,62 @@ document.addEventListener("DOMContentLoaded", function() {
                         <span class="message-date">${date}</span>
                     </div>
                 </div>
+        
                 <div class="message-content">
                     <p>${escapeHtml(message.content)}</p>
                 </div>
+        
+                <div class="message-actions">
+                    <button class="like-btn">❤️ <span>0</span></button>
+                </div>
             `;
 
-            // Add to the beginning of the grid
-            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
+            // ✅ LIKE BUTTON WORKS
+            const likeBtn = messageCard.querySelector(".like-btn");
 
-            // Limit to 20 messages
+            if (likeBtn) {
+                likeBtn.addEventListener("click", function () {
+                    if (this.classList.contains("liked")) return;
+
+                    const countSpan = this.querySelector("span");
+                    let count = parseInt(countSpan.textContent) || 0;
+
+                    countSpan.textContent = count + 1;
+                    this.classList.add("liked");
+                });
+            }
+
+            // ✅ ADD TO DOM ONCE ONLY
+            if (prepend) {
+                messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
+            } else {
+                messagesGrid.appendChild(messageCard);
+            }
+
+            // ✅ LIMIT TO 20 MESSAGES
             if (messagesGrid.children.length > 20) {
                 messagesGrid.removeChild(messagesGrid.lastChild);
             }
         }
 
-        function subscribeToMessages() {
+        function scrollToTopMessage() {
+            const grid = document.getElementById("messagesGrid");
+            if (!grid) return;
+
+            grid.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+        // Helper function to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    }
+
+    function subscribeToMessages() {
             const supabase = window.supabase.createClient(
                 "https://vtopssdggoyrckidbwma.supabase.co",
                 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0b3Bzc2RnZ295cmNraWRid21hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjY1MTYsImV4cCI6MjA4NjI0MjUxNn0.6pfBdshODoku9wZctD8TajsjLqVph-Qe5S2PHvWHI10"
@@ -884,24 +898,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 )
                 .subscribe();
         }
-
-        function scrollToTopMessage() {
-            const grid = document.getElementById("messagesGrid");
-            if (!grid) return;
-
-            grid.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
-        // Helper function to prevent XSS
-        function escapeHtml(text) {
-            const div = document.createElement("div");
-            div.textContent = text;
-            return div.innerHTML;
-        }
-    }
-
+        
     // Add home link functionality - this handles the scrolling
     document.querySelectorAll('a[href="#home"]').forEach((link) => {
         link.addEventListener("click", function(e) {
