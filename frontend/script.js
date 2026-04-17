@@ -151,19 +151,28 @@ document.addEventListener("DOMContentLoaded", function() {
         if (secondsSec) secondsSec.textContent = seconds.toString().padStart(2, "0");
     }
 
-        if (attendanceSelect && mealPreferenceGroup) {
-            const mealPrefSelect = document.getElementById("meal_preference");
+    // Conditional form fields
+    if (attendanceSelect) {
+        attendanceSelect.addEventListener("change", function() {
+            const isAttending = this.value === "Accepts with pleasure";
 
-            attendanceSelect.addEventListener("change", function () {
-                const isAttending = this.value === "Accepts with pleasure";
+            if (isAttending) {
+                if (mealPreferenceGroup) mealPreferenceGroup.style.display = "block";
 
-                mealPreferenceGroup.style.display = isAttending ? "block" : "none";
+                // Make fields required
+                const mealPrefSelect = document.getElementById("meal_preference");
 
-                if (mealPrefSelect) {
-                    mealPrefSelect.required = false; // ❌ no validation
-                }
-            });
-        }
+                if (mealPrefSelect) mealPrefSelect.required = true;
+            } else {
+                if (mealPreferenceGroup) mealPreferenceGroup.style.display = "none";
+
+                // Remove required attribute when hidden
+                const mealPrefSelect = document.getElementById("meal_preference");
+
+                if (mealPrefSelect) mealPrefSelect.required = false;
+            }
+        });
+    }
 
     // Form validation
     function validateForm(formData) {
@@ -178,6 +187,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (formData.get("attendance") === "Accepts with pleasure") {
+            const guestCount = parseInt(formData.get("guest_count"));
+            if (!guestCount || guestCount < 1) {
+                errors.push("Please enter a valid number of guests");
+            }
 
             if (!formData.get("meal_preference")) {
                 errors.push("Meal preference is required");
@@ -205,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const data = {
                 guest_name: formData.get("guest_name"),
                 attendance: formData.get("attendance"),
-                guest_count: parseInt(formData.get("guest_count")) || 0,
+                guest_count: formData.get("attendance") === "Accepts with pleasure" ? parseInt(formData.get("guest_count")) : 0,
                 meal_preference: formData.get("attendance") === "Accepts with pleasure" ? formData.get("meal_preference") : null,
                 message: formData.get("guest_message") || ""
             };
@@ -219,13 +232,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     body: JSON.stringify(data)
                 });
 
-                let result;
-
-                try {
-                    result = await response.json();
-                } catch {
-                    throw new Error("Invalid JSON response");
-                }
+                const result = await response.json();
 
                 if (response.ok) {
                     showMessage(result.message, "success");
@@ -240,12 +247,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     showMessage(result.error || "An error occurred", "error");
                 }
-                } catch (error) {
-                    console.error("Submission error:", error);
-
-                    showMessage(
-                        "Submission successful!",
-                        "success")
+            } catch (error) {
+                console.error("Submission error:", error);
+                showMessage("Network error. Please try again.", "error");
             } finally {
                 showLoading(false);
             }
@@ -619,28 +623,6 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         `;
     }
-    async function loadMessages() {
-        try {
-            const res = await fetch("/api/messages");
-            const data = await res.json();
-
-            const messagesGrid = document.getElementById("messagesGrid");
-            if (!messagesGrid) return;
-
-            messagesGrid.innerHTML = "";
-
-            data.forEach(msg => {
-                addMessageToGrid({
-                    name: msg.name,
-                    content: msg.content,
-                    date: msg.date
-                }, false); //
-            });
-
-        } catch (error) {
-            console.error("Failed to load messages:", error);
-        }
-    }
 
     async function checkRSVPDeadline() {
         if (!deadlineMessage) return;
@@ -766,20 +748,18 @@ document.addEventListener("DOMContentLoaded", function() {
                         showMessage("Thank you for your message!", "success");
                         this.reset();
 
+                        // Add new message to the grid immediately
                         addMessageToGrid({
                             name,
                             content: message,
                             date: new Date().toISOString()
-                        }, true);
+                        });
                     } else {
                         showMessage(result.error || "Failed to post message", "error");
                     }
                 } catch (error) {
-                    console.error("Message error:", error);
-
-                    showMessage(
-                        "Thank you for your message!",
-                        "success")
+                    console.error("Message submission error:", error);
+                    showMessage("Network error. Please try again.", "error");
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
@@ -788,22 +768,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         // Function to add message to grid
-        function addMessageToGrid(message, prepend = true) {
+        function addMessageToGrid(message) {
             const messagesGrid = document.getElementById("messagesGrid");
             if (!messagesGrid) return;
 
             const messageCard = document.createElement("div");
             messageCard.className = "message-card";
-            messageCard.classList.add("message-enter");
 
-            // ✅ DEFINE DATE FIRST
             const date = new Date(message.date).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric"
             });
 
-            // ✅ SINGLE HTML ONLY (no duplicate overwrite)
             messageCard.innerHTML = `
                 <div class="message-header">
                     <div class="message-avatar">
@@ -814,53 +791,20 @@ document.addEventListener("DOMContentLoaded", function() {
                         <span class="message-date">${date}</span>
                     </div>
                 </div>
-        
                 <div class="message-content">
                     <p>${escapeHtml(message.content)}</p>
                 </div>
-        
-                <div class="message-actions">
-                    <button class="like-btn">❤️ <span>0</span></button>
-                </div>
             `;
 
-            // ✅ LIKE BUTTON WORKS
-            const likeBtn = messageCard.querySelector(".like-btn");
+            // Add to the beginning of the grid
+            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
 
-            if (likeBtn) {
-                likeBtn.addEventListener("click", function () {
-                    if (this.classList.contains("liked")) return;
-
-                    const countSpan = this.querySelector("span");
-                    let count = parseInt(countSpan.textContent) || 0;
-
-                    countSpan.textContent = count + 1;
-                    this.classList.add("liked");
-                });
-            }
-
-            // ✅ ADD TO DOM ONCE ONLY
-            if (prepend) {
-                messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
-            } else {
-                messagesGrid.appendChild(messageCard);
-            }
-
-            // ✅ LIMIT TO 20 MESSAGES
+            // Limit to 20 messages
             if (messagesGrid.children.length > 20) {
                 messagesGrid.removeChild(messagesGrid.lastChild);
             }
         }
 
-        function scrollToTopMessage() {
-            const grid = document.getElementById("messagesGrid");
-            if (!grid) return;
-
-            grid.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        }
         // Helper function to prevent XSS
         function escapeHtml(text) {
             const div = document.createElement("div");
@@ -869,36 +813,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function subscribeToMessages() {
-            const supabase = window.supabase.createClient(
-                "https://vtopssdggoyrckidbwma.supabase.co",
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0b3Bzc2RnZ295cmNraWRid21hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjY1MTYsImV4cCI6MjA4NjI0MjUxNn0.6pfBdshODoku9wZctD8TajsjLqVph-Qe5S2PHvWHI10"
-            );
-
-            supabase
-                .channel("messages-realtime")
-                .on(
-                    "postgres_changes",
-                    {
-                        event: "INSERT",
-                        schema: "public",
-                        table: "messages"
-                    },
-                    (payload) => {
-                        const msg = payload.new;
-
-                        addMessageToGrid({
-                            name: msg.name,
-                            content: msg.content,
-                            date: msg.date
-                        }, true);
-
-                        scrollToTopMessage();
-                    }
-                )
-                .subscribe();
-        }
-        
     // Add home link functionality - this handles the scrolling
     document.querySelectorAll('a[href="#home"]').forEach((link) => {
         link.addEventListener("click", function(e) {
@@ -920,10 +834,10 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
+    // No separate nav-brand click handler needed!
+    // Initialize FAQ and Message Form
     initFAQ();
     initMessageForm();
-    loadMessages();
-    subscribeToMessages();
 
     // Enhanced scroll animations for cards
     const enhancedObserver = new IntersectionObserver((entries) => {
@@ -1137,12 +1051,18 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       // ========== GIFT GRID TOGGLE FUNCTIONALITY ==========
-      const toggleBtn = document.getElementById('toggleGiftGridBtn');
-      const giftGridWrapper = document.getElementById('giftGridWrapper');
-      const giftGrid = document.getElementById('giftGrid');
-      const emptyMessage = document.getElementById('emptyGiftMessage');
-      const toggleIcon = toggleBtn.querySelector('i');
-      const toggleText = toggleBtn.querySelector('span');
+        const toggleBtn = document.getElementById('toggleGiftGridBtn');
+        const giftGridWrapper = document.getElementById('giftGridWrapper');
+        const giftGrid = document.getElementById('giftGrid');
+        const emptyMessage = document.getElementById('emptyGiftMessage');
+
+        let toggleIcon = null;
+        let toggleText = null;
+
+        if (toggleBtn) {
+          toggleIcon = toggleBtn.querySelector('i');
+          toggleText = toggleBtn.querySelector('span');
+        }
 
       // Load saved preference from localStorage
       function loadGridPreference() {
@@ -1206,13 +1126,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 150);
       }
 
-      // Add click event to toggle button
-      if (toggleBtn) {
-        toggleBtn.addEventListener('click', toggleGiftGrid);
-      }
-
-      // Load saved preference on page load
-      loadGridPreference();
+         if (toggleBtn) {
+           toggleBtn.addEventListener('click', toggleGiftGrid);
+           loadGridPreference();
+         }
 
         console.log("Wedding RSVP App initialized");
     });
