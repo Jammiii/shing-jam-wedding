@@ -5211,6 +5211,33 @@ h4,
   animation: dissolveEnvelope 0.8s ease forwards;
 }
 
+/* Reaction in messages */
+.message-enter {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  animation: messageFadeIn 0.5s ease forwards;
+}
+
+@keyframes messageFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.like-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 8px;
+  transition: transform 0.2s;
+}
+
+.like-btn.liked {
+  color: red;
+  transform: scale(1.2);
+}
+
 /* For Jam & Shing - Desktop Display */
 .nav-minimal {
   display: flex !important;
@@ -5367,3 +5394,4 @@ h4,
     border-bottom-color: #ffd700;
   }
 }
+
