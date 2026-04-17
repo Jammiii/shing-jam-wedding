@@ -187,11 +187,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (formData.get("attendance") === "Accepts with pleasure") {
-            const guestCount = parseInt(formData.get("guest_count"));
-            if (!guestCount || guestCount < 1) {
-                errors.push("Please enter a valid number of guests");
-            }
-
             if (!formData.get("meal_preference")) {
                 errors.push("Meal preference is required");
             }
