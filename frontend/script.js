@@ -1066,7 +1066,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // Load saved preference from localStorage
       function loadGridPreference() {
-        const isHidden = localStorage.getItem('giftGridHidden') === 'true';
+        const isHidden = localStorage.getItem('giftGridHidden') !== 'false';
 
         if (isHidden) {
           // Hide grid, show empty message
