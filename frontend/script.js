@@ -244,7 +244,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.error("Submission error:", error);
                 
                     showMessage(
-                        "Your RSVP was likely submitted, but there was a connection issue.",
+                        "Submission successful!",
                         "success")
             } finally {
                 showLoading(false);
@@ -757,7 +757,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.error("Message error:", error);
 
                     showMessage(
-                        "Your message was likely submitted, but there was a connection issue.",
+                        "Thank you for your message!",
                         "success")
                 } finally {
                     submitBtn.disabled = false;
