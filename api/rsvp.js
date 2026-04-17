@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         {
           guest_name,
           attendance,
-          guest_count: guest_count || 0,
+          guest_count: Number(guest_count) || 0,
           meal_preference: meal_preference || null,
           message: message || null,
           submission_date: new Date().toISOString()
