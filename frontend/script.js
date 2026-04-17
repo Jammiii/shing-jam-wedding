@@ -240,9 +240,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     showMessage(result.error || "An error occurred", "error");
                 }
-            } catch (error) {
-                console.error("Submission error:", error);
-                showMessage("Network error. Please try again.", "error");
+                } catch (error) {
+                    console.error("Submission error:", error);
+                
+                    showMessage(
+                        "Your RSVP was likely submitted, but there was a connection issue.",
+                        "success")
             } finally {
                 showLoading(false);
             }
@@ -751,8 +754,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         showMessage(result.error || "Failed to post message", "error");
                     }
                 } catch (error) {
-                    console.error("Message submission error:", error);
-                    showMessage("Network error. Please try again.", "error");
+                    console.error("Message error:", error);
+
+                    showMessage(
+                        "Your message was likely submitted, but there was a connection issue.",
+                        "success")
                 } finally {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
