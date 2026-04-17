@@ -219,7 +219,13 @@ document.addEventListener("DOMContentLoaded", function() {
                     body: JSON.stringify(data)
                 });
 
-                const result = await response.json();
+                let result;
+
+                try {
+                    result = await response.json();
+                } catch {
+                    throw new Error("Invalid JSON response");
+                }
 
                 if (response.ok) {
                     showMessage(result.message, "success");
