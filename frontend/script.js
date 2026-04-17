@@ -794,6 +794,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const messageCard = document.createElement("div");
             messageCard.className = "message-card";
+            messageCard.classList.add("message-enter");
+            
+            messageCard.innerHTML = `
+                <div class="message-header">
+                    <h4>${escapeHtml(message.name)}</h4>
+                    <span>${date}</span>
+                </div>
+                <p>${escapeHtml(message.content)}</p>
+            
+                <div class="message-actions">
+                    <button class="like-btn">❤️ <span>0</span></button>
+                </div>
+            `;
+            const likeBtn = messageCard.querySelector(".like-btn");
+            
+            if (likeBtn) {
+                likeBtn.addEventListener("click", function () {
+                    const countSpan = this.querySelector("span");
+                    let count = parseInt(countSpan.textContent) || 0;
+            
+                    countSpan.textContent = count + 1;
+                    this.classList.add("liked");
+                });
+            }
+            
+            if (prepend) {
+                messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
+            } else {
+                messagesGrid.appendChild(messageCard);
+            }
 
             const date = new Date(message.date).toLocaleDateString("en-US", {
                 month: "short",
@@ -825,6 +855,45 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
+        function subscribeToMessages() {
+            const supabase = window.supabase.createClient(
+                "https://vtopssdggoyrckidbwma.supabase.co",
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0b3Bzc2RnZ295cmNraWRid21hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA2NjY1MTYsImV4cCI6MjA4NjI0MjUxNn0.6pfBdshODoku9wZctD8TajsjLqVph-Qe5S2PHvWHI10"
+            );
+
+            supabase
+                .channel("messages-realtime")
+                .on(
+                    "postgres_changes",
+                    {
+                        event: "INSERT",
+                        schema: "public",
+                        table: "messages"
+                    },
+                    (payload) => {
+                        const msg = payload.new;
+
+                        addMessageToGrid({
+                            name: msg.name,
+                            content: msg.content,
+                            date: msg.date
+                        }, true);
+
+                        scrollToTopMessage();
+                    }
+                )
+                .subscribe();
+        }
+
+        function scrollToTopMessage() {
+            const grid = document.getElementById("messagesGrid");
+            if (!grid) return;
+
+            grid.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
         // Helper function to prevent XSS
         function escapeHtml(text) {
             const div = document.createElement("div");
@@ -857,6 +926,7 @@ document.addEventListener("DOMContentLoaded", function() {
     initFAQ();
     initMessageForm();
     loadMessages();
+    subscribeToMessages();
 
     // Enhanced scroll animations for cards
     const enhancedObserver = new IntersectionObserver((entries) => {
