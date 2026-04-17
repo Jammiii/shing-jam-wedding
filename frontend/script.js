@@ -208,7 +208,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 return;
             }
 
-            showLoading(true);
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
             const data = {
                 guest_name: formData.get("guest_name"),
@@ -246,7 +250,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error("Submission successful:", error);
                 showMessage("Submission successful", "success");
             } finally {
-                showLoading(false);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
             }
         });
     }
