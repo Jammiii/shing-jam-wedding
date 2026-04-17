@@ -151,28 +151,19 @@ document.addEventListener("DOMContentLoaded", function() {
         if (secondsSec) secondsSec.textContent = seconds.toString().padStart(2, "0");
     }
 
-    // Conditional form fields
-    if (attendanceSelect) {
-        attendanceSelect.addEventListener("change", function() {
-            const isAttending = this.value === "Accepts with pleasure";
+        if (attendanceSelect && mealPreferenceGroup) {
+            const mealPrefSelect = document.getElementById("meal_preference");
 
-            if (isAttending) {
-                if (mealPreferenceGroup) mealPreferenceGroup.style.display = "block";
+            attendanceSelect.addEventListener("change", function () {
+                const isAttending = this.value === "Accepts with pleasure";
 
-                // Make fields required
-                const mealPrefSelect = document.getElementById("meal_preference");
+                mealPreferenceGroup.style.display = isAttending ? "block" : "none";
 
-                if (mealPrefSelect) mealPrefSelect.required = true;
-            } else {
-                if (mealPreferenceGroup) mealPreferenceGroup.style.display = "none";
-
-                // Remove required attribute when hidden
-                const mealPrefSelect = document.getElementById("meal_preference");
-
-                if (mealPrefSelect) mealPrefSelect.required = false;
-            }
-        });
-    }
+                if (mealPrefSelect) {
+                    mealPrefSelect.required = false; // ❌ no validation
+                }
+            });
+        }
 
     // Form validation
     function validateForm(formData) {
@@ -187,10 +178,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (formData.get("attendance") === "Accepts with pleasure") {
-            const guestCount = parseInt(formData.get("guest_count"));
-            if (!guestCount || guestCount < 1) {
-                errors.push("Please enter a valid number of guests");
-            }
 
             if (!formData.get("meal_preference")) {
                 errors.push("Meal preference is required");
@@ -218,7 +205,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const data = {
                 guest_name: formData.get("guest_name"),
                 attendance: formData.get("attendance"),
-                guest_count: formData.get("attendance") === "Accepts with pleasure" ? parseInt(formData.get("guest_count")) : 0,
+                guest_count: parseInt(formData.get("guest_count")) || 0,
                 meal_preference: formData.get("attendance") === "Accepts with pleasure" ? formData.get("meal_preference") : null,
                 message: formData.get("guest_message") || ""
             };
