@@ -44,6 +44,10 @@
   --ty3: -100px;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   background-color: var(--emerald-darker);
