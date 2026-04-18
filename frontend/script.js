@@ -710,23 +710,61 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     async function loadMessages() {
-        const messagesGrid = document.getElementById("messagesGrid");
-        if (!messagesGrid) return;
+    const messagesGrid = document.getElementById("messagesGrid");
+    if (!messagesGrid) return;
 
-        try {
-            const response = await fetch("/api/messages");
-            const data = await response.json();
+    try {
+        const response = await fetch("/api/messages");
+        const data = await response.json();
 
-            messagesGrid.innerHTML = "";
+        messagesGrid.innerHTML = "";
 
-            data.forEach(msg => {
-                addMessageToGrid(msg);
+        data.forEach(msg => {
+            addMessageToGrid(msg);
+        });
+
+    } catch (error) {
+        console.error("Failed to load messages:", error);
+    }
+}
+
+    // Function to add message to grid
+    function addMessageToGrid(message) {
+            const messagesGrid = document.getElementById("messagesGrid");
+            if (!messagesGrid) return;
+
+            const messageCard = document.createElement("div");
+            messageCard.className = "message-card";
+
+            const date = new Date(message.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
             });
 
-        } catch (error) {
-            console.error("Failed to load messages:", error);
+            messageCard.innerHTML = `
+                <div class="message-header">
+                    <div class="message-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="message-author">
+                        <h4>${escapeHtml(message.name)}</h4>
+                        <span class="message-date">${date}</span>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>${escapeHtml(message.content)}</p>
+                </div>
+            `;
+
+            // Add to the beginning of the grid
+            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
+
+            // Limit to 20 messages
+            if (messagesGrid.children.length > 20) {
+                messagesGrid.removeChild(messagesGrid.lastChild);
+            }
         }
-    }
 
     // Message Form
     function initMessageForm() {
@@ -778,44 +816,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     submitBtn.innerHTML = originalText;
                 }
             });
-        }
-
-        // Function to add message to grid
-        function addMessageToGrid(message) {
-            const messagesGrid = document.getElementById("messagesGrid");
-            if (!messagesGrid) return;
-
-            const messageCard = document.createElement("div");
-            messageCard.className = "message-card";
-
-            const date = new Date(message.date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric"
-            });
-
-            messageCard.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="message-author">
-                        <h4>${escapeHtml(message.name)}</h4>
-                        <span class="message-date">${date}</span>
-                    </div>
-                </div>
-                <div class="message-content">
-                    <p>${escapeHtml(message.content)}</p>
-                </div>
-            `;
-
-            // Add to the beginning of the grid
-            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
-
-            // Limit to 20 messages
-            if (messagesGrid.children.length > 20) {
-                messagesGrid.removeChild(messagesGrid.lastChild);
-            }
         }
 
         // Helper function to prevent XSS
