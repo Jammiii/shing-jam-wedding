@@ -770,8 +770,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="message-author">
                     <h4>${escapeHtml(message.name)}</h4>
-                    <span class="message-date" title="${fullDate}">
-                        ${shortDate}
+                    <span class="message-date">
+                        ${shortDate} • ${fullDate}
                     </span>
                 </div>
             </div>
