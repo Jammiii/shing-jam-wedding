@@ -1,3 +1,66 @@
+// Function to add message to grid
+function addMessageToGrid(message) {
+            const messagesGrid = document.getElementById("messagesGrid");
+            if (!messagesGrid) return;
+
+            const messageCard = document.createElement("div");
+            messageCard.className = "message-card";
+
+            const date = new Date(message.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+            });
+
+            messageCard.innerHTML = `
+                <div class="message-header">
+                    <div class="message-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="message-author">
+                        <h4>${escapeHtml(message.name)}</h4>
+                        <span class="message-date">${date}</span>
+                    </div>
+                </div>
+                <div class="message-content">
+                    <p>${escapeHtml(message.content)}</p>
+                </div>
+            `;
+
+            // Add to the beginning of the grid
+            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
+
+            // Limit to 20 messages
+            if (messagesGrid.children.length > 20) {
+                messagesGrid.removeChild(messagesGrid.lastChild);
+            }
+        }
+
+async function loadMessages() {
+    try {
+        const response = await fetch("/api/messages");
+        const messages = await response.json();
+
+        const messagesGrid = document.getElementById("messagesGrid");
+        if (!messagesGrid) return;
+
+        messagesGrid.innerHTML = "";
+
+        messages.forEach(msg => {
+            addMessageToGrid(msg);
+        });
+
+    } catch (error) {
+        console.error("Failed to load messages:", error);
+    }
+}
+
+function escapeHtml(text) {
+            const div = document.createElement("div");
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
 document.addEventListener("DOMContentLoaded", function() {
     // Envelope and Wedding Content Elements
     const envelopeContainer = document.getElementById("envelopeContainer");
@@ -767,50 +830,6 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
 
-        // Function to add message to grid
-        function addMessageToGrid(message) {
-            const messagesGrid = document.getElementById("messagesGrid");
-            if (!messagesGrid) return;
-
-            const messageCard = document.createElement("div");
-            messageCard.className = "message-card";
-
-            const date = new Date(message.date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric"
-            });
-
-            messageCard.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="message-author">
-                        <h4>${escapeHtml(message.name)}</h4>
-                        <span class="message-date">${date}</span>
-                    </div>
-                </div>
-                <div class="message-content">
-                    <p>${escapeHtml(message.content)}</p>
-                </div>
-            `;
-
-            // Add to the beginning of the grid
-            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
-
-            // Limit to 20 messages
-            if (messagesGrid.children.length > 20) {
-                messagesGrid.removeChild(messagesGrid.lastChild);
-            }
-        }
-
-        // Helper function to prevent XSS
-        function escapeHtml(text) {
-            const div = document.createElement("div");
-            div.textContent = text;
-            return div.innerHTML;
-        }
     }
 
     // Add home link functionality - this handles the scrolling
@@ -834,10 +853,11 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // No separate nav-brand click handler needed!
     // Initialize FAQ and Message Form
     initFAQ();
     initMessageForm();
+    loadMessages();
+    setInterval(loadMessages, 3000);
 
     // Enhanced scroll animations for cards
     const enhancedObserver = new IntersectionObserver((entries) => {
