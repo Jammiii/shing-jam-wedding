@@ -728,43 +728,64 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 }
 
-    // Function to add message to grid
+    function timeAgo(dateString) {
+        const now = new Date();
+        const past = new Date(dateString);
+        const diff = Math.floor((now - past) / 1000);
+
+        if (diff < 60) return "Just now";
+        if (diff < 3600) return Math.floor(diff / 60) + " min ago";
+        if (diff < 86400) return Math.floor(diff / 3600) + " hrs ago";
+        if (diff < 604800) return Math.floor(diff / 86400) + " days ago";
+
+        return past.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric"
+        });
+    }
+
     function addMessageToGrid(message) {
-            const messagesGrid = document.getElementById("messagesGrid");
-            if (!messagesGrid) return;
+        const messagesGrid = document.getElementById("messagesGrid");
+        if (!messagesGrid) return;
 
-            const messageCard = document.createElement("div");
-            messageCard.className = "message-card";
+        const messageCard = document.createElement("div");
+        messageCard.className = "message-card";
 
-            const date = new Date(message.date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric"
-            });
+        const shortDate = timeAgo(message.date);
 
-            messageCard.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="message-author">
-                        <h4>${escapeHtml(message.name)}</h4>
-                        <span class="message-date">${date}</span>
-                    </div>
+        const fullDate = new Date(message.date).toLocaleString("en-PH", {
+            timeZone: "Asia/Manila",
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+
+        messageCard.innerHTML = `
+            <div class="message-header">
+                <div class="message-avatar">
+                    <i class="fas fa-user-circle"></i>
                 </div>
-                <div class="message-content">
-                    <p>${escapeHtml(message.content)}</p>
+                <div class="message-author">
+                    <h4>${escapeHtml(message.name)}</h4>
+                    <span class="message-date" title="${fullDate}">
+                        ${shortDate}
+                    </span>
                 </div>
-            `;
+            </div>
+            <div class="message-content">
+                <p>${escapeHtml(message.content)}</p>
+            </div>
+        `;
 
-            // Add to the beginning of the grid
-            messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
+        messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
 
-            // Limit to 20 messages
-            if (messagesGrid.children.length > 20) {
-                messagesGrid.removeChild(messagesGrid.lastChild);
-            }
+        if (messagesGrid.children.length > 20) {
+            messagesGrid.removeChild(messagesGrid.lastChild);
         }
+    }
 
     // Message Form
     function initMessageForm() {
@@ -852,6 +873,9 @@ document.addEventListener("DOMContentLoaded", function() {
     initFAQ();
     initMessageForm();
     loadMessages();
+    setInterval(() => {
+        loadMessages();
+    }, 60000);
 
     // Enhanced scroll animations for cards
     const enhancedObserver = new IntersectionObserver((entries) => {
