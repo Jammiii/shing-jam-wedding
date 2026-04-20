@@ -5247,6 +5247,7 @@ h4,
   display: flex !important;
   flex-direction: column;
   line-height: 1.2;
+  text-decoration: none;
 }
 
 @media (min-width: 769px) {
@@ -5254,6 +5255,7 @@ h4,
     display: flex !important;
     flex-direction: column;
     line-height: 1.2;
+    text-decoration: none;
   }
 
   .minimal-couple {
@@ -5319,6 +5321,7 @@ h4,
     display: flex;
     flex-direction: column;
     line-height: 1.2;
+    text-decoration: none;
   }
 
   .nav-minimal:hover .minimal-couple,
