@@ -41,7 +41,16 @@ export default async function handler(req, res) {
       .select();
 
     if (error) throw error;
-
+    
+    if (message) {
+      await supabase.from("messages").insert([
+        {
+          name: guest_name,
+          content: message,
+          date: new Date().toISOString()
+        }
+      ]);
+    }
     return res.status(200).json({
       success: true,
       message: "RSVP saved successfully",
