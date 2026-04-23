@@ -1,10 +1,51 @@
+    let deferredPrompt = null;
+
+    // Capture install prompt
+    window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
+
+    // Optional: detect successful install
+    window.addEventListener("appinstalled", () => {
+        console.log("PWA installed successfully");
+        deferredPrompt = null;
+    });
+
+    // Register service worker
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("/sw.js")
+                .then((registration) => {
+                    console.log("Service Worker registered:", registration.scope);
+                })
+                .catch((error) => {
+                    console.log("Service Worker registration failed:", error);
+                });
+        });
+    }
     document.addEventListener("DOMContentLoaded", function() {
         // Envelope and Wedding Content Elements
+        const installBtn = document.getElementById("installBtn");
         const mainNav = document.querySelector(".main-nav");
         const envelopeContainer = document.getElementById("envelopeContainer");
         const weddingContent = document.getElementById("weddingContent");
         const openEnvCheckbox = document.getElementById("open-env");
-    
+
+        function showInstallPrompt() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === "accepted") {
+                        console.log("User accepted the install prompt");
+                    } else {
+                        console.log("User dismissed the install prompt");
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
         // Initialize - Hide wedding content initially
         if (weddingContent) {
             weddingContent.style.display = "none";
@@ -49,6 +90,9 @@
                                     if (mainNav) {
                                         mainNav.classList.add("show-nav");
                                     }
+                                    setTimeout(() => {
+                                        showInstallPrompt();
+                                    }, 800);
                                     document.addEventListener("DOMContentLoaded", function () {
                                       initFAQ();
                                     });
