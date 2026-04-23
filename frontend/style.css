@@ -304,6 +304,19 @@ h4,
   padding: 0;
 }
 
+.main-nav {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.main-nav.show-nav {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
 /* Add subtle gradient overlay for depth */
 .main-nav::before {
   content: "";
