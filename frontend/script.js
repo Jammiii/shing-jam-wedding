@@ -26,7 +26,6 @@
     }
     document.addEventListener("DOMContentLoaded", function() {
         // Envelope and Wedding Content Elements
-        const installBtn = document.getElementById("installBtn");
         const mainNav = document.querySelector(".main-nav");
         const envelopeContainer = document.getElementById("envelopeContainer");
         const weddingContent = document.getElementById("weddingContent");
