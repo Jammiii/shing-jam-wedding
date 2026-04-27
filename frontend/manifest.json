@@ -1,0 +1,20 @@
+{
+  "name": "Shing & Jam Wedding RSVP",
+  "short_name": "Wedding RSVP",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#013402",
+  "theme_color": "#013402",
+  "icons": [
+    {
+      "src": "/frontend/images/ICON.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/frontend/images/ICON.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
