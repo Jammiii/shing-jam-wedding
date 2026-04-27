@@ -89,6 +89,9 @@
                                     if (mainNav) {
                                         mainNav.classList.add("show-nav");
                                     }
+                                    setTimeout(() => {
+                                        showInstallPrompt();
+                                    }, 800);                                    
                                     document.addEventListener("DOMContentLoaded", function () {
                                       initFAQ();
                                     });
