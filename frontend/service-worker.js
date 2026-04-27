@@ -1,20 +1,15 @@
 const CACHE_NAME = 'wedding-rsvp-sj';
 
 const urlsToCache = [
-  '/', // IMPORTANT (your start_url)
-
-  // main files
+  '/',
   '/index.html',
-  '/frontend/styles.css',
+  '/frontend/style.css',
   '/frontend/script.js',
-
-  // images (adjust if needed)
+  '/frontend/manifest.json',
   '/frontend/images/ONE.jpg',
-  '/frontend/images/icon-192.png',
-  '/frontend/images/icon-512.png'
+  '/frontend/images/ICON.png'
 ];
 
-// INSTALL - cache files
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -24,7 +19,6 @@ self.addEventListener('install', function(event) {
   );
 });
 
-// ACTIVATE - remove old cache
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(cacheNames) {
@@ -39,7 +33,6 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// FETCH - cache first, then network
 self.addEventListener('fetch', function(event) {
   event.respondWith(
     caches.match(event.request)
