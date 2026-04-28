@@ -26,6 +26,8 @@
     }
     document.addEventListener("DOMContentLoaded", function() {
         // Envelope and Wedding Content Elements
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromGallery = urlParams.get("from") === "gallery";
         const mainNav = document.querySelector(".main-nav");
         const envelopeContainer = document.getElementById("envelopeContainer");
         const weddingContent = document.getElementById("weddingContent");
@@ -46,14 +48,53 @@
             }
         }
         // Initialize - Hide wedding content initially
-        if (weddingContent) {
+        if (!fromGallery && weddingContent) {
             weddingContent.style.display = "none";
         }
 
-        if (mainNav) {
+        if (!fromGallery && mainNav) {
             mainNav.classList.remove("show-nav");
         }
         // When envelope is opened, show wedding content
+        if (fromGallery) {
+            // simulate envelope already opened
+            if (openEnvCheckbox) {
+                openEnvCheckbox.checked = true;
+            }
+
+            const envElement = document.querySelector(".env");
+            if (envElement) {
+                envElement.classList.add("opened");
+            }
+
+            if (envelopeContainer) {
+                envelopeContainer.style.display = "none";
+            }
+
+            if (weddingContent) {
+                weddingContent.style.display = "block";
+                weddingContent.style.opacity = "1";
+                weddingContent.style.transform = "translateY(0) scale(1)";
+            }
+
+            if (mainNav) {
+                mainNav.classList.add("show-nav");
+            }
+
+            // ensure layout renders correctly
+            setTimeout(() => {
+                const target = window.location.hash || "#home";
+
+                window.scrollTo({
+                    top: document.querySelector(target)?.offsetTop - 80 || 0,
+                    behavior: "instant"
+                });
+            }, 50);
+            setTimeout(() => {
+                initBackgroundSlider();
+            }, 500);
+        }
+
         if (openEnvCheckbox) {
             openEnvCheckbox.addEventListener("change", function() {
                 if (this.checked) {
@@ -91,7 +132,7 @@
                                     }
                                     setTimeout(() => {
                                         showInstallPrompt();
-                                    }, 800);                                    
+                                    }, 800);
                                     document.addEventListener("DOMContentLoaded", function () {
                                       initFAQ();
                                     });
@@ -306,7 +347,7 @@
                 }
             });
         }
-    
+
         // Lightbox functionality
         galleryItems.forEach((item) => {
             item.addEventListener("click", function() {
@@ -333,7 +374,115 @@
             lightbox.classList.remove("active");
             document.body.style.overflow = "auto";
         }
-    
+
+        const cubeGallery = document.getElementById("cubeGallery");
+        const cubeTrack = document.getElementById("cubeTrack");
+        const cubePrev = document.getElementById("cubePrev");
+        const cubeNext = document.getElementById("cubeNext");
+        const cubeDots = document.getElementById("cubeDots");
+        const cubeFaces = document.querySelectorAll(".cube-face");
+
+        let cubeIndex = 0;
+        let cubeStartX = 0;
+        let cubeStartY = 0;
+        let cubeIsMoving = false;
+        const cubeTotal = cubeFaces.length;
+
+        function createCubeDots() {
+          if (!cubeDots) return;
+
+          cubeDots.innerHTML = "";
+
+          cubeFaces.forEach((_, index) => {
+            const dot = document.createElement("button");
+            dot.className = "cube-dot";
+            dot.setAttribute("aria-label", `Go to photo ${index + 1}`);
+
+            dot.addEventListener("click", function () {
+              goToCube(index);
+            });
+
+            cubeDots.appendChild(dot);
+          });
+        }
+
+        function updateCube() {
+          if (!cubeTrack) return;
+
+          cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+
+          document.querySelectorAll(".cube-dot").forEach((dot, index) => {
+            dot.classList.toggle("active", index === cubeIndex);
+          });
+        }
+
+        function goToCube(index) {
+          if (cubeIsMoving || index === cubeIndex) return;
+
+          cubeIsMoving = true;
+          cubeIndex = index;
+          updateCube();
+
+          setTimeout(() => {
+            cubeIsMoving = false;
+          }, 950);
+        }
+
+        function nextCube() {
+          if (cubeTotal === 0) return;
+          goToCube((cubeIndex + 1) % cubeTotal);
+        }
+
+        function prevCube() {
+          if (cubeTotal === 0) return;
+          goToCube((cubeIndex - 1 + cubeTotal) % cubeTotal);
+        }
+
+        if (cubeNext) {
+          cubeNext.addEventListener("click", nextCube);
+        }
+
+        if (cubePrev) {
+          cubePrev.addEventListener("click", prevCube);
+        }
+
+        if (cubeGallery) {
+          cubeGallery.addEventListener(
+            "touchstart",
+            function (e) {
+              cubeStartX = e.changedTouches[0].screenX;
+              cubeStartY = e.changedTouches[0].screenY;
+            },
+            { passive: true }
+          );
+
+          cubeGallery.addEventListener("touchend", function (e) {
+            const cubeEndX = e.changedTouches[0].screenX;
+            const cubeEndY = e.changedTouches[0].screenY;
+
+            const diffX = cubeStartX - cubeEndX;
+            const diffY = cubeStartY - cubeEndY;
+
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+              if (diffX > 0) {
+                nextCube();
+              } else {
+                prevCube();
+              }
+            }
+          });
+        }
+
+        createCubeDots();
+        updateCube();
+
+        const openFullGalleryBtn = document.getElementById("openFullGallery");
+
+        if (openFullGalleryBtn) {
+          openFullGalleryBtn.addEventListener("click", function () {
+            window.location.href = "full-gallery.html";
+          });
+        }
         // Music toggle
         if (musicToggle && backgroundMusic) {
             // Set initial volume
@@ -906,7 +1055,7 @@
                     top: 0,
                     behavior: "smooth"
                 });
-    
+
                 // Close mobile menu if open (optional - add this to the existing handler)
                 const navMenu = document.getElementById('navMenu');
                 const navToggle = document.getElementById('navToggle');
