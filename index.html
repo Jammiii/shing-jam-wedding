@@ -63,12 +63,13 @@
           <li><a href="#countdown-section"><i class="fas fa-clock"></i> Countdown</a></li>
           <li><a href="#story"><i class="fas fa-book-open"></i> Our Story</a></li>
           <li><a href="#gallery"><i class="fas fa-images"></i> Gallery</a></li>
-          <li><a href="#messages"><i class="fas fa-envelope"></i> Messages</a></li>
           <li><a href="#details"><i class="fas fa-info-circle"></i> Details</a></li>
           <li><a href="#entourage"><i class="fas fa-users"></i> Entourage</a></li>
-          <li><a href="#sponsors"><i class="fas fa-handshake"></i> Sponsors</a></li>
-          <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
+          <li><a href="#sponsors"><i class="fas fa-handshake"></i> Suppliers</a></li>
           <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
+          <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
+          <li><a href="#messages"><i class="fas fa-envelope"></i> Messages</a></li>
+
         </ul>
       </div>
     </nav>
@@ -142,7 +143,6 @@
             <span class="countdown-label-secondary">Seconds</span>
           </div>
         </div>
-        <p class="countdown-note">March 26, 2027 • L.D Ignacio's Island Hotel & Resort, Roxas Or. Mindoro</p>
       </div>
     </section>
 
@@ -193,30 +193,56 @@
       </div>
     </section>
 
-    <!-- Photo Gallery -->
-    <section id="gallery" class="gallery-section">
-      <h2 class="section-title">Our Journey Together</h2>
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Engagement Photo">
+<section id="gallery" class="gallery-section">
+  <h2 class="section-title">Our Prenup Moments</h2>
+
+  <div class="cube-gallery" id="cubeGallery">
+    <button class="cube-nav cube-prev" id="cubePrev" aria-label="Previous photo">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="cube-stage">
+      <div class="cube-track" id="cubeTrack">
+        <div class="cube-face">
+          <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Engagement Photo">
+          <div class="cube-caption">
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Beach Vacation">
+
+        <div class="cube-face">
+          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Beach Vacation">
+          <div class="cube-caption">
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Mountain Hike">
+
+        <div class="cube-face">
+          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Mountain Hike">
+          <div class="cube-caption">
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Proposal Moment">
-        </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Anniversary Dinner">
-        </div>
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Family Gathering">
+
+        <div class="cube-face">
+          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Proposal Moment">
+          <div class="cube-caption">
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+
+    <button class="cube-nav cube-next" id="cubeNext" aria-label="Next photo">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <div class="cube-dots" id="cubeDots"></div>
+  <div class="gallery-cta">
+    <button class="view-gallery-btn" id="openFullGallery">
+      See All Our Prenup Moments
+    </button>
+  </div>
+</section>
+
+<div class="gallery-dots" id="galleryDots"></div>
 
     <!-- Details Section -->
     <section id="details" class="details-section">
@@ -267,54 +293,83 @@
     <!-- Entourage Section -->
     <section id="entourage" class="entourage-section">
       <div class="entourage-container">
+
         <h2 class="section-title">The Wedding Entourage</h2>
+
         <div class="entourage-grid">
+          <!-- Bride Side -->
           <div class="entourage-category">
             <h3><i class="fas fa-crown"></i> Bride's Side</h3>
             <ul class="entourage-list">
-              <li><strong>Maid of Honor: Mary Grace R. Basilio</strong> </li>
-              <li><strong>Bridesmaids Veil: Marie Glainess Gemperoso </strong> </li>
-              <li><strong>Bridesmaids Cord: Ma. Jeanette De Luna </strong> </li>
-              <li><strong>Bridesmaids Sand: Lovelyn Fabellar </strong> </li>
-              <li><strong>Bridesmaids 1: Nicole Basilio </strong> </li>
-              <li><strong>Bridesmaids 2: Sachia Takano </strong> </li>
-              <li><strong>Bridesmaids 3: Annjane Tijulan </strong> </li>
-              <li><strong>Bridesmaids 4: Karenne Tijulan </strong> </li>
-              <li><strong>Bridesmaids 5: Jennifer Bolor </strong> </li>
-              <li><strong>Flower Girl: Mikay Carandang </strong> </li>
-              <li><strong>Bible Bearer: Harmony Monsalve </strong> </li>
-              <li><strong>Banner Bearer: Raquel Basilio </strong> </li>
-              <li><strong>Father: Mr.Anacleto Basilio </strong> </li>
-              <li><strong>Mother: Mrs.Cecilia Basilio </strong> </li>
+              <li><strong>Maid of Honor: Mary Grace R. Basilio</strong></li>
+              <li><strong>Bridesmaids Veil: Marie Glainess Gemperoso</strong></li>
+              <li><strong>Bridesmaids Cord: Ma. Jeanette De Luna</strong></li>
+              <li><strong>Bridesmaids Sand: Lovelyn Fabellar</strong></li>
+              <li><strong>Bridesmaids 1: Nicole Basilio</strong></li>
+              <li><strong>Bridesmaids 2: Sachia Takano</strong></li>
+              <li><strong>Bridesmaids 3: Annjane Tijulan</strong></li>
+              <li><strong>Bridesmaids 4: Karenne Tijulan</strong></li>
+              <li><strong>Bridesmaids 5: Jennifer Bolor</strong></li>
+              <li><strong>Flower Girl: Mikay Carandang</strong></li>
+              <li><strong>Bible Bearer: Harmony Monsalve</strong></li>
+              <li><strong>Banner Bearer: Raquel Basilio</strong></li>
+              <li><strong>Father: Mr. Anacleto Basilio</strong></li>
+              <li><strong>Mother: Mrs. Cecilia Basilio</strong></li>
             </ul>
           </div>
+
+          <!-- Groom Side -->
           <div class="entourage-category">
             <h3><i class="fas fa-crown"></i> Groom's Side</h3>
             <ul class="entourage-list">
-              <li><strong>Best Man: John Lorenz Ricafranca</strong> </li>
-              <li><strong>Groomsmen Viel: Clifford Oracion</strong> </li>
-              <li><strong>Groomsmen Cord: Allen Jay Tijulan </strong> </li>
-              <li><strong>Groomsmen Sand: Mark Caliv Basilio </strong> </li>
-              <li><strong>Groomsmen 1: Jerome Ines </strong> </li>
-              <li><strong>Groomsmen 2: Ugo Ravino </strong> </li>
-              <li><strong>Groomsmen 3: Mark Madolora </strong> </li>
-              <li><strong>Groomsmen 4: John William Malic </strong> </li>
-              <li><strong>Groomsmen 5: Richard Llanto </strong> </li>
-              <li><strong>Flower Boy: Magnus Geronimo</strong> </li>
-              <li><strong>Ring Bearer: Razey Cielo Castillo</strong> </li>
-              <li><strong>Coin Bearer: Heaven Geronimo</strong> </li>
-              <li><strong>In Loving Memory [Aguinaldo Ruga Sr.]: Allan Tijulan</strong> </li>
-              <li><strong>In Loving Memory [Amalia Ruga]: Raquel Castillo</strong> </li>
+              <li><strong>Best Man: John Lorenz Ricafranca</strong></li>
+              <li><strong>Groomsmen Veil: Clifford Oracion</strong></li>
+              <li><strong>Groomsmen Cord: Allen Jay Tijulan</strong></li>
+              <li><strong>Groomsmen Sand: Mark Caliv Basilio</strong></li>
+              <li><strong>Groomsmen 1: Jerome Ines</strong></li>
+              <li><strong>Groomsmen 2: Ugo Ravino</strong></li>
+              <li><strong>Groomsmen 3: Mark Madolora</strong></li>
+              <li><strong>Groomsmen 4: John William Malic</strong></li>
+              <li><strong>Groomsmen 5: Richard Llanto</strong></li>
+              <li><strong>Flower Boy: Magnus Geronimo</strong></li>
+              <li><strong>Ring Bearer: Razey Cielo Castillo</strong></li>
+              <li><strong>Coin Bearer: Heaven Geronimo</strong></li>
+              <li><strong>In Loving Memory [Aguinaldo Ruga Sr.]: Allan Tijulan</strong></li>
+              <li><strong>In Loving Memory [Amalia Ruga]: Raquel Castillo</strong></li>
             </ul>
           </div>
         </div>
+
+        <!-- ✅ Principal Sponsors INSIDE SAME CONTAINER -->
+        <h2 class="section-title" style="margin-top: 3rem;">Principal Sponsors</h2>
+
+        <div class="entourage-grid">
+          <div class="entourage-category">
+            <h3><i class="fas fa-user-friends"></i> Ninong</h3>
+            <ul class="entourage-list">
+              <li><strong>Bro. Hansel</strong></li>
+              <li><strong>Kuya Vincent</strong></li>
+              <li><strong>Ate Smile's Hubby</strong></li>
+            </ul>
+          </div>
+
+          <div class="entourage-category">
+            <h3><i class="fas fa-user-friends"></i> Ninang</h3>
+            <ul class="entourage-list">
+              <li><strong>Ninang Bebe</strong></li>
+              <li><strong>Asawa ni Kuya Vincent</strong></li>
+              <li><strong>Ate Smile</strong></li>
+            </ul>
+          </div>
+        </div>
+
       </div>
     </section>
 
     <!-- Sponsors Section -->
     <section id="sponsors" class="sponsors-section">
       <div class="sponsors-container">
-        <h2 class="section-title">Our Generous Sponsors</h2>
+        <h2 class="section-title">Our Wedding Supplier</h2>
         <p class="sponsors-intro">Special thanks to our partners who made this day possible</p>
         <div class="sponsors-grid">
           <div class="sponsor-card">
