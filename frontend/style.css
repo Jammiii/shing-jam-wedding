@@ -3188,7 +3188,27 @@ button.details-btn {
     gap: 10px !important;
   }
 }
+@media (min-width: 769px) {
+  .footer-section {
+    text-align: left;
+  }
 
+  .footer-subtitle {
+    text-align: left;
+    margin-bottom: 1rem;
+  }
+
+  .footer-social {
+    justify-content: flex-start;
+    gap: 1.2rem;
+  }
+
+  .social-link {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+}
 @media (max-width: 480px) {
   .footer {
     padding: 3rem 1rem 1.5rem;
@@ -6755,4 +6775,9 @@ button.details-btn {
 .video-parallax-section > *:not(.parallax-bg-video) {
   position: relative;
   z-index: 1;
+}
+
+.parallax-bg-video,
+.video-parallax-section::before {
+  pointer-events: none;
 }
