@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
   <title>All Our Prenup Moments</title>
   <link rel="stylesheet" href="/frontend/style.css">
 </head>
 <body>
 
 <div class="gallery-topbar">
-  <a href="index.html?from=gallery#home" class="back-btn" id="backToGallery">
-    <i class="fas fa-arrow-left"></i> <span class="back-text">Back to main page</span>
+  <a href="#" class="back-btn" onclick="goBack(event)">
+    <i class="fas fa-arrow-left"></i>
+    <span class="back-text">Back to main page</span>
   </a>
 
   <div class="gallery-top-title">Prenup Gallery</div>
@@ -46,5 +48,17 @@
     </div>
   </div>
 </section>
+
+<script>
+function goBack(e) {
+  e.preventDefault();
+
+  if (document.referrer && document.referrer.includes(window.location.origin)) {
+    window.history.back();
+  } else {
+    window.location.href = "index.html#home";
+  }
+}
+</script>
 </body>
 </html>
