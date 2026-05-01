@@ -6746,38 +6746,68 @@ button.details-btn {
   }
 }
 
-/* Parallax- For Video Background section */
+/* FIX FOR UNCLICKABLE DETAILS SECTION */
 .video-parallax-section {
   position: relative;
-  overflow: hidden;
-  isolation: isolate;
+  isolation: isolate; 
 }
 
 .parallax-bg-video {
   position: absolute;
-  inset: -15%;
-  width: 130%;
-  height: 130%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  z-index: -2;
-  transform: translateY(var(--parallax-y, 0px));
-  will-change: transform;
-}
-
-.video-parallax-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(1, 52, 2, 0.65);
   z-index: -1;
+  pointer-events: none; 
 }
 
-.video-parallax-section > *:not(.parallax-bg-video) {
+.details-section,
+.details-container,
+.details-card,
+.details-body,
+.details-actions button,
+.details-actions a,
+.travel-route summary,
+.travel-route summary *,
+.details-btn,
+.copy-btn {
   position: relative;
   z-index: 1;
 }
 
-.parallax-bg-video,
-.video-parallax-section::before {
-  pointer-events: none;
+.details-section button,
+.details-section a,
+.details-section .details-btn,
+.details-section .copy-btn,
+.travel-route summary {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.details-section .copy-btn {
+  position: relative;
+  z-index: 10;
+}
+
+.travel-route {
+  position: relative;
+  z-index: 1;
+}
+
+.travel-route summary {
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.travel-route[open] .travel-steps {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.video-parallax-section .parallax-bg-video {
+  pointer-events: none !important;
 }
