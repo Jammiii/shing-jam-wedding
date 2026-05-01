@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>Wedding Attire Samples</title>
+
+  <link rel="stylesheet" href="frontend/style.css">
+</head>
+<body>
+
+  <header class="attire-sample-header">
+    <a href="#" class="attire-back-btn" onclick="goBack(event)">←Back to Main Page</a>
+    <span>Attire Guide</span>
+  </header>
+
+  <section class="attire-sample-page">
+    <div class="attire-container">
+
+      <h2 class="section-title">Wedding Attire Samples</h2>
+      <p class="section-subtitle">Inspiration guide for our wedding entourage and guests</p>
+
+      <div class="attire-sample-grid">
+
+        <div class="attire-sample-card" id="parents">
+          <h3>Parents</h3>
+          <p>Mothers are wear elegant emerald green gowns with gold accents, while fathers wear a champagne or beige Barong Tagalog paired with dark trousers and formal shoes.</p>
+          <div class="attire-sample-images two">
+            <img src="frontend/images/attire/Mother.png" alt="Mother Attire">
+            <img src="frontend/images/attire/Father.png" alt="Father Attire">
+          </div>
+        </div>
+
+        <div class="attire-sample-card" id="maid-bestman">
+          <h3>Maid of Honor & Best Man</h3>
+          <p>The Maid of Honor wear an elegant emerald green gown, while the Best Man wear a formal suit in emerald or a complementary tone and formal black shoes.</p>
+          <div class="attire-sample-images two">
+            <img src="frontend/images/attire/Maid-of-Honor.png" alt="Maid of Honor Attire">
+            <img src="frontend/images/attire/Best-man.png" alt="Best Man Attire">
+          </div>
+        </div>
+
+        <div class="attire-sample-card" id="secondary-sponsors">
+          <h3>Secondary Sponsors</h3>
+          <p>Secondary sponsors wear formal attire in emerald green for ladies and beige or champagne tones for gentlemen with black formal shoes.</p>
+          <div class="attire-sample-images two">
+            <img src="frontend/images/attire/Female-Secondary-Sponsor.png" alt="Female Secondary Sponsor Attire">
+            <img src="frontend/images/attire/Male-SecondarySponsor.png" alt="Male Secondary Sponsor Attire">
+          </div>
+        </div>
+
+        <div class="attire-sample-card" id="bridesmaids-groomsmen">
+          <h3>Bridesmaids & Groomsmen</h3>
+          <p>Bridesmaids wear elegant sage or emerald green gowns, while groomsmen wear beige trousers with white shirts, green accents, and black formal shoes.</p>
+          <div class="attire-sample-images two">
+            <img src="frontend/images/attire/Bridesmaids.png" alt="Bridesmaids Attire">
+            <img src="frontend/images/attire/Groomsmen.png" alt="Groomsmen Attire">
+          </div>
+        </div>
+
+        <div class="attire-sample-card" id="godparents">
+          <h3>Godparents</h3>
+          <p>Godparents wear in champagne, gold, beige, emerald green, or neutral tones, paired with elegant heels and Ninongs in Barong Tagalog with dark trousers and formal black shoes.</p>
+          <div class="attire-sample-images two">
+            <img src="frontend/images/attire/Ninang.png" alt="Ninang Attire">
+            <img src="frontend/images/attire/Ninong.png" alt="Ninong Attire">
+          </div>
+        </div>
+
+        <div class="attire-sample-card" id="kids">
+          <h3>Bearers</h3>
+          <p>Little members of the entourage wear coordinated formal attire in sage or soft green tones.</p>
+          <div class="attire-sample-images single">
+            <img src="frontend/images/attire/Little-Girls-Boy.png" alt="Kids Attire">
+          </div>
+        </div>
+
+        <div class="attire-sample-card" id="guests">
+          <h3>Guests</h3>
+          <p>Wear semi-formal or formal attire. Please avoid white.</p>
+          <div class="attire-sample-images single">
+            <img src="frontend/images/attire/Guests.png" alt="Guest Attire">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<script>
+function goBack(e) {
+  e.preventDefault();
+
+  // If user has history → go back like browser
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    // fallback if opened directly (no history)
+    window.location.href = "index.html#attire";
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const hash = window.location.hash.replace("#", "");
+
+  if (!hash) return;
+
+  const cards = document.querySelectorAll(".attire-sample-card");
+
+  cards.forEach(card => {
+    if (card.id !== hash) {
+      card.style.display = "none";
+    } else {
+      card.style.display = "block";
+    }
+  });
+});
+</script>
+</body>
+</html>
