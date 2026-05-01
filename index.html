@@ -66,6 +66,7 @@
           <li><a href="#details"><i class="fas fa-info-circle"></i> Details</a></li>
           <li><a href="#entourage"><i class="fas fa-users"></i> Entourage</a></li>
           <li><a href="#sponsors"><i class="fas fa-handshake"></i> Suppliers</a></li>
+          <li><a href="#attire"><i class="fas fa-tshirt"></i> Attire</a></li>
           <li><a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a></li>
           <li><a href="#rsvp"><i class="fas fa-calendar-check"></i> RSVP</a></li>
           <li><a href="#messages"><i class="fas fa-envelope"></i> Messages</a></li>
@@ -122,7 +123,10 @@
     </section>
 
     <!-- Countdown Section -->
-    <section id="countdown-section" class="countdown-section">
+    <section id="countdown-section" class="countdown-section video-parallax-section">
+    <video autoplay muted loop playsinline class="parallax-bg-video">
+      <source src="frontend/video/Green.mp4" type="video/mp4">
+    </video>
       <div class="countdown-container">
         <h2 class="section-title">Countdown to Our Special Day</h2>
         <div id="countdown-secondary" class="countdown-secondary">
@@ -193,213 +197,672 @@
       </div>
     </section>
 
-<section id="gallery" class="gallery-section">
-  <h2 class="section-title">Our Prenup Moments</h2>
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+      <h2 class="section-title">Our Prenup Moments</h2>
+      <p class="section-subtitle">Swipe to see more of our moments</p>
 
-  <div class="cube-gallery" id="cubeGallery">
-    <button class="cube-nav cube-prev" id="cubePrev" aria-label="Previous photo">
-      <i class="fas fa-chevron-left"></i>
-    </button>
+      <div class="cube-gallery" id="cubeGallery">
+        <button class="cube-nav cube-prev" id="cubePrev" aria-label="Previous photo">
+          <i class="fas fa-chevron-left"></i>
+        </button>
 
-    <div class="cube-stage">
-      <div class="cube-track" id="cubeTrack">
-        <div class="cube-face">
-          <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Engagement Photo">
-          <div class="cube-caption">
+        <div class="cube-stage">
+          <div class="cube-track" id="cubeTrack">
+            <div class="cube-face">
+              <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Engagement Photo">
+              <div class="cube-caption">
+              </div>
+            </div>
+
+            <div class="cube-face">
+              <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Beach Vacation">
+              <div class="cube-caption">
+              </div>
+            </div>
+
+            <div class="cube-face">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Mountain Hike">
+              <div class="cube-caption">
+              </div>
+            </div>
+
+            <div class="cube-face">
+              <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Proposal Moment">
+              <div class="cube-caption">
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="cube-face">
-          <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Beach Vacation">
-          <div class="cube-caption">
-          </div>
-        </div>
-
-        <div class="cube-face">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Mountain Hike">
-          <div class="cube-caption">
-          </div>
-        </div>
-
-        <div class="cube-face">
-          <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Proposal Moment">
-          <div class="cube-caption">
-          </div>
-        </div>
+        <button class="cube-nav cube-next" id="cubeNext" aria-label="Next photo">
+          <i class="fas fa-chevron-right"></i>
+        </button>
       </div>
-    </div>
 
-    <button class="cube-nav cube-next" id="cubeNext" aria-label="Next photo">
-      <i class="fas fa-chevron-right"></i>
-    </button>
-  </div>
+      <div class="cube-dots" id="cubeDots"></div>
+      <div class="gallery-cta">
+        <button class="view-gallery-btn" id="openFullGallery">
+          See All Our Prenup Moments
+        </button>
+      </div>
+    </section>
 
-  <div class="cube-dots" id="cubeDots"></div>
-  <div class="gallery-cta">
-    <button class="view-gallery-btn" id="openFullGallery">
-      See All Our Prenup Moments
-    </button>
-  </div>
-</section>
-
-<div class="gallery-dots" id="galleryDots"></div>
+    <div class="gallery-dots" id="galleryDots"></div>
 
     <!-- Details Section -->
-    <section id="details" class="details-section">
+    <section id="details" class="details-section video-parallax-section">
+
+    <video autoplay muted loop playsinline class="parallax-bg-video">
+      <source src="frontend/video/Green.mp4" type="video/mp4">
+    </video>
+
       <div class="details-container">
-        <h2 class="section-title">Wedding Details</h2>
-        <div class="details-grid">
-          <div class="detail-card">
-            <div class="detail-icon">
-              <i class="fas fa-calendar-alt"></i>
+
+        <h2 class="section-title">Event Details</h2>
+        <p class="section-subtitle">Everything you need to know about our special day</p>
+
+        <div class="details-card">
+
+          <div class="details-hero">
+            <img src="frontend/images/ld-ignacios.png" alt="L.D Ignacio's Island Hotel & Resort" class="details-hero-img">
+
+            <div class="details-hero-overlay">
+              <p class="details-kicker">Wedding Venue</p>
+              <h3>L.D Ignacio's Island Hotel & Resort</h3>
+              <span>Roxas, Oriental Mindoro</span>
             </div>
-            <h3>Date & Time</h3>
-            <p>March 26, 2027</p>
-            <p>4:00 PM Ceremony</p>
-            <p>7:00 PM Reception</p>
           </div>
-          <div class="detail-card">
-            <div class="detail-icon">
-              <i class="fas fa-map-marker-alt"></i>
+
+          <div class="details-body">
+
+            <div class="details-date">
+              <span>Friday</span>
+              <h3>March 26, 2027</h3>
+              <p>4:00 PM Ceremony • 7:00 PM Reception</p>
             </div>
-            <h3>Venue</h3>
-            <p>L.D Ignacio's Island Hotel & Resort</p>
-            <p>Roxas, Oreintal Mindoro</p>
-            <p>Google Maps</p>
-            <p>Waze Maps</p>
-          </div>
-          <div class="detail-card">
-            <div class="detail-icon">
-              <i class="fas fa-utensils"></i>
+
+            <div class="details-main-grid">
+
+              <div class="details-panel">
+                <i class="fas fa-map-marker-alt"></i>
+                <h4>Location</h4>
+                <p>L.D Ignacio's Island Hotel & Resort</p>
+                <p>Roxas, Oriental Mindoro</p>
+              </div>
+
+              <div class="details-panel">
+                <i class="fas fa-champagne-glasses"></i>
+                <h4>Reception Highlights</h4>
+                <p>Pika Pika by L.D</p>
+                <p>Perfume Bar</p>
+                <p>Photoshoot Studio</p>
+              </div>
+
+              <div class="details-panel">
+                <i class="fas fa-bed"></i>
+                <h4>Accommodation</h4>
+                <p>L.D Family Room</p>
+                <p>Room 23 & 24</p>
+                <p>0915 923 9467</p>
+              </div>
+
             </div>
-            <h3>Reception</h3>
-            <p>Pika Pika by L.D</p>
-            <p>Perfume Bar</p>
-            <p>Photoshoot Studio</p>
-          </div>
-          <div class="detail-card">
-            <div class="detail-icon">
-              <i class="fas fa-bed"></i>
+
+            <div class="details-guide">
+              <h3 class="guide-title">How to Get There</h3>
+              <p class="guide-subtitle">Suggested travel routes for our guests</p>
+
+              <div class="travel-accordion">
+                <details class="travel-route">
+                  <summary>
+                    <span><i class="fas fa-plane-arrival"></i> From NAIA via Caticlan</span>
+                    <small>Estimated 6–8 hrs • ₱4,000–₱8,000</small>
+                  </summary>
+
+                  <div class="travel-steps">
+
+                    <div class="travel-step">
+                      <i class="fas fa-plane"></i>
+                      <div>
+                        <h4>Fly to Caticlan</h4>
+                        <p>From NAIA, take a domestic flight to Caticlan Airport (Boracay).</p>
+                        <small>Approx. 1 hour</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-ship"></i>
+                      <div>
+                        <h4>Ferry to Mindoro</h4>
+                        <p>From Caticlan Jetty Port, ride a RORO or ferry going to Dangay,Roxas Port Mindoro.</p>
+                        <small>Approx. 4-5 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="ri-caravan-fill"></i>
+                      <div>
+                        <h4>Travel to Roxas</h4>
+                        <p>Continue by land travel thru tricycle from Dangay Port to Roxas, Oriental Mindoro.</p>
+                        <small>Approx. 20 minutes</small>
+                      </div>
+                    </div>
+
+                    <a
+                      href="https://www.rome2rio.com/map/Caticlan/Roxas-Oriental-Mindoro-Philippines"
+                      target="_blank"
+                      class="travel-link"
+                    >
+                      View Caticlan Route
+                    </a>
+
+                  </div>
+                </details>
+
+                <details class="travel-route">
+                  <summary>
+                    <span><i class="fas fa-plane-departure"></i> From NAIA / Manila</span>
+                    <small>Estimated 7–9 hrs • ₱2,500–₱4,500</small>
+                  </summary>
+
+                  <div class="travel-steps">
+                    <div class="travel-step">
+                      <i class="fas fa-car"></i>
+                      <div>
+                        <h4>Drive to Batangas Port</h4>
+                        <p>From NAIA Terminal 3, travel by private car or van to Batangas Port.</p>
+                        <small>Approx. 2–3 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-ship"></i>
+                      <div>
+                        <h4>Ferry to Mindoro</h4>
+                        <p>Take a RORO or ferry from Batangas Port going to Calapan, Mindoro.</p>
+                        <small>Approx. 2–3 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-car-side"></i>
+                      <div>
+                        <h4>Travel to Roxas</h4>
+                        <p>Continue by land travel to Roxas, Oriental Mindoro.</p>
+                        <small>Approx. 3 hours</small>
+                      </div>
+                    </div>
+
+                    <a
+                      href="https://www.rome2rio.com/map/NAIA-TERMINAL-3-Station/Roxas-Oriental-Mindoro-Philippines?refresh=mojy7fdd&route=Drive-car-ferry"
+                      target="_blank"
+                      class="travel-link"
+                    >
+                      View Full NAIA Route
+                    </a>
+                  </div>
+                </details>
+
+                <details class="travel-route">
+                  <summary>
+                    <span><i class="fas fa-location-dot"></i> From Calamba, Laguna</span>
+                    <small>Estimated 6–8 hrs • ₱2,000–₱4,000</small>
+                  </summary>
+
+                  <div class="travel-steps">
+                    <div class="travel-step">
+                      <i class="fas fa-car"></i>
+                      <div>
+                        <h4>Drive to Batangas Port</h4>
+                        <p>From Laguna, travel by private motor, car,van or bus to Batangas Port.</p>
+                        <small>Approx. 1.5–2.5 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-ship"></i>
+                      <div>
+                        <h4>Ferry to Mindoro</h4>
+                        <p>Board a ferry or RORO from Batangas Port to Calapan Port, Mindoro.</p>
+                        <small>Approx. 2–3 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-car-side"></i>
+                      <div>
+                        <h4>Travel to Roxas</h4>
+                        <p>Continue the land trip going to Roxas, Oriental Mindoro.</p>
+                        <small>Approx. 3 hours</small>
+                      </div>
+                    </div>
+
+                    <a
+                      href="https://www.rome2rio.com/map/Calamba/Roxas-Oriental-Mindoro-Philippines?refresh=mojy7fdd&route=Drive-car-ferry"
+                      target="_blank"
+                      class="travel-link"
+                    >
+                      View Full Laguna Route
+                    </a>
+                  </div>
+                </details>
+
+                <details class="travel-route">
+                  <summary>
+                    <span><i class="fas fa-bus"></i> From Laguna via Ceres Bus</span>
+                    <small>Estimated 7–10 hrs • ₱1,500–₱3,000</small>
+                  </summary>
+
+                  <div class="travel-steps">
+
+                    <div class="travel-step">
+                      <i class="fas fa-bus"></i>
+                      <div>
+                        <h4>Laguna to Batangas Port</h4>
+                        <p>From Laguna (Calamba Exit), book a Ceres a day before for one way trip going to Batangas Port up to Roxas. Recommended trip call time is 7:45 AM.</p>
+                        <small>Approx. 2–3 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-ship"></i>
+                      <div>
+                        <h4>Batangas to Calapan</h4>
+                        <p>Ride a ferry going to Roxas, Oriental Mindoro.</p>
+                        <small>Approx. 2–3 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="fas fa-bus"></i>
+                      <div>
+                        <h4>Calapan to Roxas Proper</h4>
+                        <p>From the port, ride a Ceres bus going to Roxas terminal.</p>
+                        <small>Approx. 2–4 hours</small>
+                      </div>
+                    </div>
+
+                    <div class="travel-step">
+                      <i class="ri-caravan-fill"></i>
+                      <div>
+                        <h4>Roxas Terminal to Proper L.D</h4>
+                        <p>From Roxas Terminal ride a tricycle to reach the destination of venue.</p>
+                        <small>Approx. 10 minutes</small>
+                      </div>
+                    </div>
+
+                    <a
+                      href="https://www.rome2rio.com/map/Calamba/Roxas-Oriental-Mindoro-Philippines"
+                      target="_blank"
+                      class="travel-link"
+                    >
+                      View Laguna Route
+                    </a>
+
+                  </div>
+                </details>
+              </div>
             </div>
-            <h3>Accommodations</h3>
-            <p>L.D Family Room</p>
-            <p>Room #:23 & 24</p>
-            <p>Contact #:09159239467</p>
+
+            <div class="details-actions">
+              <a
+                href="https://maps.app.goo.gl/9TRny6cTHydYh2qK7"
+                target="_blank"
+                class="details-btn primary"
+              >
+                <i class="fas fa-location-arrow"></i>
+                Get Directions
+              </a>
+
+              <button
+                type="button"
+                class="details-btn secondary copy-btn"
+                data-copy-text="L.D Ignacio's Island Hotel & Resort, Roxas, Oriental Mindoro"
+              >
+                <i class="fas fa-copy"></i>
+                Copy Address
+              </button>
+            </div>
+
           </div>
         </div>
+
       </div>
     </section>
 
     <!-- Entourage Section -->
     <section id="entourage" class="entourage-section">
+
       <div class="entourage-container">
 
-        <h2 class="section-title">The Wedding Entourage</h2>
+        <h2 class="section-title">Wedding Entourage</h2>
+        <p class="section-subtitle">Those who grace us with their presence as we embark on this journey</p>
 
-        <div class="entourage-grid">
-          <!-- Bride Side -->
-          <div class="entourage-category">
-            <h3><i class="fas fa-crown"></i> Bride's Side</h3>
-            <ul class="entourage-list">
-              <li><strong>Maid of Honor: Mary Grace R. Basilio</strong></li>
-              <li><strong>Bridesmaids Veil: Marie Glainess Gemperoso</strong></li>
-              <li><strong>Bridesmaids Cord: Ma. Jeanette De Luna</strong></li>
-              <li><strong>Bridesmaids Sand: Lovelyn Fabellar</strong></li>
-              <li><strong>Bridesmaids 1: Nicole Basilio</strong></li>
-              <li><strong>Bridesmaids 2: Sachia Takano</strong></li>
-              <li><strong>Bridesmaids 3: Annjane Tijulan</strong></li>
-              <li><strong>Bridesmaids 4: Karenne Tijulan</strong></li>
-              <li><strong>Bridesmaids 5: Jennifer Bolor</strong></li>
-              <li><strong>Flower Girl: Mikay Carandang</strong></li>
-              <li><strong>Bible Bearer: Harmony Monsalve</strong></li>
-              <li><strong>Banner Bearer: Raquel Basilio</strong></li>
-              <li><strong>Father: Mr. Anacleto Basilio</strong></li>
-              <li><strong>Mother: Mrs. Cecilia Basilio</strong></li>
-            </ul>
+        <div class="entourage-card">
+
+          <div class="entourage-block">
+            <h3>The Couple</h3>
+            <div class="two-column">
+              <p><span>Groom</span> Jam Ruga</p>
+              <p><span>Bride</span> Shing Basilio</p>
+            </div>
           </div>
 
-          <!-- Groom Side -->
-          <div class="entourage-category">
-            <h3><i class="fas fa-crown"></i> Groom's Side</h3>
-            <ul class="entourage-list">
-              <li><strong>Best Man: John Lorenz Ricafranca</strong></li>
-              <li><strong>Groomsmen Veil: Clifford Oracion</strong></li>
-              <li><strong>Groomsmen Cord: Allen Jay Tijulan</strong></li>
-              <li><strong>Groomsmen Sand: Mark Caliv Basilio</strong></li>
-              <li><strong>Groomsmen 1: Jerome Ines</strong></li>
-              <li><strong>Groomsmen 2: Ugo Ravino</strong></li>
-              <li><strong>Groomsmen 3: Mark Madolora</strong></li>
-              <li><strong>Groomsmen 4: John William Malic</strong></li>
-              <li><strong>Groomsmen 5: Richard Llanto</strong></li>
-              <li><strong>Flower Boy: Magnus Geronimo</strong></li>
-              <li><strong>Ring Bearer: Razey Cielo Castillo</strong></li>
-              <li><strong>Coin Bearer: Heaven Geronimo</strong></li>
-              <li><strong>In Loving Memory [Aguinaldo Ruga Sr.]: Allan Tijulan</strong></li>
-              <li><strong>In Loving Memory [Amalia Ruga]: Raquel Castillo</strong></li>
-            </ul>
-          </div>
-        </div>
+          <div class="entourage-divider"></div>
 
-        <!-- ✅ Principal Sponsors INSIDE SAME CONTAINER -->
-        <h2 class="section-title" style="margin-top: 3rem;">Principal Sponsors</h2>
+          <div class="entourage-block">
+            <h3>Parents</h3>
+            <div class="two-column">
+              <div>
+                <h3>Parents of the Groom</h3>
+                <p><span>Father Representative</span> Mr. Allan Tijulan</p>
+                <p><span>Mother Representative</span> Mrs. Raquel Castillo</p>
+              </div>
 
-        <div class="entourage-grid">
-          <div class="entourage-category">
-            <h3><i class="fas fa-user-friends"></i> Ninong</h3>
-            <ul class="entourage-list">
-              <li><strong>Bro. Hansel</strong></li>
-              <li><strong>Kuya Vincent</strong></li>
-              <li><strong>Ate Smile's Hubby</strong></li>
-            </ul>
+              <div>
+                <h3>Parents of the Bride</h3>
+                <p><span>Father</span> Mr. Anacleto Basilio</p>
+                <p><span>Mother</span> Mrs. Cecilia Basilio</p>
+              </div>
+            </div>
           </div>
 
-          <div class="entourage-category">
-            <h3><i class="fas fa-user-friends"></i> Ninang</h3>
-            <ul class="entourage-list">
-              <li><strong>Ninang Bebe</strong></li>
-              <li><strong>Asawa ni Kuya Vincent</strong></li>
-              <li><strong>Ate Smile</strong></li>
-            </ul>
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Principal Sponsors</h3>
+            <p class="section-subtitle">Our Beloved Godparents</p>
+
+            <div class="two-column sponsors-list">
+              <div>
+                <p><span>Ninong #1</span>Bro. Hansel</p>
+                <p><span>Ninong #2</span>Kuya Vincent</p>
+                <p><span>Ninong #3</span>Ate Smile's Hubby</p>
+                <p><span>Ninong #4</span>Ramil Alzate</p>
+                <p><span>Ninong #5</span>Benny Basilio</p>
+                <p><span>Ninong #6</span>Ricky Solano</p>
+              </div>
+
+              <div>
+                <p><span>Ninang #1</span>Ninang Bebe</p>
+                <p><span>Ninang #2</span>Asawa ni Kuya Vincent</p>
+                <p><span>Ninang #3</span>Ate Smile</p>
+                <p><span>Ninang #4</span>Agie Basilio</p>
+                <p><span>Ninang #5</span>Bebeth Basilio</p>
+                <p><span>Ninang #6</span>Erly SOlano</p>
+              </div>
+            </div>
           </div>
+
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Best Man / Maid of Honor</h3>
+            <div class="two-column">
+              <p><span>Best Man</span> John Lorenz Ricafranca</p>
+              <p><span>Maid of Honor</span> Mary Grace R. Basilio</p>
+            </div>
+          </div>
+
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Secondary Sponsors</h3>
+
+            <div class="three-column">
+
+              <div>
+                <h3>Veil Sponsors</h3>
+                <p><span>Veil</span> Clifford Oracion</p>
+                <p><span>Veil</span> Marie Glainess Gemperoso</p>
+              </div>
+
+              <div>
+                <h3>Sand Sponsors</h3>
+                <p><span>Sand</span> Mark Caliv Basilio</p>
+                <p><span>Sand</span> Lovelyn Fabellar</p>
+              </div>
+
+              <div>
+                <h3>Cord Sponsors</h3>
+                <p><span>Cord</span> Allen Jay Tijulan</p>
+                <p><span>Cord</span> Ma. Jeanette De Luna</p>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Groomsmen / Bridesmaids</h3>
+            <div class="two-column">
+              <div>
+                <h3>Groomsmen</h3>
+                <p><span>Groomsman #1</span> Sanghyun Kim</p>
+                <p><span>Groomsman #2</span> Ugo Ravino</p>
+                <p><span>Groomsman #3</span> Mark Madolora</p>
+                <p><span>Groomsman #4</span> John William Malic</p>
+                <p><span>Groomsman #5</span> Richard Llanto</p>
+              </div>
+
+              <div>
+                <h3>Bridesmaids</h3>
+                <p><span>Bridesmaid #1</span> Nicole Basilio</p>
+                <p><span>Bridesmaid #2</span> Sachia Takano</p>
+                <p><span>Bridesmaid #3</span> Annjane Tijulan</p>
+                <p><span>Bridesmaid #4</span> Karenne Tijulan</p>
+                <p><span>Bridesmaid #5</span> Jennifer Bolor</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Bearers</h3>
+            <div class="three-column">
+              <p><span>Bible Bearer</span> Harmony Monsalve</p>
+              <p><span>Ring Bearer</span> Razey Cielo Castillo</p>
+              <p><span>Coin Bearer</span> Heaven Geronimo</p>
+            </div>
+          </div>
+
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Flower Children</h3>
+            <div class="two-column">
+              <p><span>Flower Girl</span> Mikay Carandang</p>
+              <p><span>Flower Boy</span> Magnus Geronimo</p>
+            </div>
+          </div>
+
+          <div class="entourage-divider"></div>
+
+          <div class="entourage-block">
+            <h3>Banner Bearer</h3>
+            <p><span>Banner Bearer</span> Raquel Basilio</p>
+          </div>
+
         </div>
 
       </div>
     </section>
 
-    <!-- Sponsors Section -->
+    <!-- supplier Section -->
     <section id="sponsors" class="sponsors-section">
       <div class="sponsors-container">
-        <h2 class="section-title">Our Wedding Supplier</h2>
-        <p class="sponsors-intro">Special thanks to our partners who made this day possible</p>
+        <h2 class="section-title">Our Wedding Suppliers</h2>
+        <p class="sponsors-intro">
+          Special thanks to our trusted suppliers who made our day extra special.
+        </p>
+
         <div class="sponsors-grid">
+
+          <!-- Videography -->
           <div class="sponsor-card">
-            <div class="sponsor-logo">
-              <i class="fas fa-camera-retro"></i>
-            </div>
-            <h4>Elegant Photography</h4>
-            <p>Capturing your precious moments</p>
+            <div class="sponsor-logo"><i class="fas fa-video"></i></div>
+            <h4>Videography</h4>
+            <p>Capturing our special moments in motion.</p>
+            <span class="supplier-name">Mico Escarez Photography</span>
+            <a href="https://web.facebook.com/micoesc" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
           </div>
+
+          <!-- Photography -->
           <div class="sponsor-card">
-            <div class="sponsor-logo">
-              <i class="fas fa-utensils"></i>
-            </div>
-            <h4>Gourmet Delights</h4>
-            <p>Fine catering services</p>
+            <div class="sponsor-logo"><i class="fas fa-camera-retro"></i></div>
+            <h4>Photography</h4>
+            <p>Preserving our memories through beautiful photos.</p>
+            <span class="supplier-name">RSJ Creatives</span>
+            <a href="https://web.facebook.com/RSJcreatives" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
           </div>
+
+          <!-- Catering -->
           <div class="sponsor-card">
-            <div class="sponsor-logo">
-              <i class="fas fa-car"></i>
-            </div>
-            <h4>Luxury Transport</h4>
-            <p>Premium transportation</p>
+            <div class="sponsor-logo"><i class="fas fa-utensils"></i></div>
+            <h4>Catering</h4>
+            <p>Serving delicious food for our celebration.</p>
+            <span class="supplier-name">Wild Rose Catering</span>
+            <a href="https://web.facebook.com/wildrose0514" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
           </div>
+
+          <!-- Photobooth -->
           <div class="sponsor-card">
-            <div class="sponsor-logo">
-              <i class="fas fa-ring"></i>
-            </div>
-            <h4>Diamond Jewels</h4>
-            <p>Exquisite jewelry</p>
+            <div class="sponsor-logo"><i class="fas fa-camera"></i></div>
+            <h4>Photobooth</h4>
+            <p>Fun snapshots and memories for our guests.</p>
+            <span class="supplier-name">XStudios Photobooth</span>
+            <a href="https://web.facebook.com/profile.php?id=61582989927275" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
           </div>
+
+          <!-- Perfume Bar -->
+          <div class="sponsor-card">
+            <div class="sponsor-logo"><i class="fas fa-spray-can-sparkles"></i></div>
+            <h4>Perfume Bar</h4>
+            <p>A unique scent experience for our guests.</p>
+            <span class="supplier-name">Prescent Perfume Bar</span>
+            <a href="https://web.facebook.com/prescentperfumebar" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
+          </div>
+
+          <!-- Venue -->
+          <div class="sponsor-card">
+            <div class="sponsor-logo"><i class="fas fa-location-dot"></i></div>
+            <h4>Venue</h4>
+            <p>The place where our special day comes to life.</p>
+            <span class="supplier-name">L. D. Ignacio Resort</span>
+            <a href="https://web.facebook.com/LDIGNACIORESORT" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
+          </div>
+
+          <!-- HMUA -->
+          <div class="sponsor-card">
+            <div class="sponsor-logo"><i class="fas fa-wand-magic-sparkles"></i></div>
+            <h4>HMUA</h4>
+            <p>Making us look our best on our big day.</p>
+            <span class="supplier-name">Touched Magically</span>
+            <a href="https://web.facebook.com/profile.php?id=100064590773111" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
+          </div>
+
+          <!-- Coordinator -->
+          <div class="sponsor-card">
+            <div class="sponsor-logo"><i class="fas fa-clipboard-list"></i></div>
+            <h4>Coordinator</h4>
+            <p>Ensuring everything runs smoothly on our wedding day.</p>
+            <span class="supplier-name">Manny Solanoy</span>
+            <a href="https://web.facebook.com/manny.solanoy" target="_blank" class="view-btn">
+              <i class="fab fa-facebook"></i> View Page
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Wedding Attire Guide -->
+    <section id="attire" class="attire-section">
+      <div class="attire-container">
+
+        <h2 class="section-title">Wedding Attire Guide</h2>
+        <p class="section-subtitle">Dress with elegance as we celebrate our special day</p>
+
+        <div class="attire-guide-card">
+          <img src="frontend/images/attire/Full-Picture.png" alt="Wedding Attire Guide">
+        </div>
+
+        <div class="attire-details">
+
+          <details class="attire-detail">
+            <summary>Parents (Magulang)</summary>
+            <div class="attire-detail-content">
+              <p>Mothers are encouraged to wear elegant emerald green gowns with gold accents, while fathers may wear a champagne or beige Barong Tagalog paired with dark trousers and formal shoes.</p>
+              <a href="attire-sample.html#parents" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+          <details class="attire-detail">
+            <summary>Maid of Honor / Best Man (Punong Abay na Babae / Lalaki)</summary>
+            <div class="attire-detail-content">
+              <p>The Maid of Honor may wear an elegant emerald green gown, while the Best Man may wear a formal suit in emerald or a complementary tone and formal black shoes.</p>
+              <a href="attire-sample.html#maid-bestman" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+
+          <details class="attire-detail">
+            <summary>Secondary Sponsors (Belo,Yugal, at Buhangin)</summary>
+            <div class="attire-detail-content">
+              <p>Secondary sponsors may wear formal attire in emerald green for ladies and beige or champagne tones for gentlemen with black formal shoes, following the wedding color palette.</p>
+              <a href="attire-sample.html#secondary-sponsors" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+
+          <details class="attire-detail">
+            <summary>Bridesmaids / Groomsmen (Abay na Babae / Lalaki)</summary>
+            <div class="attire-detail-content">
+              <p>Bridesmaids may wear elegant sage or emerald green gowns, while groomsmen may wear beige trousers with white shirts, green accents, and black formal shoes.</p>
+              <a href="attire-sample.html#bridesmaids-groomsmen" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+
+          <details class="attire-detail">
+            <summary>Godparents (Ninang at Ninong </summary>
+            <div class="attire-detail-content">
+              <p>Godparents may wear classic formal attire—Ninangs in champagne, gold, beige, emerald green, or neutral tones, paired with elegant heels and Ninongs in Barong Tagalog with dark trousers and formal black shoes.</p>
+              <a href="attire-sample.html#godparents" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+
+          <details class="attire-detail">
+            <summary>Bearers (Mga Tagapagdala)</summary>
+            <div class="attire-detail-content">
+              <p>
+                Little members of the entourage may wear coordinated formal attire in sage or soft green tones. Flower girls may wear elegant dresses with floral details and comfortable flats, while the ring bearer may wear a white top with beige trousers, suspenders, and dress shoes. Accessories such as floral crowns, baskets, or pillows may be included to match the wedding theme.
+              </p>
+              <a href="attire-sample.html#kids" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+
+          <details class="attire-detail">
+            <summary>Guests (Mga Panauhin)</summary>
+            <div class="attire-detail-content">
+              <p>Guests are encouraged to wear semi-formal or formal attire following color pallete. Please avoid wearing white.</p>
+              <a href="attire-sample.html#guests" class="attire-sample-btn">Show samples +</a>
+            </div>
+          </details>
+
         </div>
       </div>
     </section>
@@ -414,15 +877,7 @@
               <h4>What is the dress code? <i class="fas fa-chevron-down"></i></h4>
             </div>
             <div class="faq-answer">
-              <p>Formal attire. Ladies: Evening gowns or cocktail dresses. Gentlemen: Suits or tuxedos.</p>
-            </div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-question">
-              <h4>Is there parking available? <i class="fas fa-chevron-down"></i></h4>
-            </div>
-            <div class="faq-answer">
-              <p>Yes, complimentary parking will be provided at the entrance of L.D Ignacio.</p>
+              <p>Guests are encouraged to wear formal attire in shades of green, champagne, beige, or neutral tones. Please refer to the attire guide for full details.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -435,10 +890,50 @@
           </div>
           <div class="faq-item">
             <div class="faq-question">
+              <h4>Do you prefer cash gifts? <i class="fas fa-chevron-down"></i></h4>
+            </div>
+            <div class="faq-answer">
+              <p>Yes, since we are not based locally,we kindly request monetary gifts for convenience. Your presence is truly the most meaningful gift, but if you wish to give, a cash gift would be sincerely appreciated.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
               <h4>What time should I arrive? <i class="fas fa-chevron-down"></i></h4>
             </div>
             <div class="faq-answer">
               <p>Please arrive 30 minutes before the ceremony (3:30 PM).</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Is there parking available? <i class="fas fa-chevron-down"></i></h4>
+            </div>
+            <div class="faq-answer">
+              <p>Yes, complimentary parking will be provided at the entrance of L.D Ignacio.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Will the ceremony be indoors or outdoors?<i class="fas fa-chevron-down"></i></h4>
+            </div>
+            <div class="faq-answer">
+              <p>The ceremony will be held outdoors at 4:00 PM, when the heat is more manageable. Guests may still bring small essentials like a fan or shawl for added comfort.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Who can guests contact for questions on the wedding day?<i class="fas fa-chevron-down"></i></h4>
+            </div>
+            <div class="faq-answer">
+              <p>For any assistance on the wedding day, please feel free to contact our wedding coordinator. We kindly ask to avoid reaching out to the couple directly so we can fully enjoy this special moment with you.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">
+              <h4>Are there assigned seating arrangements?<i class="fas fa-chevron-down"></i></h4>
+            </div>
+            <div class="faq-answer">
+              <p>No, there will be no assigned seating. Guests are free to choose their seats upon arrival.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -471,7 +966,7 @@
 
     <!-- RSVP Section -->
     <section id="rsvp" class="rsvp-section">
-      <h2 class="section-title">RSVP</h2>
+      <h2 class="section-title">RSVP</h2><br>
       <div class="rsvp-container">
         <div id="deadlineMessage" class="message error" style="display: none;">
           <i class="fas fa-exclamation-circle"></i> RSVP deadline has passed. Please contact the couple directly.
@@ -656,7 +1151,12 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer video-parallax-section">>
+
+    <video autoplay muted loop playsinline class="parallax-bg-video">
+      <source src="frontend/video/Green.mp4" type="video/mp4">
+    </video>
+
       <div class="footer-container">
         <div class="footer-content">
           <div class="footer-section">
