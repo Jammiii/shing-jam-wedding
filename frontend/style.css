@@ -1329,34 +1329,143 @@ button.details-btn {
   background: var(--gold-lighter);
 }
 
-/* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 768px) {
+  .details-section {
+    padding: 4rem 0.75rem;
+  }
+
+  .details-card {
+    border-radius: var(--radius-md);
+    margin-top: 1.8rem;
+  }
+
+  .details-body {
+    padding: 1.25rem;
+  }
+
+  .details-hero {
+    min-height: 240px;
+  }
+
+  .details-hero-overlay {
+    padding: 1.5rem;
+  }
+
   .details-main-grid {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
-}
 
-@media (max-width: 768px) {
-  .details-hero {
-    min-height: 260px;
+  .details-panel {
+    padding: 1.2rem;
+  }
+
+  .details-guide {
+    margin-top: 2rem;
+  }
+
+  .travel-accordion {
+    gap: 0.85rem;
+  }
+
+  .travel-route {
+    border-radius: var(--radius-sm);
   }
 
   .travel-route summary {
-    flex-direction: column;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 0.5rem;
+    padding: 1rem 3rem 1rem 1rem;
+  }
+
+  .travel-route summary span {
     align-items: flex-start;
+    gap: 0.6rem;
+    line-height: 1.35;
   }
 
   .travel-route summary small {
+    grid-column: 1 / -1;
     text-align: left;
+    font-size: 0.72rem;
+    line-height: 1.4;
   }
 
   .travel-route summary::after {
     position: absolute;
-    right: 1.25rem;
+    top: 0.95rem;
+    right: 1rem;
+    margin-left: 0;
+    line-height: 1;
+  }
+
+  .travel-steps {
+    padding: 0 1rem 1rem;
+  }
+
+  .travel-step {
+    grid-template-columns: 26px 1fr;
+    gap: 0.75rem;
+    padding: 0.9rem 0;
+  }
+
+  .travel-step h4 {
+    font-size: 0.9rem;
+  }
+
+  .travel-step p {
+    font-size: 0.82rem;
+  }
+
+  .travel-link {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 1rem;
+    text-align: center;
   }
 
   .details-actions {
     grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .details-btn {
+    height: 52px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .details-section {
+    padding: 3.5rem 0.65rem;
+  }
+
+  .details-body {
+    padding: 1rem;
+  }
+
+  .guide-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+  }
+
+  .guide-subtitle {
+    font-size: 0.78rem;
+  }
+
+  .travel-route summary {
+    padding: 0.95rem 2.7rem 0.95rem 0.9rem;
+  }
+
+  .travel-route summary span {
+    font-size: 0.88rem;
+  }
+
+  .travel-route summary small {
+    font-size: 0.68rem;
   }
 }
 
