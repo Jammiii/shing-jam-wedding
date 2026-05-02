@@ -295,7 +295,7 @@ h4,
 .hero-content .tagline {
   font-family: "Playfair Display", serif;
   font-size: clamp(1rem, 2vw, 1.35rem);
-  color: var(--gold-lighter);
+  color: var(--ivory);
   font-style: italic;
   font-weight: 500;
   margin-bottom: 1.8rem;
@@ -332,7 +332,7 @@ h4,
 .hero-content .date-month,
 .hero-content .date-year {
   font-size: 1.45rem;
-  color: var(--gold-primary);
+  color: var(--ivory);
   font-weight: 700;
   letter-spacing: 3px;
 }
@@ -340,19 +340,19 @@ h4,
 .hero-content .date-number {
   font-size: 5rem;
   font-weight: 900;
-  color: var(--gold-primary);
+  color: var(--ivory);
   margin: 0.5rem 0;
   letter-spacing: 2px;
   text-shadow:
-    0 0 10px rgba(4, 53, 5, 0.6),
-    0 0 20px rgba(7, 57, 6, 0.4);
+    0 0 10px rgba(213, 191, 20, 0.6),
+    0 0 20px rgba(191, 159, 11, 0.4);
 }
 
 /* Location */
 .hero-content .location-text {
   font-family: "Open Sans", sans-serif;
   font-size: clamp(0.95rem, 2vw, 1.15rem);
-  color: var(--ivory);
+  color: var(--gold-lighter);
   font-weight: 700;
   line-height: 1.6;
   letter-spacing: 1px;
@@ -6387,7 +6387,7 @@ button.details-btn {
   font-style: italic;
   margin-bottom: 2.5rem;
   opacity: 0.95;
-  color: var(--gold-lighter);
+  color: var(--ivory);
 }
 
 .hero .wedding-date {
