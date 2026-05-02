@@ -6577,20 +6577,18 @@ button.details-btn {
     left: 0;
     width: 100%;
     padding: 0 10px;
-
     display: flex;
     gap: 8px;
-
     z-index: 999;
   }
 
   .cta-button {
     flex: 1;
     min-width: auto;
-
+    position: relative;
     padding: 0.65rem 0.6rem;
     font-size: 0.8rem;
-
+    bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
