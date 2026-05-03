@@ -115,42 +115,6 @@ h4,
 /* ============================================
    HERO SECTION
    ============================================ */
-.hero {
-  min-height: 100vh;
-  background: linear-gradient(
-      135deg,
-      rgba(4, 99, 7, 0.92) 0%,
-      rgba(2, 74, 4, 0.95) 100%
-    ),
-    url("https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80")
-      center/cover no-repeat;
-  color: var(--ivory);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23046307' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
-  opacity: 0.1;
-}
-
-.hero-content {
-  max-width: 900px;
-  z-index: 2;
-  position: relative;
-}
-
 .monogram {
   width: 240px;
   height: 240px;
@@ -177,32 +141,6 @@ h4,
   color: var(--emerald-primary);
   font-weight: 700;
   letter-spacing: 4px;
-}
-
-.hero h1 {
-  font-size: 4.5rem;
-  margin-bottom: 1.5rem;
-  color: var(--ivory);
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
-  line-height: 1.2;
-  font-weight: 600;
-}
-
-.tagline {
-  font-size: 1.8rem;
-  font-style: italic;
-  margin-bottom: 2.5rem;
-  opacity: 0.95;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
-
-.wedding-date {
-  font-size: 2rem;
-  margin-bottom: 4rem;
-  letter-spacing: 3px;
-  font-weight: 400;
-  color: var(--gold-lighter);
 }
 
 .cta-button {
@@ -234,8 +172,6 @@ h4,
   );
   color: var(--emerald-darker);
 }
-
-/* ===== HERO INVITATION STYLE (NO WRAPPER NEEDED) ===== */
 
 .hero-content {
   text-align: center;
@@ -274,11 +210,14 @@ h4,
 .hero-content h1 {
   font-family: "Playfair Display", serif;
   font-size: clamp(2.3rem, 5vw, 4.2rem);
-  color: var(--ivory);
+  color: #ffd21f;
   letter-spacing: 4px;
   line-height: 1;
   margin-bottom: 0.9rem;
-  text-shadow: 0 0 18px rgba(212, 175, 55, 0.45);
+    text-shadow:
+      2px 2px 0 #0b4f2c,
+      3px 3px 0 #ffffff,
+      0 4px 10px rgba(0, 0, 0, 0.45);
 }
 
 .hero-content h1 span {
@@ -287,7 +226,7 @@ h4,
 
 .hero-content h1 .amp {
   margin: 0 8px;
-  color: var(--gold-primary);
+  color: var(--ivory);
   font-weight: 400;
 }
 
@@ -295,10 +234,11 @@ h4,
 .hero-content .tagline {
   font-family: "Playfair Display", serif;
   font-size: clamp(1rem, 2vw, 1.35rem);
-  color: var(--ivory);
+  color: #ffd21f;
   font-style: italic;
   font-weight: 500;
   margin-bottom: 1.8rem;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
 }
 
 /* Date Layout */
@@ -360,81 +300,153 @@ h4,
 
 
 @media (max-width: 600px) {
+
   .hero-content {
-    padding: 0 18px;
+    position: relative;
+    z-index: 5;
+    min-height: 100svh;
+    padding: 0 18px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-content::after {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 38vh;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(18, 95, 52, 0.85) 0%,
+      rgba(18, 95, 52, 0.55) 45%,
+      rgba(18, 95, 52, 0) 100%
+    );
   }
 
   .hero-content .couple-photo-circle {
-    width: 120px;
-    height: 120px;
-    margin-bottom: 16px;
+    display: block;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 14px;
   }
 
   .hero-content h1 {
+    margin: 0 0 1.4rem;
+    font-family: "Playfair Display", serif;
+    font-size: 2.45rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -1px;
+    color: #ffd21f;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 4px;
-    font-size: 2rem;
-    line-height: 1.05;
-    letter-spacing: 3px;
-    margin-bottom: 0.8rem;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    text-shadow:
+      2px 2px 0 #0b4f2c,
+      3px 3px 0 #ffffff,
+      0 4px 10px rgba(0, 0, 0, 0.45);
   }
 
   .hero-content h1 span {
-    display: block;
-    font-size: 2.25rem;
+    display: inline !important;
+    font-size: inherit;
   }
 
   .hero-content h1 .amp {
-    margin: 0;
-    font-size: 1.25rem;
-    color: var(--gold-primary);
-    font-weight: 400;
-    letter-spacing: 0;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 1.9rem;
+    margin: 0 2px;
+    text-shadow:
+      2px 2px 0 #0b4f2c,
+      0 3px 8px rgba(0, 0, 0, 0.45);
   }
 
   .hero-content .tagline {
-    font-size: 0.85rem;
-    margin-bottom: 1.5rem;
+    margin: 0 auto 1rem;
+    font-size: 0.98rem;
+    font-weight: 500;
+    line-height: 1.15;
+    display: inline !important;
+    color: #ffd21f;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
   }
 
   .hero-content .wedding-date {
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
   }
 
   .hero-content .date-center {
-    order: -1;
+    display: block;
+    order: 1;
   }
 
   .hero-content .date-month,
+  .hero-content .date-number,
   .hero-content .date-year {
-    font-size: 1.1rem;
-    letter-spacing: 2px;
+    display: inline;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #ffd21f;
+    text-transform: uppercase;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
   }
 
-  .hero-content .date-number {
-    font-size: 3rem;
-    margin: 0.3rem 0;
+  .hero-content .date-month::after,
+  .hero-content .date-number::after {
+    content: " ";
   }
 
   .hero-content .date-side {
-    width: 200px;
-    margin: 0 auto;
-    font-size: 1.05rem;
+    order: 2;
+    width: auto;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: 0.2px;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.65);
+  }
+
+  .hero-content .date-side:first-child {
+    order: 2;
+  }
+
+  .hero-content .date-side:last-child {
+    order: 3;
   }
 
   .hero-content .location-text {
+    max-width: 330px;
+    margin: 0.2rem auto 1rem;
     font-size: 0.7rem;
-    margin-top: 0.4rem;
-    line-height: 1.2;
-    position : relative;
-    bottom : 20px;
+    font-weight: 900;
+    line-height: 2.05;
+    letter-spacing: 0.3px;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
   }
 
 }
-
 /* Countdown Timer */
 .countdown {
   display: flex;
@@ -4936,18 +4948,6 @@ button.details-btn {
 }
 
 @media (max-width: 480px) {
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-
-  .tagline {
-    font-size: 1.5rem;
-  }
-
-  .wedding-date {
-    font-size: 1.5rem;
-  }
-
   .monogram {
     width: 180px;
     height: 180px;
@@ -6371,85 +6371,6 @@ button.details-btn {
 .hero .cta-button {
   opacity: 0;
   transform: translateY(20px);
-}
-
-.hero h1 {
-  animation: fadeInUp 1s ease 2.2s forwards;
-  color: var(--ivory);
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
-  font-size: 4.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.hero .tagline {
-  animation: fadeInUp 1s ease 2.4s forwards;
-  font-size: 1.8rem;
-  font-style: italic;
-  margin-bottom: 2.5rem;
-  opacity: 0.95;
-  color: var(--ivory);
-}
-
-.hero .wedding-date {
-  animation: fadeInUp 1s ease 2.6s forwards;
-  font-size: 2rem;
-  margin-bottom: 4rem;
-  letter-spacing: 3px;
-  color: var(--ivory);
-}
-
-.hero .countdown {
-  animation: fadeInUp 1s ease 2.8s forwards;
-}
-
-.hero .cta-button {
-  animation: fadeInUp 1s ease 3s forwards;
-  margin-top: 3rem;
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 3.5rem;
-  }
-
-  .hero .tagline {
-    font-size: 1.5rem;
-  }
-
-  .hero .wedding-date {
-    font-size: 1.5rem;
-  }
-
-  .door {
-    border-width: 3px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: 2.8rem;
-  }
-
-  .hero .tagline {
-    font-size: 1.3rem;
-  }
-
-  .hero .wedding-date {
-    font-size: 1.3rem;
-    margin-bottom: 3rem;
-  }
-
-  .door {
-    border-width: 2px;
-  }
 }
 
 /* CTA Button Group */
