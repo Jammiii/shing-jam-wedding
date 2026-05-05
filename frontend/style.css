@@ -5207,6 +5207,21 @@ button.details-btn {
   margin-bottom: 1rem;
 }
 
+.timeline-photo {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 3px solid var(--ivory);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: var(--transition);
+}
+
+.timeline-photo:hover {
+  transform: scale(1.03);
+}
+
 /* Floating Elements Animation */
 .floating-elements {
   position: absolute;
@@ -5298,6 +5313,10 @@ button.details-btn {
     left: -40px;
     right: auto;
   }
+  
+  .timeline-photo {
+    height: 160px;
+  }  
 }
 
 /* Add parallax effect to hero */
