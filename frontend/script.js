@@ -1044,63 +1044,57 @@ document.addEventListener("DOMContentLoaded", function () {
   function initMessageForm() {
     const messageForm = document.getElementById("messageForm");
 
-    if (messageForm) {
-      messageForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
+    if (!messageForm) return;
 
-        const name = this.querySelector("#messageName").value.trim();
-        const relationship = this.querySelector("#messageRelation").value;
-        const message = this.querySelector("#messageContent").value.trim();
+    messageForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
 
-        if (!name || !relationship || !message) {
-          showMessage("Please fill in all fields", "error");
-          return;
+      const name = document.getElementById("messageName").value.trim();
+      const relationship = document.getElementById("messageRelation").value;
+      const content = document.getElementById("messageContent").value.trim();
+
+      if (!name || !relationship || !content) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.innerHTML;
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Posting...';
+
+      try {
+        const response = await fetch("/api/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name,
+            relationship,
+            content
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Failed to post message");
         }
 
-        const submitBtn = this.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
-        submitBtn.disabled = true;
-        submitBtn.innerHTML =
-          '<i class="fas fa-spinner fa-spin"></i> Posting...';
+        alert("Thank you for your message!");
+        this.reset();
+        await loadMessages();
 
-        try {
-          const response = await fetch("/api/messages", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              name,
-              relationship,
-              content: message
-            })
-          });
-
-          const result = await response.json();
-
-          if (response.ok) {
-            showMessage("Thank you for your message!", "success");
-            this.reset();
-            await loadMessages();
-          } else {
-            showMessage(result.error || "Failed to post message", "error");
-          }
-        } catch (error) {
-          console.error("Message submission occurred:", error);
-          showMessage("Thank you for your message", "success");
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
-        }
-      });
-    }
-
-    // Helper function to prevent XSS
-    function escapeHtml(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      return div.innerHTML;
-    }
+      } catch (error) {
+        console.error("Message post error:", error);
+        alert("Message not posted. Please check your API or Supabase table.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+      }
+    });
   }
 
   // Add home link functionality - this handles the scrolling
