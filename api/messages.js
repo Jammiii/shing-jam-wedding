@@ -7,15 +7,16 @@ const supabase = createClient(
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { name, content } = req.body;
+    const { name, relationship, content } = req.body;
 
-    if (!name || !content) {
+    if (!name || !relationship || !content) {
       return res.status(400).json({ error: "Required fields missing" });
     }
 
     const { error } = await supabase.from("messages").insert([
       {
         name,
+        relationship,
         content,
         date: new Date().toISOString()
       }
