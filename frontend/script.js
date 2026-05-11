@@ -1017,11 +1017,16 @@ document.addEventListener("DOMContentLoaded", function () {
                         <i class="fas fa-user-circle"></i>
                     </div>
                     <div class="message-author">
-                        <h4>${escapeHtml(message.name)}</h4>
-                        <span class="message-date">
-                            ${shortDate} • ${fullDate}
-                        </span>
-                    </div>
+                    <h4>${escapeHtml(message.name)}</h4>
+                  
+                    <span class="message-relation">
+                      ${escapeHtml(message.relationship || "Guest")}
+                    </span>
+                  
+                    <span class="message-date">
+                      ${shortDate} • ${fullDate}
+                    </span>
+                  </div>
                 </div>
                 <div class="message-content">
                     <p>${escapeHtml(message.content)}</p>
@@ -1044,9 +1049,10 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         const name = this.querySelector("#messageName").value.trim();
+        const relationship = this.querySelector("#messageRelation").value;
         const message = this.querySelector("#messageContent").value.trim();
 
-        if (!name || !message) {
+        if (!name || !relationship || !message) {
           showMessage("Please fill in all fields", "error");
           return;
         }
@@ -1065,6 +1071,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             body: JSON.stringify({
               name,
+              relationship,
               content: message
             })
           });
