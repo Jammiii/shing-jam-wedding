@@ -2986,44 +2986,6 @@ button.details-btn {
   border-color: var(--gold-primary);
 }
 
-.message-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.message-avatar {
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  background:
-    linear-gradient(
-      135deg,
-      var(--gold-primary),
-      var(--gold-dark)
-    );
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: var(--emerald-dark);
-  font-size: 1.3rem;
-  flex-shrink: 0;
-}
-
-.message-author {
-  flex: 1;
-}
-
-.message-author h4 {
-  margin: 0;
-  color: var(--emerald-dark);
-  font-size: 1.05rem;
-  font-family: "Playfair Display", serif;
-}
-
 .message-relation {
   display: inline-block;
   margin-top: 0.25rem;
@@ -3163,7 +3125,7 @@ button.details-btn {
   .message-form-header h3 {
     font-size: 1.9rem;
   }
-  
+
 }
 
 @media (max-width: 480px) {
