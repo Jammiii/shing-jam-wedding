@@ -1086,27 +1086,88 @@
     <!-- Messages Section -->
     <section id="messages" class="messages-section">
       <div class="messages-container">
+
         <h2 class="section-title">Messages for the Couple</h2>
+
+        <p class="messages-intro">
+          Love brought us together, and your heartfelt words will forever become
+          part of our cherished memories. Share your blessings, prayers, and warm
+          wishes with us.
+        </p>
+
+        <!-- Dynamic Messages -->
         <div class="messages-grid" id="messagesGrid">
           <!-- Real messages will be loaded here dynamically -->
         </div>
+
+        <!-- Add Message Form -->
         <div class="add-message-form">
-          <h3>Share And Leave Your Love </h3>
+
+          <div class="message-form-header">
+            <span class="message-kicker">Leave Your Blessings</span>
+            <h3>Share Your Love With The Couple</h3>
+
+            <p class="message-form-note">
+              Your messages of love and joy will be treasured forever.
+            </p>
+          </div>
+
           <form id="messageForm">
+
+            <!-- Name -->
             <div class="form-group">
-              <input type="text" id="messageName" placeholder="Your Name" required>
+              <input
+                type="text"
+                id="messageName"
+                placeholder="Your Name"
+                required
+              >
             </div>
+
+            <!-- Relationship -->
             <div class="form-group">
-              <textarea id="messageContent" placeholder="Your message for the couple..." rows="4" required></textarea>
+              <select id="messageRelation" required>
+                <option value="" disabled selected>Who are you to the couple?</option>
+                <option value="Friend">Friend</option>
+                <option value="Best Friend">Best Friend</option>
+                <option value="Parent">Parent</option>
+                <option value="Mother">Mother</option>
+                <option value="Father">Father</option>
+                <option value="Sibling">Sibling</option>
+                <option value="Brother">Brother</option>
+                <option value="Sister">Sister</option>
+                <option value="Aunt">Aunt</option>
+                <option value="Uncle">Uncle</option>
+                <option value="Cousin">Cousin</option>
+                <option value="Relative">Relative</option>
+                <option value="Godparent">Godparent</option>
+                <option value="Colleague">Colleague</option>
+                <option value="Classmate">Classmate</option>
+                <option value="Guest">Guest</option>
+              </select>
             </div>
+
+            <!-- Message -->
+            <div class="form-group">
+              <textarea
+                id="messageContent"
+                placeholder="Write your heartfelt message for the couple..."
+                rows="5"
+                required
+              ></textarea>
+            </div>
+
+            <!-- Submit -->
             <button type="submit" class="submit-btn">
-              <i class="fas fa-paper-plane"></i> Post Message
+              <i class="fas fa-paper-plane"></i>
+              Post Message
             </button>
+
           </form>
         </div>
       </div>
     </section>
-
+    
     <!-- Gift Registry -->
     <section id="gift-registry" class="gift-registry-section">
       <div class="gift-container">
