@@ -574,7 +574,33 @@ document.addEventListener("DOMContentLoaded", function () {
       messageDiv.style.display = "none";
     }, 5000);
   }
-
+  
+  function showToast(message, type = "success") {
+    let toast = document.querySelector(".toast-notification");
+  
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "toast-notification";
+      document.body.appendChild(toast);
+    }
+  
+    const icon =
+      type === "success"
+        ? '<i class="fas fa-heart"></i>'
+        : '<i class="fas fa-exclamation-circle"></i>';
+  
+    toast.className = `toast-notification ${type}`;
+    toast.innerHTML = `${icon}<span>${message}</span>`;
+  
+    setTimeout(() => {
+      toast.classList.add("show");
+    }, 50);
+  
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3500);
+  }
+  
   // Loading state
   function showLoading(show) {
     if (!submitBtn || !spinner) return;
@@ -1054,7 +1080,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const content = document.getElementById("messageContent").value.trim();
 
       if (!name || !relationship || !content) {
-        alert("Please fill in all fields.");
+        showToast("Please fill in all fields before sharing your message.", "error");
         return;
       }
 
@@ -1083,13 +1109,13 @@ document.addEventListener("DOMContentLoaded", function () {
           throw new Error(result.error || "Failed to post message");
         }
 
-        alert("Thank you for your message!");
+        showToast("Thank you for your message! Your love has been shared.", "success");
         this.reset();
         await loadMessages();
 
       } catch (error) {
         console.error("Message post error:", error);
-        alert("Message not posted. Please check your API or Supabase table.");
+        showToast("Message not posted. Please check your API or Supabase table.", "error");
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
