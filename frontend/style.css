@@ -2900,6 +2900,83 @@ button.details-btn {
   transform: none !important;
 }
 
+.guest-search-wrapper {
+  position: relative;
+}
+
+.guest-search-wrapper input {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: var(--ivory);
+  color: var(--emerald-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.guest-search-wrapper input:focus {
+  outline: none;
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.12);
+}
+
+.guest-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  z-index: 999;
+  display: none;
+
+  border: 1px solid rgba(212, 175, 55, 0.15);
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.08),
+    0 5px 12px rgba(212, 175, 55, 0.08);
+
+  max-height: 280px;
+  overflow-y: auto;
+
+  backdrop-filter: blur(10px);
+}
+
+.guest-suggestion-item {
+  padding: 0.95rem 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  font-size: 0.96rem;
+  color: var(--emerald-primary);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.guest-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.guest-suggestion-item:hover {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.08),
+      rgba(255, 255, 255, 0.95)
+    );
+
+  padding-left: 1.2rem;
+  color: var(--gold-primary);
+}
+
+@media (max-width: 768px) {
+  .guest-suggestion-item {
+    font-size: 0.9rem;
+    padding: 0.9rem;
+  }
+}
 /* ============================================
    MESSAGE SECTION
    ============================================ */
