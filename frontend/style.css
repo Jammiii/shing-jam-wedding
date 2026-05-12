@@ -3161,6 +3161,43 @@ button.details-btn {
   color: #dc3545;
 }
 
+.messages-actions {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 3rem;
+}
+
+.load-more-messages-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    var(--gold-primary),
+    var(--gold-dark)
+  );
+
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(212, 175, 55, 0.28);
+  transition: var(--transition);
+}
+
+.load-more-messages-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px rgba(212, 175, 55, 0.38);
+}
+
 @media (max-width: 768px) {
 
   .messages-grid {
@@ -3217,6 +3254,12 @@ button.details-btn {
     min-width: unset;
     max-width: unset;
     font-size: 0.88rem;
+  } 
+  
+  .load-more-messages-btn {
+    width: 100%;
+    padding: 0.85rem 1.2rem;
+    font-size: 0.82rem;
   }  
 }
 
