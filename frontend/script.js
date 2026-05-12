@@ -274,6 +274,88 @@ document.addEventListener("DOMContentLoaded", function () {
       secondsSec.textContent = seconds.toString().padStart(2, "0");
   }
 
+  const guestInput = document.getElementById("guest_name");
+  const guestSuggestions = document.getElementById("guestSuggestions");
+
+  const guestList = [
+    "Allan Tijulan",
+    "Lovelyn Tijulan",
+    "Arlyn Malic",
+    "Raquel Castillo",
+    "Jowelyn Tijulan",
+    "Robert Castillo",
+    "Jesus Geronimo",
+    "Rico Malic",
+    "Annjane Tijulan",
+    "Allen Jay Tijulan",
+    "Kiray Tijulan",
+    "John William Malic",
+    "John Paul Malic",
+    "John Kyle Malic",
+    "Razey Cielo Castillo",
+    "Heaven Geronimo",
+    "Magnus Geronimo",
+    "Luke Malic",
+    "Annalyn Soriano",
+    "Anacleto Basilio",
+    "Cecilia Basilio",
+    "Mary Grace Basilio",
+    "Anna Grace Basilio",
+    "Mark Caliv Basilio",
+    "Noeme Grace Basilio",
+    "Mark Ezekiel Basilio",
+    "Lea Raquel Grace Basilio",
+    "Realita Basilio",
+    "Elvira Ravino",
+    "Ageline Basilio",
+    "Sanghyun Kim",
+    "Benny Basilio",
+    "Bebeth Basilio",
+    "Nicole Basilio"
+  ];
+
+  if (guestInput) {
+    guestInput.addEventListener("input", function () {
+      const value = this.value.toLowerCase().trim();
+
+      guestSuggestions.innerHTML = "";
+
+      if (!value) {
+        guestSuggestions.style.display = "none";
+        return;
+      }
+
+      const matches = guestList.filter((guest) =>
+        guest.toLowerCase().includes(value)
+      );
+
+      if (matches.length === 0) {
+        guestSuggestions.style.display = "none";
+        return;
+      }
+
+      matches.forEach((guest) => {
+        const item = document.createElement("div");
+        item.className = "guest-suggestion-item";
+        item.textContent = guest;
+
+        item.addEventListener("click", () => {
+          guestInput.value = guest;
+          guestSuggestions.style.display = "none";
+        });
+
+        guestSuggestions.appendChild(item);
+      });
+
+      guestSuggestions.style.display = "block";
+    });
+
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".guest-search-wrapper")) {
+        guestSuggestions.style.display = "none";
+      }
+    });
+  }
   // Conditional form fields
   if (attendanceSelect) {
     attendanceSelect.addEventListener("change", function () {
@@ -984,58 +1066,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  let allMessages = [];
-  let visibleMessagesCount = 6;
-  
   async function loadMessages() {
     const messagesGrid = document.getElementById("messagesGrid");
-    const loadMoreBtn = document.getElementById("loadMoreMessagesBtn");
-  
     if (!messagesGrid) return;
-  
+
     try {
       const response = await fetch("/api/messages");
       const data = await response.json();
-  
-      allMessages = data || [];
-      visibleMessagesCount = 6;
-  
-      renderVisibleMessages();
-  
-      if (loadMoreBtn) {
-        loadMoreBtn.style.display =
-          allMessages.length > visibleMessagesCount ? "inline-flex" : "none";
-      }
+
+      messagesGrid.innerHTML = "";
+
+      data.forEach((msg) => {
+        addMessageToGrid(msg);
+      });
     } catch (error) {
       console.error("Failed to load messages:", error);
     }
-  }
-  
-  function renderVisibleMessages() {
-    const messagesGrid = document.getElementById("messagesGrid");
-    const loadMoreBtn = document.getElementById("loadMoreMessagesBtn");
-  
-    if (!messagesGrid) return;
-  
-    messagesGrid.innerHTML = "";
-  
-    allMessages.slice(0, visibleMessagesCount).forEach((msg) => {
-      addMessageToGrid(msg);
-    });
-  
-    if (loadMoreBtn) {
-      loadMoreBtn.style.display =
-        visibleMessagesCount >= allMessages.length ? "none" : "inline-flex";
-    }
-  }
-  
-  const loadMoreMessagesBtn = document.getElementById("loadMoreMessagesBtn");
-  
-  if (loadMoreMessagesBtn) {
-    loadMoreMessagesBtn.addEventListener("click", function () {
-      visibleMessagesCount += 6;
-      renderVisibleMessages();
-    });
   }
 
   function timeAgo(dateString) {
