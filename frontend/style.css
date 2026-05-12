@@ -2912,9 +2912,6 @@ button.details-btn {
   position: relative;
   border-left: 5px solid transparent;
 }
-/* ============================================
-   MESSAGES SECTION
-   ============================================ */
 
 .messages-section {
   background:
@@ -3107,6 +3104,63 @@ button.details-btn {
     0 0 0 4px rgba(212, 175, 55, 0.12);
 }
 
+.toast-notification {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 99999;
+
+  min-width: 280px;
+  max-width: 420px;
+
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-lg);
+
+  background: var(--ivory);
+  color: var(--emerald-dark);
+
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-left: 5px solid var(--gold-primary);
+
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.5;
+
+  opacity: 0;
+  transform: translateX(120%) scale(0.96);
+  pointer-events: none;
+
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-notification.show {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.toast-notification i {
+  color: var(--gold-primary);
+  font-size: 1.25rem;
+}
+
+.toast-notification.success {
+  border-left-color: var(--gold-primary);
+}
+
+.toast-notification.error {
+  border-left-color: #dc3545;
+}
+
+.toast-notification.error i {
+  color: #dc3545;
+}
+
 @media (max-width: 768px) {
 
   .messages-grid {
@@ -3154,7 +3208,18 @@ button.details-btn {
     font-size: 0.92rem;
     padding: 0.95rem 1rem;
   }
+  
+  .toast-notification {
+    top: auto;
+    right: 1rem;
+    left: 1rem;
+    bottom: 90px;
+    min-width: unset;
+    max-width: unset;
+    font-size: 0.88rem;
+  }  
 }
+
 .message.success {
   background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
   color: #155724;
