@@ -984,22 +984,58 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  let allMessages = [];
+  let visibleMessagesCount = 6;
+  
   async function loadMessages() {
     const messagesGrid = document.getElementById("messagesGrid");
+    const loadMoreBtn = document.getElementById("loadMoreMessagesBtn");
+  
     if (!messagesGrid) return;
-
+  
     try {
       const response = await fetch("/api/messages");
       const data = await response.json();
-
-      messagesGrid.innerHTML = "";
-
-      data.forEach((msg) => {
-        addMessageToGrid(msg);
-      });
+  
+      allMessages = data || [];
+      visibleMessagesCount = 6;
+  
+      renderVisibleMessages();
+  
+      if (loadMoreBtn) {
+        loadMoreBtn.style.display =
+          allMessages.length > visibleMessagesCount ? "inline-flex" : "none";
+      }
     } catch (error) {
       console.error("Failed to load messages:", error);
     }
+  }
+  
+  function renderVisibleMessages() {
+    const messagesGrid = document.getElementById("messagesGrid");
+    const loadMoreBtn = document.getElementById("loadMoreMessagesBtn");
+  
+    if (!messagesGrid) return;
+  
+    messagesGrid.innerHTML = "";
+  
+    allMessages.slice(0, visibleMessagesCount).forEach((msg) => {
+      addMessageToGrid(msg);
+    });
+  
+    if (loadMoreBtn) {
+      loadMoreBtn.style.display =
+        visibleMessagesCount >= allMessages.length ? "none" : "inline-flex";
+    }
+  }
+  
+  const loadMoreMessagesBtn = document.getElementById("loadMoreMessagesBtn");
+  
+  if (loadMoreMessagesBtn) {
+    loadMoreMessagesBtn.addEventListener("click", function () {
+      visibleMessagesCount += 6;
+      renderVisibleMessages();
+    });
   }
 
   function timeAgo(dateString) {
