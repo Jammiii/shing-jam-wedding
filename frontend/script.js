@@ -471,7 +471,9 @@ document.addEventListener("DOMContentLoaded", function () {
           if (relationshipGroup) {
             relationshipGroup.style.display = "none";
           }
-
+          
+          await loadMessages();
+          
           if (adminPanel && adminPanel.style.display === "block") {
             await loadAdminData();
           }
