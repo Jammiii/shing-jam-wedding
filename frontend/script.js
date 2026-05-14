@@ -217,8 +217,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const rsvpForm = document.getElementById("rsvpForm");
   const attendanceSelect = document.getElementById("attendance");
-  const guestCountGroup = document.getElementById("guestCountGroup");
   const mealPreferenceGroup = document.getElementById("mealPreferenceGroup");
+  const guestMessage = document.getElementById("guest_message");
+  const relationshipGroup = document.getElementById("relationshipGroup");
+  const relationshipSelect = document.getElementById("relationship");
   const musicToggle = document.getElementById("musicToggle");
   const backgroundMusic = document.getElementById("backgroundMusic");
   const galleryItems = document.querySelectorAll(".gallery-item");
@@ -379,6 +381,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  if (guestMessage && relationshipGroup && relationshipSelect) {
+    guestMessage.addEventListener("input", () => {
+      const hasMessage = guestMessage.value.trim() !== "";
+
+      relationshipGroup.style.display = hasMessage ? "block" : "none";
+      relationshipSelect.required = hasMessage;
+
+      if (!hasMessage) {
+        relationshipSelect.value = "";
+      }
+    });
+  }
+
   // Form validation
   function validateForm(formData) {
     const errors = [];
@@ -423,10 +438,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const data = {
         guest_name: formData.get("guest_name"),
         attendance: formData.get("attendance"),
-        guest_count:
-          formData.get("attendance") === "Accepts with pleasure"
-            ? parseInt(formData.get("guest_count"))
-            : 0,
         meal_preference:
           formData.get("attendance") === "Accepts with pleasure"
             ? formData.get("meal_preference")
@@ -446,22 +457,31 @@ document.addEventListener("DOMContentLoaded", function () {
         const result = await response.json();
 
         if (response.ok) {
-          showMessage(result.message, "success");
+          showToast(
+            data.message
+              ? "Thank you for your RSVP and warm wishes ✨"
+              : "Your RSVP has been received with love ✨",
+            "success"
+          );
+
           rsvpForm.reset();
-          guestCountGroup.classList.remove("visible");
+
           mealPreferenceGroup.classList.remove("visible");
 
-          // Update admin panel if open
+          if (relationshipGroup) {
+            relationshipGroup.style.display = "none";
+          }
+
           if (adminPanel && adminPanel.style.display === "block") {
             await loadAdminData();
           }
         } else {
-          showMessage(result.error || "An error occurred", "error");
+          showToast(result.error || "An error occurred", "error");
         }
-      } catch (error) {
-        console.error("Submission successful:", error);
-        showMessage("Submission successful", "success");
-      } finally {
+        } catch (error) {
+          console.error("RSVP submission error:", error);
+          showToast("Something went wrong. Please try again.", "error");
+        }finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
       }
