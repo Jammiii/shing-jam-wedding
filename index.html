@@ -1051,6 +1051,32 @@
             <textarea id="guest_message" name="guest_message" rows="4" placeholder="Share your well wishes or special requests..."></textarea>
           </div>
 
+          <div id="relationshipGroup" class="form-group conditional-field" style="display: none;">
+              <label for="relationship">
+                <i class="fas fa-users"></i> Relationship *
+              </label>
+
+              <select id="relationship" name="relationship">
+                <option value="" disabled selected>Who are you to the couple?</option>
+                <option value="Parent">Parent</option>
+                <option value="Mother">Mother</option>
+                <option value="Father">Father</option>
+                <option value="Sibling">Sibling</option>
+                <option value="Brother">Brother</option>
+                <option value="Sister">Sister</option>
+                <option value="Aunt">Aunt</option>
+                <option value="Uncle">Uncle</option>
+                <option value="Friend">Friend</option>
+                <option value="Best Friend">Best Friend</option>
+                <option value="Cousin">Cousin</option>
+                <option value="Relative">Relative</option>
+                <option value="Godparent">Godparent</option>
+                <option value="Colleague">Colleague</option>
+                <option value="Classmate">Classmate</option>
+                <option value="Guest">Guest</option>
+              </select>
+            </div>
+
           <button type="submit" class="submit-btn">
             Submit RSVP <i class="fas fa-paper-plane"></i>
           </button>
@@ -1103,8 +1129,6 @@
             <div class="form-group">
               <select id="messageRelation" required>
                 <option value="" disabled selected>Who are you to the couple?</option>
-                <option value="Friend">Friend</option>
-                <option value="Best Friend">Best Friend</option>
                 <option value="Parent">Parent</option>
                 <option value="Mother">Mother</option>
                 <option value="Father">Father</option>
@@ -1113,6 +1137,8 @@
                 <option value="Sister">Sister</option>
                 <option value="Aunt">Aunt</option>
                 <option value="Uncle">Uncle</option>
+                <option value="Friend">Friend</option>
+                <option value="Best Friend">Best Friend</option>
                 <option value="Cousin">Cousin</option>
                 <option value="Relative">Relative</option>
                 <option value="Godparent">Godparent</option>
