@@ -1798,6 +1798,175 @@ button.details-btn {
 }
 
 /* ============================================
+   WEDDING FLOW SECTION
+   ============================================ */
+.wedding-flow-section {
+  padding: clamp(4rem, 8vw, 7rem) 1rem;
+  background:
+    radial-gradient(circle at top, rgba(212, 175, 55, 0.14), transparent 35%),
+    linear-gradient(135deg, var(--ivory), var(--off-white), var(--cream));
+  text-align: center;
+}
+
+.wedding-flow-container {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.wedding-flow-section .section-subtitle {
+  color: var(--emerald-dark);
+  font-family: "Montserrat", sans-serif;
+  margin: 1rem auto 3rem;
+}
+
+.wedding-flow-line {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 1rem 0;
+}
+
+.wedding-flow-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(1, 52, 2, 0.35);
+  transform: translateX(-50%);
+}
+
+.flow-row {
+  position: relative;
+  width: 50%;
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+}
+
+.flow-row.left {
+  left: 0;
+  justify-content: flex-end;
+  padding-right: 2rem;
+  text-align: right;
+}
+
+.flow-row.right {
+  left: 50%;
+  justify-content: flex-start;
+  padding-left: 2rem;
+  text-align: left;
+}
+
+.flow-row::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 2rem;
+  height: 1px;
+  background: rgba(1, 52, 2, 0.35);
+}
+
+.flow-row.left::after {
+  right: 0;
+}
+
+.flow-row.right::after {
+  left: 0;
+}
+
+.flow-content {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.2rem 0.7rem;
+  align-items: center;
+}
+
+.flow-row.left .flow-content {
+  grid-template-columns: 1fr auto;
+}
+
+.flow-row.left .flow-content span,
+.flow-row.left .flow-content h3 {
+  grid-column: 1;
+}
+
+.flow-row.left .flow-content i {
+  grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+.flow-content i {
+  grid-row: 1 / 3;
+  font-size: 2rem;
+  color: var(--emerald-darker);
+}
+
+.flow-content span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--emerald-dark);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.flow-content h3 {
+  margin: 0;
+  color: var(--charcoal);
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.flow-row.highlight .flow-content i,
+.flow-row.highlight .flow-content span {
+  color: var(--gold-dark);
+}
+
+@media (max-width: 600px) {
+  .wedding-flow-line {
+    max-width: 100%;
+  }
+
+  .wedding-flow-line::before {
+    left: 24px;
+  }
+
+  .flow-row,
+  .flow-row.left,
+  .flow-row.right {
+    width: 100%;
+    left: 0;
+    padding-left: 4rem;
+    padding-right: 0;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .flow-row::after {
+    left: 24px !important;
+    width: 2rem;
+  }
+
+  .flow-row.left .flow-content {
+    grid-template-columns: auto 1fr;
+  }
+
+  .flow-row.left .flow-content i {
+    grid-column: 1;
+  }
+
+  .flow-row.left .flow-content span,
+  .flow-row.left .flow-content h3 {
+    grid-column: 2;
+  }
+}
+
+/* ============================================
    ENTOURAGE SECTION
    ============================================ */
 .entourage-section {
