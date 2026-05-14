@@ -11,13 +11,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const {
-      guest_name,
-      attendance,
-      guest_count,
-      meal_preference,
-      message
-    } = req.body;
+  const {
+    guest_name,
+    relationship,
+    attendance,
+    meal_preference,
+    message
+  } = req.body;
 
     if (!guest_name || !attendance) {
       return res.status(400).json({
@@ -31,8 +31,8 @@ export default async function handler(req, res) {
       .insert([
         {
           guest_name,
+          relationship: relationship || null,
           attendance,
-          guest_count: Number(guest_count) || 0,
           meal_preference: meal_preference || null,
           message: message || null,
           submission_date: new Date().toISOString()
