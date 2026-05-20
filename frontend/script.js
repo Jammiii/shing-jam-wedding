@@ -1528,27 +1528,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load saved preference from localStorage
   function loadGridPreference() {
-    const isHidden = localStorage.getItem("giftGridHidden") !== "false";
-
-    if (isHidden) {
-      // Hide grid, show empty message
-      if (giftGridWrapper) giftGridWrapper.style.display = "none";
-      if (emptyMessage) emptyMessage.style.display = "block";
-      if (toggleIcon) {
-        toggleIcon.className = "fas fa-eye";
+      const savedState = localStorage.getItem("giftGridHidden");
+      const isHidden = savedState === null ? true : savedState === "true";
+    
+      if (isHidden) {
+        if (giftGridWrapper) giftGridWrapper.style.display = "none";
+        if (emptyMessage) emptyMessage.style.display = "block";
+    
+        if (toggleIcon) {
+          toggleIcon.className = "fas fa-eye";
+        }
+    
+        if (toggleText) {
+          toggleText.textContent = "Show Gift Registry";
+        }
+      } else {
+        if (giftGridWrapper) giftGridWrapper.style.display = "block";
+        if (emptyMessage) emptyMessage.style.display = "none";
+    
+        if (toggleIcon) {
+          toggleIcon.className = "fas fa-eye-slash";
+        }
+    
+        if (toggleText) {
+          toggleText.textContent = "Hide Gift Registry";
+        }
       }
-      if (toggleText) toggleText.textContent = "Show Gift Registry";
-    } else {
-      // Show grid, hide empty message
-      if (giftGridWrapper) giftGridWrapper.style.display = "block";
-      if (emptyMessage) emptyMessage.style.display = "none";
-      if (toggleIcon) {
-        toggleIcon.className = "fas fa-eye-slash";
-      }
-      if (toggleText) toggleText.textContent = "Hide Gift Registry";
     }
-  }
-
+  
   // Toggle grid visibility with animation
   function toggleGiftGrid() {
     const isHidden = localStorage.getItem("giftGridHidden") === "true";
