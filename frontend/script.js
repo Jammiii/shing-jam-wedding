@@ -948,21 +948,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // EXPORT
   exportBtn.addEventListener("click", async () => {
-    const token = localStorage.getItem("adminToken");
+    try {
+      const token = localStorage.getItem("adminToken");
 
-    const res = await fetch("/api/export", {
-      headers: {
-        Authorization: `Bearer ${token}`
+      const res = await fetch("/api/export", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) {
+        throw new Error("Export failed");
       }
-    });
 
-    const blob = await res.blob();
-    const url = window.URL.createObjectURL(blob);
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "rsvps.csv";
-    a.click();
+      // Manila Time Filename
+      const now = new Date();
+
+      const timestamp = now.toLocaleString("en-US", {
+        timeZone: "Asia/Manila",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      })
+      .replace(/[/:]/g, "-")
+      .replace(", ", "_");
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `rsvps_${timestamp}.csv`;
+
+      document.body.appendChild(a);
+      a.click();
+
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      showMessage("RSVP export downloaded successfully!", "success");
+
+    } catch (error) {
+      console.error("Export error:", error);
+      showMessage("Failed to export RSVP data", "error");
+    }
   });
 
   // Update stats display
