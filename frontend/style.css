@@ -1017,10 +1017,12 @@ h4,
   font-size: 1.1rem;
   text-transform: uppercase;
   letter-spacing: 3px;
+  color: var(--cream);
   opacity: 0.9;
   margin-top: 1rem;
   display: block;
   font-weight: 600;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .countdown-note {
