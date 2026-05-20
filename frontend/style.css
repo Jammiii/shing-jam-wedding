@@ -2383,6 +2383,97 @@ button.details-btn {
   border: 1px solid rgba(212, 175, 55, 0.35);
 }
 
+.dress-summary-wrapper {
+  margin-top: 4rem;
+}
+
+.dress-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dress-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  background: rgba(212, 175, 55, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c8a96b;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.dress-summary-header h3 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--emerald-dark);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.dress-summary-header p {
+  margin: 0.3rem 0 0;
+  color: #6d7c76;
+  font-size: 0.95rem;
+}
+
+.dress-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.dress-summary-card {
+  background: #f6f3ed;
+  border: 1px solid rgba(200, 169, 107, 0.35);
+  border-radius: 22px;
+  padding: 2rem;
+  transition: 0.3s ease;
+}
+
+.dress-summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.dress-summary-card h4 {
+  color: var(--emerald-darker);
+  font-size: 1.8rem;
+  margin: 0 0 1rem;
+}
+
+.dress-summary-card p {
+  color: #52635d;
+  line-height: 1.8;
+  margin: 0 0 1.5rem;
+}
+
+.palette-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #4b5f57;
+}
+
+.palette-colors {
+  display: flex;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.color-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
 @media (max-width: 768px) {
   .attire-sample-grid {
     grid-template-columns: 1fr;
@@ -2394,6 +2485,60 @@ button.details-btn {
 
   .attire-sample-images img {
     height: auto;
+  }
+  .dress-summary-wrapper {
+    margin-top: 3rem;
+  }
+
+  .dress-summary-header {
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .dress-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+  }
+
+  .dress-summary-header h3 {
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .dress-summary-header p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .dress-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .dress-summary-card {
+    padding: 1.3rem;
+    border-radius: 18px;
+  }
+
+  .dress-summary-card h4 {
+    font-size: 1.35rem;
+  }
+
+  .dress-summary-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .palette-colors {
+    gap: 0.7rem;
+  }
+
+  .color-circle {
+    width: 42px;
+    height: 42px;
   }
 }
 
@@ -2421,7 +2566,20 @@ button.details-btn {
     font-size: 0.75rem;
   }
 }
+@media (max-width: 420px) {
+  .dress-summary-header h3 {
+    font-size: 1.15rem;
+  }
 
+  .dress-summary-card {
+    padding: 1rem;
+  }
+
+  .color-circle {
+    width: 38px;
+    height: 38px;
+  }
+}
 /* ============================================
    FAQ SECTION
    ============================================ */
