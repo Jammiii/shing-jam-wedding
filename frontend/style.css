@@ -1967,7 +1967,6 @@ button.details-btn {
     grid-column: 2;
   }
 }
-
 /* ============================================
    ENTOURAGE SECTION
    ============================================ */
@@ -6062,6 +6061,110 @@ button.details-btn {
 /* Envelope hover effect */
 .env .top:hover {
   border-top-color: var(--emerald-lighter);
+}
+
+/* TOP RIGHT FLOWER */
+.flower-top-right {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 220px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* BOTTOM LEFT FLOWER */
+.flower-bottom-left {
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  width: 240px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Optional Luxury Glow */
+.flower-top-right,
+.flower-bottom-left {
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+}
+.flower-top-right,
+.flower-bottom-left {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.18));
+
+  animation:
+    flowerFade 1.5s ease,
+    flowerFloat 6s ease-in-out infinite;
+}
+
+/* TOP RIGHT */
+.flower-top-right {
+  top: -10px;
+  right: -10px;
+  width: 220px;
+
+  transform-origin: top right;
+}
+
+/* BOTTOM LEFT */
+.flower-bottom-left {
+  bottom: -10px;
+  left: -10px;
+  width: 240px;
+
+  transform-origin: bottom left;
+
+  animation-delay: 0.5s;
+}
+
+/* FLOATING ANIMATION */
+@keyframes flowerFloat {
+  0% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: translateY(-4px) rotate(1deg) scale(1.01);
+  }
+
+  50% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+
+  75% {
+    transform: translateY(4px) rotate(-1deg) scale(0.99);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+}
+
+/* FADE IN */
+@keyframes flowerFade {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#open-env:checked ~ .flower-top-right {
+  transform: translateY(-8px) rotate(3deg);
+  transition: 1s ease;
+}
+
+#open-env:checked ~ .flower-bottom-left {
+  transform: translateY(8px) rotate(-3deg);
+  transition: 1s ease;
 }
 
 /* Checkbox for envelope animation */
