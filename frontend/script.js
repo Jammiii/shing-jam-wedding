@@ -1034,7 +1034,6 @@ document.addEventListener("DOMContentLoaded", function () {
       row.innerHTML = `
                     <tr><td>${escapeHtml(rsvp.guest_name || "")}</td>
                     <td>${escapeHtml(rsvp.attendance || "")}</td>
-                    <td>${rsvp.guest_count || "-"}</td>
                     <td>${escapeHtml(rsvp.meal_preference || "-")}</td>
                     <td>${escapeHtml(rsvp.message || "-")}</td>
                     <td>${new Date(
