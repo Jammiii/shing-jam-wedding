@@ -3650,7 +3650,7 @@ button.details-btn {
     font-size: 0.92rem;
     padding: 0.95rem 1rem;
   }
-  
+
   .toast-notification {
     top: auto;
     right: 1rem;
@@ -3659,13 +3659,13 @@ button.details-btn {
     min-width: unset;
     max-width: unset;
     font-size: 0.88rem;
-  } 
-  
+  }
+
   .load-more-messages-btn {
     width: 100%;
     padding: 0.85rem 1.2rem;
     font-size: 0.82rem;
-  }  
+  }
 }
 
 .message.success {
@@ -6068,10 +6068,10 @@ button.details-btn {
     left: -40px;
     right: auto;
   }
-  
+
   .timeline-photo {
     height: 160px;
-  }  
+  }
 }
 
 /* Add parallax effect to hero */
