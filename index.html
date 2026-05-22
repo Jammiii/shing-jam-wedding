@@ -1270,6 +1270,33 @@
             Submit RSVP <i class="fas fa-paper-plane"></i>
           </button>
         </form>
+        <div class="rsvp-status-checker">
+          <div class="status-header">
+            <div class="status-icon">
+              <i class="fas fa-search"></i>
+            </div>
+
+            <div>
+              <h3>Find Your Name</h3>
+              <p>Type as you search to see instant results</p>
+            </div>
+          </div>
+
+          <div class="status-search-wrapper">
+            <i class="fas fa-search status-input-icon"></i>
+
+            <input
+              type="text"
+              id="statusSearch"
+              placeholder="Type your name..."
+              autocomplete="off"
+            >
+
+            <div id="statusSuggestions" class="status-suggestions"></div>
+          </div>
+
+          <div id="statusResult" class="status-result"></div>
+        </div>
       </div>
     </section>
 
@@ -1475,7 +1502,7 @@
           </div>
 
           <div class="footer-section">
-            <h4 class="footer-subtitle">Share Us</h4>
+            <h4 class="footer-subtitle">Follow Us</h4>
             <div class="footer-social">
               <a href="https://www.facebook.com/" class="social-link"><i class="fab fa-facebook"></i></a>
               <a href="https://www.instagram.com/" class="social-link"><i class="fab fa-instagram"></i></a>
