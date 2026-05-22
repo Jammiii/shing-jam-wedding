@@ -11,18 +11,34 @@ export default async function handler(req, res) {
   }
 
   try {
-  const {
-    guest_name,
-    relationship,
-    attendance,
-    meal_preference,
-    message
-  } = req.body;
+    const {
+      guest_name,
+      relationship,
+      attendance,
+      meal_preference,
+      message
+    } = req.body;
 
     if (!guest_name || !attendance) {
       return res.status(400).json({
         success: false,
         error: "Guest name and attendance are required"
+      });
+    }
+
+    // CHECK DUPLICATE RSVP
+    const { data: existingRsvp, error: checkError } = await supabase
+      .from("rsvps")
+      .select("id")
+      .eq("guest_name", guest_name)
+      .maybeSingle();
+
+    if (checkError) throw checkError;
+
+    if (existingRsvp) {
+      return res.status(409).json({
+        success: false,
+        error: "You have already submitted your RSVP."
       });
     }
 
@@ -41,7 +57,7 @@ export default async function handler(req, res) {
       .select();
 
     if (error) throw error;
-    
+
     if (message) {
       await supabase.from("messages").insert([
         {
@@ -51,6 +67,7 @@ export default async function handler(req, res) {
         }
       ]);
     }
+
     return res.status(200).json({
       success: true,
       message: "RSVP saved successfully",
