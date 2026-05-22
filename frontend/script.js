@@ -237,6 +237,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const exportBtn = document.getElementById("exportBtn");
   const statsContainer = document.getElementById("statsContainer");
   const rsvpTableBody = document.querySelector("#rsvpTable tbody");
+  const statusSearch = document.getElementById("statusSearch");
+  const statusSuggestions = document.getElementById("statusSuggestions");
+  const statusResult = document.getElementById("statusResult");
   const deadlineMessage = document.getElementById("deadlineMessage");
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
@@ -584,7 +587,67 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+  // Search RSVP confirmation
+  if (statusSearch && statusSuggestions && statusResult) {
+  statusSearch.addEventListener("input", async function () {
+    const name = this.value.trim();
 
+    statusSuggestions.innerHTML = "";
+    statusResult.innerHTML = "";
+
+    if (name.length < 2) {
+      statusSuggestions.style.display = "none";
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/check-rsvp?name=${encodeURIComponent(name)}`);
+      const data = await response.json();
+
+      if (!data.success || data.results.length === 0) {
+        statusSuggestions.style.display = "none";
+        return;
+      }
+
+      data.results.forEach((guest) => {
+        const item = document.createElement("div");
+        item.className = "status-suggestion";
+        item.textContent = guest.guest_name;
+
+        item.addEventListener("click", function () {
+          statusSearch.value = guest.guest_name;
+          statusSuggestions.style.display = "none";
+
+          statusResult.innerHTML = `
+            <div class="status-card">
+              <div class="status-badge">
+                <i class="fas fa-check-circle"></i>
+                RSVP Confirmed
+              </div>
+
+              <p><strong>Name:</strong> ${guest.guest_name}</p>
+              <p><strong>Attendance:</strong> ${guest.attendance}</p>
+              <p><strong>Meal Preference:</strong> ${guest.meal_preference || "N/A"}</p>
+            </div>
+          `;
+        });
+
+        statusSuggestions.appendChild(item);
+      });
+
+      statusSuggestions.style.display = "block";
+
+    } catch (error) {
+      console.error("RSVP status check error:", error);
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".status-search-wrapper")) {
+      statusSuggestions.style.display = "none";
+    }
+  });
+}
   // Lightbox functionality
   galleryItems.forEach((item) => {
     item.addEventListener("click", function () {
