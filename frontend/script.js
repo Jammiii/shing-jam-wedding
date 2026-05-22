@@ -240,6 +240,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const deadlineMessage = document.getElementById("deadlineMessage");
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
+  const footerQuote = document.getElementById("footerQuote");
+
 
   // Wedding Date
   const weddingDate = new Date("2027-03-26T13:00:00");
@@ -378,6 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Ramil Alzate",
     "Erly Silanga"
   ];
+
   if (guestInput) {
     guestInput.addEventListener("input", function () {
       const value = this.value.toLowerCase().trim();
@@ -454,6 +457,36 @@ document.addEventListener("DOMContentLoaded", function () {
         relationshipSelect.value = "";
       }
     });
+  }
+  if (footerQuote) {
+    const text = footerQuote.dataset.text;
+    let index = 0;
+    let deleting = false;
+
+    function typeFooterQuote() {
+      if (!deleting) {
+        footerQuote.textContent = text.substring(0, index);
+        index++;
+
+        if (index > text.length) {
+          deleting = true;
+          setTimeout(typeFooterQuote, 1800);
+          return;
+        }
+      } else {
+        footerQuote.textContent = text.substring(0, index);
+        index--;
+
+        if (index < 0) {
+          deleting = false;
+          index = 0;
+        }
+      }
+
+      setTimeout(typeFooterQuote, deleting ? 35 : 70);
+    }
+
+    typeFooterQuote();
   }
 
   // Form validation
@@ -533,9 +566,9 @@ document.addEventListener("DOMContentLoaded", function () {
           if (relationshipGroup) {
             relationshipGroup.style.display = "none";
           }
-          
+
           await loadMessages();
-          
+
           if (adminPanel && adminPanel.style.display === "block") {
             await loadAdminData();
           }
@@ -1592,32 +1625,32 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadGridPreference() {
       const savedState = localStorage.getItem("giftGridHidden");
       const isHidden = savedState === null ? true : savedState === "true";
-    
+
       if (isHidden) {
         if (giftGridWrapper) giftGridWrapper.style.display = "none";
         if (emptyMessage) emptyMessage.style.display = "block";
-    
+
         if (toggleIcon) {
           toggleIcon.className = "fas fa-eye";
         }
-    
+
         if (toggleText) {
           toggleText.textContent = "Show Gift Registry";
         }
       } else {
         if (giftGridWrapper) giftGridWrapper.style.display = "block";
         if (emptyMessage) emptyMessage.style.display = "none";
-    
+
         if (toggleIcon) {
           toggleIcon.className = "fas fa-eye-slash";
         }
-    
+
         if (toggleText) {
           toggleText.textContent = "Hide Gift Registry";
         }
       }
     }
-  
+
   // Toggle grid visibility with animation
   function toggleGiftGrid() {
     const isHidden = localStorage.getItem("giftGridHidden") === "true";
