@@ -7855,7 +7855,7 @@ button.details-btn {
 
   .parallax-bg-video {
     position: absolute;
-    top: -160px;
+    top: -20px;
     left: 0;
     width: 100%;
     height: calc(100% + 320px);
