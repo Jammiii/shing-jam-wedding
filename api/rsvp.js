@@ -1,0 +1,82 @@
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
+    const {
+      guest_name,
+      relationship,
+      attendance,
+      meal_preference,
+      message
+    } = req.body;
+
+    if (!guest_name || !attendance) {
+      return res.status(400).json({
+        success: false,
+        error: "Guest name and attendance are required"
+      });
+    }
+
+    // CHECK DUPLICATE RSVP
+    const { data: existingRsvp, error: checkError } = await supabase
+      .from("rsvps")
+      .select("id")
+      .eq("guest_name", guest_name)
+      .maybeSingle();
+
+    if (checkError) throw checkError;
+
+    if (existingRsvp) {
+      return res.status(409).json({
+        success: false,
+        error: "You have already submitted your RSVP."
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("rsvps")
+      .insert([
+        {
+          guest_name,
+          relationship: relationship || null,
+          attendance,
+          meal_preference: meal_preference || null,
+          message: message || null,
+          submission_date: new Date().toISOString()
+        }
+      ])
+      .select();
+
+    if (error) throw error;
+
+    if (message) {
+      await supabase.from("messages").insert([
+        {
+          name: guest_name,
+          content: message,
+          date: new Date().toISOString()
+        }
+      ]);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "RSVP saved successfully",
+      data: data[0]
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+}
