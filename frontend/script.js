@@ -223,7 +223,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     e.target.closest(".travel-route") ||
                     e.target.closest(".travel-link") ||
                     e.target.closest(".details-btn") ||
-                    e.target.closest(".copy-btn")
+                    e.target.closest(".copy-btn") ||
+                    
+                    // Gallery
+                    e.target.closest(".cube-gallery") ||
+                    e.target.closest(".cube-nav") ||
+                    e.target.closest(".cube-face") ||
+                    e.target.closest(".cube-track") ||
+                    e.target.closest(".cube-dots") ||
+                    e.target.closest(".view-gallery-btn")
                   ) {
                     return;
                   }
