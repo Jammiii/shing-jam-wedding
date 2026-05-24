@@ -198,7 +198,65 @@ document.addEventListener("DOMContentLoaded", function () {
                       });
                   }
                 }
+                // Toggle music when touching anywhere
+                document.addEventListener("click", function (e) {
 
+                  // ignore form elements/buttons
+                  if (
+                    e.target.closest("button") ||
+                    e.target.closest("input") ||
+                    e.target.closest("textarea") ||
+                    e.target.closest("select") ||
+                    e.target.closest("a") ||
+
+                    // FAQ
+                    e.target.closest(".faq-question") ||
+                    e.target.closest(".faq-item") ||
+
+                    // Attire
+                    e.target.closest(".attire-detail") ||
+                    e.target.closest(".attire-sample-btn") ||
+                    e.target.closest("summary") ||
+                    e.target.closest("details") ||
+
+                    // Travel / Details
+                    e.target.closest(".travel-route") ||
+                    e.target.closest(".travel-link") ||
+                    e.target.closest(".details-btn") ||
+                    e.target.closest(".copy-btn")
+                  ) {
+                    return;
+                  }
+
+                  if (!backgroundMusic) return;
+
+                  if (backgroundMusic.paused) {
+                    backgroundMusic.play();
+
+                    if (musicToggle) {
+                      musicToggle.innerHTML =
+                        '<i class="fas fa-volume-up"></i>';
+
+                      musicToggle.setAttribute(
+                        "data-playing",
+                        "true"
+                      );
+                    }
+
+                  } else {
+                    backgroundMusic.pause();
+
+                    if (musicToggle) {
+                      musicToggle.innerHTML =
+                        '<i class="fas fa-volume-mute"></i>';
+
+                      musicToggle.setAttribute(
+                        "data-playing",
+                        "false"
+                      );
+                    }
+                  }
+                });
                 window.scrollTo({
                   top: 0,
                   behavior: "smooth"
@@ -685,7 +743,11 @@ document.addEventListener("DOMContentLoaded", function () {
   let cubeIndex = 0;
   let cubeStartX = 0;
   let cubeStartY = 0;
+  let cubeStartTransform = 0;
+  let cubeCurrentTransform = 0;
+  let cubeIsDragging = false;
   let cubeIsMoving = false;
+  let cubeDragThreshold = 60;
   const cubeTotal = cubeFaces.length;
 
   function createCubeDots() {
@@ -706,26 +768,42 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  function updateCube() {
+  function updateCube(instant = false) {
     if (!cubeTrack) return;
 
-    cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+    if (instant && cubeTrack) {
+      cubeTrack.style.transition = "none";
+      cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+      // Force reflow
+      void cubeTrack.offsetHeight;
+      cubeTrack.style.transition = "";
+    } else {
+      cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+    }
 
     document.querySelectorAll(".cube-dot").forEach((dot, index) => {
       dot.classList.toggle("active", index === cubeIndex);
     });
   }
 
-  function goToCube(index) {
+  function goToCube(index, useTransition = true) {
     if (cubeIsMoving || index === cubeIndex) return;
 
     cubeIsMoving = true;
     cubeIndex = index;
-    updateCube();
+
+    if (!useTransition && cubeTrack) {
+      cubeTrack.style.transition = "none";
+      updateCube();
+      void cubeTrack.offsetHeight;
+      cubeTrack.style.transition = "";
+    } else {
+      updateCube();
+    }
 
     setTimeout(() => {
       cubeIsMoving = false;
-    }, 950);
+    }, 600);
   }
 
   function nextCube() {
@@ -746,36 +824,190 @@ document.addEventListener("DOMContentLoaded", function () {
     cubePrev.addEventListener("click", prevCube);
   }
 
+  // ========== SMOOTH DRAG TO SWIPE IMPLEMENTATION ==========
   if (cubeGallery) {
-    cubeGallery.addEventListener(
-      "touchstart",
-      function (e) {
-        cubeStartX = e.changedTouches[0].screenX;
-        cubeStartY = e.changedTouches[0].screenY;
-      },
-      { passive: true }
-    );
+    // Touch start - begin dragging
+    cubeGallery.addEventListener("touchstart", function (e) {
+      if (cubeIsMoving) return;
 
+      cubeStartX = e.touches[0].clientX;
+      cubeStartY = e.touches[0].clientY;
+      cubeIsDragging = true;
+
+      // Store the current transform angle
+      cubeStartTransform = -cubeIndex * 90;
+      cubeCurrentTransform = cubeStartTransform;
+
+      // Remove transition during drag for instant response
+      if (cubeTrack) {
+        cubeTrack.style.transition = "none";
+      }
+
+      // Add dragging class for visual feedback
+      cubeGallery.classList.add("dragging");
+
+      e.preventDefault();
+    }, { passive: false });
+
+    // Touch move - follow finger in real-time
+    cubeGallery.addEventListener("touchmove", function (e) {
+      if (!cubeIsDragging || cubeIsMoving) return;
+
+      const currentX = e.touches[0].clientX;
+      const diffX = currentX - cubeStartX;
+
+      // Calculate new angle based on drag distance
+      // The divisor controls sensitivity (lower = more sensitive)
+      let dragAngle = diffX / 2.2;
+      let newAngle = cubeStartTransform + dragAngle;
+
+      // Apply the transform immediately (follows finger)
+      if (cubeTrack) {
+        cubeTrack.style.transform = `rotateY(${newAngle}deg)`;
+        cubeCurrentTransform = newAngle;
+      }
+
+      e.preventDefault();
+    });
+
+    // Touch end - snap to nearest face
     cubeGallery.addEventListener("touchend", function (e) {
-      const cubeEndX = e.changedTouches[0].screenX;
-      const cubeEndY = e.changedTouches[0].screenY;
+      if (!cubeIsDragging || cubeIsMoving) {
+        cubeIsDragging = false;
+        cubeGallery.classList.remove("dragging");
+        return;
+      }
 
-      const diffX = cubeStartX - cubeEndX;
-      const diffY = cubeStartY - cubeEndY;
+      cubeIsDragging = false;
+      cubeGallery.classList.remove("dragging");
 
-      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      // Calculate how far we dragged
+      const endX = e.changedTouches[0].clientX;
+      const diffX = endX - cubeStartX;
+
+      // Determine if we should change slides
+      let newIndex = cubeIndex;
+
+      if (Math.abs(diffX) > cubeDragThreshold) {
         if (diffX > 0) {
-          nextCube();
+          // Dragged right - go to previous
+          newIndex = (cubeIndex - 1 + cubeTotal) % cubeTotal;
         } else {
-          prevCube();
+          // Dragged left - go to next
+          newIndex = (cubeIndex + 1) % cubeTotal;
         }
+      }
+
+      // Re-enable transition for smooth snap back
+      if (cubeTrack) {
+        cubeTrack.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
+      }
+
+      // If we're not changing slides, we need to snap back
+      if (newIndex === cubeIndex) {
+        // Snap back to current position smoothly
+        if (cubeTrack) {
+          cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+        }
+        setTimeout(() => {
+          if (cubeTrack) {
+            cubeTrack.style.transition = "";
+          }
+        }, 500);
+      } else {
+        // Change to new slide
+        cubeIsMoving = true;
+        cubeIndex = newIndex;
+        updateCube();
+
+        setTimeout(() => {
+          cubeIsMoving = false;
+          if (cubeTrack) {
+            cubeTrack.style.transition = "";
+          }
+        }, 600);
+      }
+    });
+
+    // Optional: Mouse support for desktop
+    let mouseIsDragging = false;
+    let mouseStartX = 0;
+    let mouseStartTransform = 0;
+
+    cubeGallery.addEventListener("mousedown", function (e) {
+      if (e.button !== 0 || cubeIsMoving) return;
+
+      mouseIsDragging = true;
+      mouseStartX = e.clientX;
+      mouseStartTransform = -cubeIndex * 90;
+
+      if (cubeTrack) {
+        cubeTrack.style.transition = "none";
+      }
+
+      cubeGallery.classList.add("dragging");
+      e.preventDefault();
+    });
+
+    window.addEventListener("mousemove", function (e) {
+      if (!mouseIsDragging || cubeIsMoving) return;
+
+      const diffX = e.clientX - mouseStartX;
+      let dragAngle = diffX / 2.2;
+      let newAngle = mouseStartTransform + dragAngle;
+
+      if (cubeTrack) {
+        cubeTrack.style.transform = `rotateY(${newAngle}deg)`;
+      }
+    });
+
+    window.addEventListener("mouseup", function (e) {
+      if (!mouseIsDragging) return;
+
+      mouseIsDragging = false;
+      cubeGallery.classList.remove("dragging");
+
+      const diffX = e.clientX - mouseStartX;
+      let newIndex = cubeIndex;
+
+      if (Math.abs(diffX) > cubeDragThreshold) {
+        if (diffX > 0) {
+          newIndex = (cubeIndex - 1 + cubeTotal) % cubeTotal;
+        } else {
+          newIndex = (cubeIndex + 1) % cubeTotal;
+        }
+      }
+
+      if (cubeTrack) {
+        cubeTrack.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
+      }
+
+      if (newIndex === cubeIndex) {
+        if (cubeTrack) {
+          cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+        }
+        setTimeout(() => {
+          if (cubeTrack) {
+            cubeTrack.style.transition = "";
+          }
+        }, 500);
+      } else {
+        cubeIsMoving = true;
+        cubeIndex = newIndex;
+        updateCube();
+
+        setTimeout(() => {
+          cubeIsMoving = false;
+          if (cubeTrack) {
+            cubeTrack.style.transition = "";
+          }
+        }, 600);
       }
     });
   }
 
   createCubeDots();
   updateCube();
-
   const openFullGalleryBtn = document.getElementById("openFullGallery");
 
   if (openFullGalleryBtn) {
@@ -1189,6 +1421,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
   }
 
+
   async function checkRSVPDeadline() {
     if (!deadlineMessage) return;
 
@@ -1198,15 +1431,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (data.passed) {
         deadlineMessage.style.display = "block";
+
         if (rsvpForm) {
-          rsvpForm
-            .querySelectorAll("input, select, textarea, button")
-            .forEach((el) => {
-              el.disabled = true;
-            });
+          // Disable ALL input fields
+          const allInputs = rsvpForm.querySelectorAll('input, select, textarea, button');
+          allInputs.forEach(el => {
+            el.disabled = true;
+          });
+
+          // Specifically disable and update submit button
           if (submitBtn) {
+            submitBtn.disabled = true;
             submitBtn.textContent = "RSVP Closed";
+            submitBtn.style.opacity = "0.6";
+            submitBtn.style.cursor = "not-allowed";
           }
+
+          // Also disable the name input and suggestions
+          if (guestInput) {
+            guestInput.disabled = true;
+            guestInput.placeholder = "RSVP is now closed";
+          }
+
+          // Hide suggestions if visible
+          if (guestSuggestions) {
+            guestSuggestions.style.display = "none";
+          }
+
+          // Disable attendance select
+          if (attendanceSelect) {
+            attendanceSelect.disabled = true;
+          }
+
+          // Disable meal preference group fields
+          if (mealPreferenceGroup) {
+            const mealFields = mealPreferenceGroup.querySelectorAll('select, input');
+            mealFields.forEach(field => {
+              field.disabled = true;
+            });
+          }
+
+          // Disable message textarea
+          if (guestMessage) {
+            guestMessage.disabled = true;
+            guestMessage.placeholder = "RSVP is now closed";
+          }
+
+          // Disable relationship select
+          if (relationshipSelect) {
+            relationshipSelect.disabled = true;
+          }
+
+          // Hide search/suggestions if needed
+          if (statusSearch) {
+            statusSearch.disabled = true;
+            statusSearch.placeholder = "RSVP is closed";
+          }
+
+          console.log("RSVP deadline passed - all form fields disabled");
         }
       }
     } catch (error) {
