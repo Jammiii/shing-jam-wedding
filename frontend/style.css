@@ -2139,10 +2139,9 @@ button.details-btn {
   }
 
   .two-column {
-    grid-template-columns: 1fr;
-    gap: 1.8rem;
+    grid-template-columns: repeat(2, 1fr);
   }
-
+  
   .entourage-block p,
   .sponsors-list p {
     font-size: 1.45rem;
