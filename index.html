@@ -22,10 +22,9 @@
 <body>
 
   <div id="envelopeContainer">
-    <video id="envelopeVideo" autoplay muted loop playsinline>
-      <source src="./frontend/images/BACKGROUND.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+  <video id="envelopeVideo" autoplay muted loop playsinline preload="metadata">
+    <source src="./frontend/images/BACKGROUND.mp4" type="video/mp4">
+  </video>
     <div class="env">
       <!-- Flower Decorations -->
       <img src="./frontend/images/Flap/Flap1.png" class="flower-bottom-left" alt="Flower Decoration">
@@ -569,7 +568,20 @@
                 Copy Address
               </button>
             </div>
-
+            <!-- Weather Advisory - Minimalist Luxury -->
+            <section id="weather-advisory" class="weather-advisory-section">
+              <div class="weather-container">
+                <div class="weather-header">
+                  <i class="fas fa-feather-alt"></i>
+                  <h3>Weather Forecast</h3>
+                </div>
+                <div id="weddingWeather" class="weather-content">
+                  <div class="weather-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading
+                  </div>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
 
@@ -1161,7 +1173,7 @@
               <h4>Are there assigned seating arrangements?<i class="fas fa-chevron-down"></i></h4>
             </div>
             <div class="faq-answer">
-              <p>No, there will be no assigned seating. Guests are free to choose their seats upon arrival.</p>
+              <p>Yes for entourage members, but no for general guests. Entourage members will have designated seats, while guests are free to choose their seats upon arrival.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -1526,18 +1538,16 @@
           </div>
         </div>
 
-        <div class="footer-bottom">
-          <p>&copy; 2026 Shing & Jam. All rights reserved.</p>
+      <div class="footer-bottom">
+        <div class="footer-left">
+          <p>&copy; <span id="currentYear"></span> Shing & Jam. All rights reserved.</p>
           <p class="footer-heart">Made with 💕 for our special day</p>
+        </div>
+
+        <div class="footer-right">
           <p class="footer-developer">
             <i class="fas fa-code"></i> Developed by Jam Ruga
           </p>
-
-          <div class="admin-link">
-            <a href="#" id="adminLink">
-              <i class="fas fa-lock"></i> Admin Access
-            </a>
-          </div>
 
           <div class="footer-contact">
             Want a website like this? Contact me
@@ -1546,6 +1556,7 @@
             </a>
           </div>
         </div>
+      </div>
       </div>
     </footer>
 
