@@ -231,7 +231,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     e.target.closest(".cube-face") ||
                     e.target.closest(".cube-track") ||
                     e.target.closest(".cube-dots") ||
-                    e.target.closest(".view-gallery-btn")
+                    e.target.closest(".view-gallery-btn") ||
+
+                    // Gift Registry
+                    e.target.closest("#toggleGiftGridBtn") ||
+                    e.target.closest(".global-toggle-btn") ||
+                    e.target.closest(".gift-card")
                   ) {
                     return;
                   }
@@ -606,7 +611,8 @@ document.addEventListener("DOMContentLoaded", function () {
           formData.get("attendance") === "Accepts with pleasure"
             ? formData.get("meal_preference")
             : null,
-        message: formData.get("guest_message") || ""
+        message: formData.get("guest_message") || "",
+        relationship: formData.get("relationship") || null
       };
 
       try {
