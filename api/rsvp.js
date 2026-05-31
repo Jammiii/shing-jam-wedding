@@ -62,6 +62,7 @@ export default async function handler(req, res) {
       await supabase.from("messages").insert([
         {
           name: guest_name,
+          relationship: relationship || null,
           content: message,
           date: new Date().toISOString()
         }
