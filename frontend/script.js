@@ -20,7 +20,121 @@ function initVideoParallax() {
 
   requestAnimationFrame(updateParallax);
 }
+// ============================================
+// WEATHER ADVISORY - MINIMALIST LUXURY
+// ============================================
 
+async function fetchWeatherForRoxas() {
+  const lat = 12.5833;
+  const lon = 121.5167;
+
+  const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m&timezone=Asia%2FManila`;
+
+  const weatherContainer = document.getElementById('weddingWeather');
+  if (!weatherContainer) return;
+
+  try {
+    weatherContainer.innerHTML = '<div class="weather-loading"><i class="fas fa-spinner fa-spin"></i>Loading forecast</div>';
+
+    const response = await fetch(apiUrl);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const data = await response.json();
+    if (data && data.current) {
+      displayWeatherData(data.current);
+    } else {
+      throw new Error('Invalid data format');
+    }
+
+  } catch (error) {
+    console.error('Weather fetch failed:', error);
+    weatherContainer.innerHTML = `
+      <div class="weather-error">
+        <i class="fas fa-cloud-moon"></i>
+        <span>Weather unavailable</span>
+      </div>
+    `;
+  }
+}
+
+function displayWeatherData(weather) {
+  const weatherContainer = document.getElementById('weddingWeather');
+  if (!weatherContainer) return;
+
+  const temp = Math.round(weather.temperature_2m);
+  const humidity = weather.relative_humidity_2m;
+  const windSpeed = Math.round(weather.wind_speed_10m);
+  const precipitation = weather.precipitation;
+
+  // Minimal weather interpretation
+  let conditionIcon = 'fa-sun';
+  let conditionText = 'Clear';
+  let advisoryText = '';
+
+  const code = weather.weather_code;
+
+  if (code === 0) { conditionIcon = 'fa-sun'; conditionText = 'Clear'; advisoryText = 'Perfect conditions expected.'; }
+  else if (code === 1 || code === 2) { conditionIcon = 'fa-cloud-sun'; conditionText = 'Partly Cloudy'; advisoryText = 'Mild conditions, comfortable for the ceremony.'; }
+  else if (code === 3) { conditionIcon = 'fa-cloud'; conditionText = 'Overcast'; advisoryText = 'Cloudy skies expected.'; }
+  else if (code >= 51 && code <= 55) { conditionIcon = 'fa-cloud-rain'; conditionText = 'Light Rain'; advisoryText = 'Light rain possible. An umbrella may be helpful.'; }
+  else if (code >= 61 && code <= 65) { conditionIcon = 'fa-cloud-showers-heavy'; conditionText = 'Rain'; advisoryText = 'Rain expected. Please bring appropriate gear.'; }
+  else if (code >= 80 && code <= 82) { conditionIcon = 'fa-cloud-sun-rain'; conditionText = 'Showers'; advisoryText = 'Rain showers possible.'; }
+  else if (code === 95) { conditionIcon = 'fa-bolt'; conditionText = 'Storm'; advisoryText = 'Thunderstorms possible. Indoor preparations advised.'; }
+  else { conditionIcon = 'fa-sun'; conditionText = 'Clear'; advisoryText = 'Pleasant conditions expected.'; }
+
+  // Temperature-based advisory
+  if (temp > 30) {
+    advisoryText += ' Warm temperatures expected. Light, breathable fabrics recommended.';
+  } else if (temp < 24) {
+    advisoryText += ' Cooler temperatures possible. A light wrap or jacket is suggested.';
+  }
+
+  // Wind advisory
+  if (windSpeed > 20) {
+    advisoryText += ' Moderate winds expected.';
+  }
+
+  if (!advisoryText) {
+    advisoryText = 'Conditions look favorable for our celebration.';
+  }
+
+  weatherContainer.innerHTML = `
+    <div class="weather-info">
+      <div class="weather-item">
+        <i class="fas ${conditionIcon}"></i>
+        <div class="value">${temp}°C</div>
+        <div class="label">Temp</div>
+      </div>
+      <div class="weather-item">
+        <i class="fas fa-tint"></i>
+        <div class="value">${humidity}%</div>
+        <div class="label">Humidity</div>
+      </div>
+      <div class="weather-item">
+        <i class="fas fa-wind"></i>
+        <div class="value">${windSpeed}</div>
+        <div class="label">Wind km/h</div>
+      </div>
+      <div class="weather-item">
+        <i class="fas ${conditionIcon}"></i>
+        <div class="value">${conditionText}</div>
+        <div class="label">Forecast</div>
+      </div>
+    </div>
+    <div class="weather-advisory-text">
+      <i class="fas fa-feather-alt"></i>
+      <span>${advisoryText}</span>
+    </div>
+  `;
+}
+
+let weatherRefreshInterval;
+
+function startWeatherRefresh() {
+  fetchWeatherForRoxas();
+  if (weatherRefreshInterval) clearInterval(weatherRefreshInterval);
+  weatherRefreshInterval = setInterval(fetchWeatherForRoxas, 1800000);
+}
 let deferredPrompt = null;
 
 // Capture install prompt
@@ -56,6 +170,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const envelopeContainer = document.getElementById("envelopeContainer");
   const weddingContent = document.getElementById("weddingContent");
   const openEnvCheckbox = document.getElementById("open-env");
+
+  // Auto-update copyright year
+  const footerYear = document.querySelector('.footer-bottom p:first-child');
+  if (footerYear) {
+    footerYear.innerHTML = `&copy; ${new Date().getFullYear()} Shing & Jam. All rights reserved.`;
+  }
 
   function showInstallPrompt() {
     if (deferredPrompt) {
@@ -2054,5 +2174,32 @@ document.addEventListener("DOMContentLoaded", function () {
     loadGridPreference();
   }
   initVideoParallax();
+  startWeatherRefresh();
   console.log("Wedding RSVP App initialized");
+
+  // Secret: Tap the S&J logo 5 times quickly to access admin panel
+  let tapCount = 0;
+  let tapTimer;
+
+  const secretLogo = document.querySelector('.nav-monogram-img');
+  if (secretLogo) {
+    secretLogo.addEventListener('click', function(e) {
+      e.stopPropagation();
+      tapCount++;
+
+      clearTimeout(tapTimer);
+      tapTimer = setTimeout(() => {
+        tapCount = 0;
+      }, 800); // Reset after 800ms
+
+      if (tapCount >= 3) {
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel) {
+          adminPanel.style.display = 'block';
+          showToast('🔓 Admin Access Granted', 'success');
+        }
+        tapCount = 0;
+      }
+    });
+  }
 });
