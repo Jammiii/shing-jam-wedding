@@ -28,7 +28,16 @@ async function fetchWeatherForRoxas() {
   const lat = 12.5833;
   const lon = 121.5167;
 
-  const apiUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m&timezone=Asia%2FManila`;
+  const apiUrl =
+  `https://api.open-meteo.com/v1/forecast
+  ?latitude=${lat}
+  &longitude=${lon}
+  &current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m
+  &hourly=temperature_2m
+  &daily=weather_code,temperature_2m_max,temperature_2m_min
+  &forecast_days=7
+  &timezone=Asia%2FManila`
+  .replace(/\s+/g,'');
 
   const weatherContainer = document.getElementById('weddingWeather');
   if (!weatherContainer) return;
@@ -41,7 +50,7 @@ async function fetchWeatherForRoxas() {
 
     const data = await response.json();
     if (data && data.current) {
-      displayWeatherData(data.current);
+      displayWeatherData(data);
     } else {
       throw new Error('Invalid data format');
     }
@@ -56,75 +65,168 @@ async function fetchWeatherForRoxas() {
     `;
   }
 }
+function generateWeddingAdvisory(
+  temp,
+  rain,
+  humidity,
+  wind,
+  weatherCode
+) {
 
-function displayWeatherData(weather) {
-  const weatherContainer = document.getElementById('weddingWeather');
-  if (!weatherContainer) return;
-
-  const temp = Math.round(weather.temperature_2m);
-  const humidity = weather.relative_humidity_2m;
-  const windSpeed = Math.round(weather.wind_speed_10m);
-  const precipitation = weather.precipitation;
-
-  // Minimal weather interpretation
-  let conditionIcon = 'fa-sun';
-  let conditionText = 'Clear';
-  let advisoryText = '';
-
-  const code = weather.weather_code;
-
-  if (code === 0) { conditionIcon = 'fa-sun'; conditionText = 'Clear'; advisoryText = 'Perfect conditions expected.'; }
-  else if (code === 1 || code === 2) { conditionIcon = 'fa-cloud-sun'; conditionText = 'Partly Cloudy'; advisoryText = 'Mild conditions, comfortable for the ceremony.'; }
-  else if (code === 3) { conditionIcon = 'fa-cloud'; conditionText = 'Overcast'; advisoryText = 'Cloudy skies expected.'; }
-  else if (code >= 51 && code <= 55) { conditionIcon = 'fa-cloud-rain'; conditionText = 'Light Rain'; advisoryText = 'Light rain possible. An umbrella may be helpful.'; }
-  else if (code >= 61 && code <= 65) { conditionIcon = 'fa-cloud-showers-heavy'; conditionText = 'Rain'; advisoryText = 'Rain expected. Please bring appropriate gear.'; }
-  else if (code >= 80 && code <= 82) { conditionIcon = 'fa-cloud-sun-rain'; conditionText = 'Showers'; advisoryText = 'Rain showers possible.'; }
-  else if (code === 95) { conditionIcon = 'fa-bolt'; conditionText = 'Storm'; advisoryText = 'Thunderstorms possible. Indoor preparations advised.'; }
-  else { conditionIcon = 'fa-sun'; conditionText = 'Clear'; advisoryText = 'Pleasant conditions expected.'; }
-
-  // Temperature-based advisory
-  if (temp > 30) {
-    advisoryText += ' Warm temperatures expected. Light, breathable fabrics recommended.';
-  } else if (temp < 24) {
-    advisoryText += ' Cooler temperatures possible. A light wrap or jacket is suggested.';
+  // Thunderstorm
+  if (weatherCode === 95) {
+    return `
+      ⛈️ Thunderstorms are possible during the day.
+      Please allow extra travel time and bring rain protection.
+      Indoor preparations have been arranged for everyone's comfort.
+    `;
   }
 
-  // Wind advisory
-  if (windSpeed > 20) {
-    advisoryText += ' Moderate winds expected.';
+  // Heavy Rain
+  if (rain >= 60) {
+    return `
+      🌧️ Rain showers are expected.
+      Guests may wish to bring a small umbrella.
+      Our celebration will proceed rain or shine.
+    `;
   }
 
-  if (!advisoryText) {
-    advisoryText = 'Conditions look favorable for our celebration.';
+  // Hot Weather
+  if (temp >= 32) {
+    return `
+      🌡️ Warm tropical temperatures are expected.
+      Light and breathable attire is recommended.
+      Stay hydrated and comfortable throughout the celebration.
+    `;
   }
 
+  // Pleasant Weather
+  if (temp >= 26) {
+    return `
+      ☀️ Pleasant weather is expected for the celebration.
+      Perfect conditions for a beautiful day with family and friends.
+    `;
+  }
+
+  // Cooler Weather
+  return `
+    🌤️ Cooler temperatures are expected.
+    Bringing a light shawl or jacket may be helpful.
+  `;
+}
+
+function displayWeatherData(data) {
+
+  const weatherContainer =
+    document.getElementById("weddingWeather");
+
+  const current = data.current;
+  const daily = data.daily;
+  const hourly = data.hourly;
+
+  const temp = Math.round(current.temperature_2m);
+  const humidity = current.relative_humidity_2m;
+  const wind = Math.round(current.wind_speed_10m);
+  const rain = current.precipitation;
+  const weatherCode = current.weather_code;
+
+  const today = new Date();
+
+  const dayName =
+    today.toLocaleDateString("en-US", {
+      weekday: "long"
+    });
+
+  const dailyCards =
+    daily.time.map((date, index) => {
+
+      const day =
+        new Date(date)
+        .toLocaleDateString("en-US", {
+          weekday: "short"
+        });
+
+      return `
+        <div class="forecast-day">
+          <i class="fas fa-cloud-rain"></i>
+          <span>${day}</span>
+          <strong>
+            ${Math.round(daily.temperature_2m_max[index])}°
+          </strong>
+          <small>
+            ${Math.round(daily.temperature_2m_min[index])}°
+          </small>
+        </div>
+      `;
+    }).join("");
+
+  const hourlyTemps =
+    hourly.temperature_2m
+      .slice(0,8)
+      .map((t,index)=>{
+
+        const hour =
+          new Date(hourly.time[index])
+          .toLocaleTimeString([],{
+            hour:'numeric'
+          });
+
+        return `
+          <div class="hour-item">
+            <span>${hour}</span>
+            <strong>${Math.round(t)}°</strong>
+          </div>
+        `;
+      })
+      .join("");
+  const advisoryText = generateWeddingAdvisory(
+    temp,
+    rain,
+    humidity,
+    wind,
+    weatherCode
+  );
   weatherContainer.innerHTML = `
-    <div class="weather-info">
-      <div class="weather-item">
-        <i class="fas ${conditionIcon}"></i>
-        <div class="value">${temp}°C</div>
-        <div class="label">Temp</div>
+  
+    <div class="weather-top">
+
+      <div class="weather-main">
+
+        <div class="weather-icon">
+          <i class="fas fa-cloud-rain"></i>
+        </div>
+
+        <div class="weather-temp">
+          ${temp}°
+        </div>
+
+        <div class="weather-details">
+          <div>Precipitation: ${current.precipitation}%</div>
+          <div>Humidity: ${humidity}%</div>
+          <div>Wind: ${wind} km/h</div>
+        </div>
+
       </div>
-      <div class="weather-item">
-        <i class="fas fa-tint"></i>
-        <div class="value">${humidity}%</div>
-        <div class="label">Humidity</div>
+
+      <div class="weather-right">
+        <h2>Weather</h2>
+        <p>${dayName}</p>
       </div>
-      <div class="weather-item">
-        <i class="fas fa-wind"></i>
-        <div class="value">${windSpeed}</div>
-        <div class="label">Wind km/h</div>
-      </div>
-      <div class="weather-item">
-        <i class="fas ${conditionIcon}"></i>
-        <div class="value">${conditionText}</div>
-        <div class="label">Forecast</div>
-      </div>
+
     </div>
-    <div class="weather-advisory-text">
-      <i class="fas fa-feather-alt"></i>
-      <span>${advisoryText}</span>
+
+    <div class="hourly-row">
+      ${hourlyTemps}
     </div>
+
+    <div class="weekly-forecast">
+      ${dailyCards}
+    </div>
+
+    <div class="wedding-advisory">
+      ${advisoryText}
+    </div>
+
   `;
 }
 
