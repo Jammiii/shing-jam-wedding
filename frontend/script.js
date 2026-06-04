@@ -532,8 +532,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const rsvpTableBody = document.querySelector("#rsvpTable tbody");
   const statusSearch = document.getElementById("statusSearch");
   const statusSuggestions = document.getElementById("statusSuggestions");
-  const rsvpModal = document.getElementById("rsvpStatusModal");
-  const modalGuestInfo = document.getElementById("modalGuestInfo");
+  const rsvpModal = document.getElementById("rsvpModal");
+  const rsvpModalDetails = document.getElementById("rsvpModalDetails");
   const closeRsvpModal = document.getElementById("closeRsvpModal");
   const deadlineMessage = document.getElementById("deadlineMessage");
   const navToggle = document.getElementById("navToggle");
@@ -883,8 +883,40 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  function showRsvpModal(guest) {
+
+    rsvpModalDetails.innerHTML = `
+      <p><strong>Name:</strong> ${guest.guest_name}</p>
+      <p><strong>Attendance:</strong> ${guest.attendance}</p>
+      <p><strong>Meal Preference:</strong>
+        ${guest.meal_preference || "N/A"}
+      </p>
+    `;
+
+    rsvpModal.classList.add("show");
+
+    confetti({
+      particleCount: 120,
+      spread: 90,
+      origin: { x: 0 }
+    });
+
+    confetti({
+      particleCount: 120,
+      spread: 90,
+      origin: { x: 1 }
+    });
+
+    confetti({
+      particleCount: 150,
+      spread: 140,
+      origin: { y: 0.7 }
+    });
+  }
+
   // Search RSVP confirmation
-  if (statusSearch && statusSuggestions && statusResult) {
+  if (statusSearch && statusSuggestions) {
   statusSearch.addEventListener("input", async function () {
     const name = this.value.trim();
 
@@ -929,50 +961,22 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("click", function (e) {
     if (!e.target.closest(".status-search-wrapper")) {
       statusSuggestions.style.display = "none";
-    }
-  });
-}
-function launchConfetti() {
-
-  confetti({
-    particleCount: 200,
-    spread: 140,
-    origin: {
-      y: 0.6
-    }
-  });
-
-}
-
-  function showRsvpModal(guest) {
-
-    modalGuestInfo.innerHTML = `
-      <p><strong>Name:</strong> ${guest.guest_name}</p>
-  
-      <p><strong>Attendance:</strong>
-      ${guest.attendance}</p>
-  
-      <p><strong>Meal Preference:</strong>
-      ${guest.meal_preference || "N/A"}</p>
-    `;
-
-    rsvpModal.classList.add("show");
-
-    launchConfetti();
+      }
+    });
   }
+  if (closeRsvpModal) {
 
-  closeRsvpModal.addEventListener("click", () => {
-    rsvpModal.classList.remove("show");
-  });
-
-  rsvpModal.addEventListener("click", (e) => {
-
-    if (e.target === rsvpModal) {
+    closeRsvpModal.addEventListener("click", () => {
       rsvpModal.classList.remove("show");
-    }
+    });
 
-  });
+    rsvpModal.addEventListener("click", (e) => {
+      if (e.target === rsvpModal) {
+        rsvpModal.classList.remove("show");
+      }
+    });
 
+  }
   // Lightbox functionality
   galleryItems.forEach((item) => {
     item.addEventListener("click", function () {
