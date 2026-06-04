@@ -1309,7 +1309,26 @@
             <div id="statusSuggestions" class="status-suggestions"></div>
           </div>
 
-          <div id="statusResult" class="status-result"></div>
+          <!-- RSVP Modal -->
+          <div id="rsvpStatusModal" class="rsvp-modal">
+
+            <div class="rsvp-modal-content">
+
+              <div class="rsvp-success-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+
+              <h2>RSVP Confirmed</h2>
+
+              <div id="modalGuestInfo"></div>
+
+              <button id="closeRsvpModal" class="rsvp-modal-btn">
+                Close
+              </button>
+
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
@@ -1426,7 +1445,7 @@
               </div>
               <div class="gift-card-body">
                 <div class="qr-container">
-                  <img src="./frontend/images/GCASH.jpg" alt="GCash QR Code" class="qr-code" loading="lazy">
+                  <img src="./frontend/images/gift-registry/GCASH.webp" alt="GCash QR Code" class="qr-code" loading="lazy">
                 </div>
                 <div class="account-details">
                   <p><strong>Account Name:</strong> Aguinaldo Ruga Jr</p>
@@ -1446,7 +1465,7 @@
               </div>
               <div class="gift-card-body">
                 <div class="qr-container">
-                  <img src="./frontend/images/PNB.jpg" alt="PNB QR Code" class="qr-code" loading="lazy">
+                  <img src="./frontend/images/gift-registry/PNB.webp" alt="PNB QR Code" class="qr-code" loading="lazy">
                 </div>
                 <div class="account-details">
                   <p><strong>Account Name:</strong> Aguinaldo &amp; Zeprah Account</p>
@@ -1619,6 +1638,7 @@
   </div>
 
   <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="/frontend/script.js"></script>
 
 </body>
