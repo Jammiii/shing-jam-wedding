@@ -532,7 +532,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const rsvpTableBody = document.querySelector("#rsvpTable tbody");
   const statusSearch = document.getElementById("statusSearch");
   const statusSuggestions = document.getElementById("statusSuggestions");
-  const statusResult = document.getElementById("statusResult");
+  const rsvpModal = document.getElementById("rsvpStatusModal");
+  const modalGuestInfo = document.getElementById("modalGuestInfo");
+  const closeRsvpModal = document.getElementById("closeRsvpModal");
   const deadlineMessage = document.getElementById("deadlineMessage");
   const navToggle = document.getElementById("navToggle");
   const navMenu = document.getElementById("navMenu");
@@ -887,7 +889,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const name = this.value.trim();
 
     statusSuggestions.innerHTML = "";
-    statusResult.innerHTML = "";
 
     if (name.length < 2) {
       statusSuggestions.style.display = "none";
@@ -912,18 +913,7 @@ document.addEventListener("DOMContentLoaded", function () {
           statusSearch.value = guest.guest_name;
           statusSuggestions.style.display = "none";
 
-          statusResult.innerHTML = `
-            <div class="status-card">
-              <div class="status-badge">
-                <i class="fas fa-check-circle"></i>
-                RSVP Confirmed
-              </div>
-
-              <p><strong>Name:</strong> ${guest.guest_name}</p>
-              <p><strong>Attendance:</strong> ${guest.attendance}</p>
-              <p><strong>Meal Preference:</strong> ${guest.meal_preference || "N/A"}</p>
-            </div>
-          `;
+          showRsvpModal(guest);
         });
 
         statusSuggestions.appendChild(item);
@@ -942,6 +932,47 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 }
+function launchConfetti() {
+
+  confetti({
+    particleCount: 200,
+    spread: 140,
+    origin: {
+      y: 0.6
+    }
+  });
+
+}
+
+  function showRsvpModal(guest) {
+
+    modalGuestInfo.innerHTML = `
+      <p><strong>Name:</strong> ${guest.guest_name}</p>
+  
+      <p><strong>Attendance:</strong>
+      ${guest.attendance}</p>
+  
+      <p><strong>Meal Preference:</strong>
+      ${guest.meal_preference || "N/A"}</p>
+    `;
+
+    rsvpModal.classList.add("show");
+
+    launchConfetti();
+  }
+
+  closeRsvpModal.addEventListener("click", () => {
+    rsvpModal.classList.remove("show");
+  });
+
+  rsvpModal.addEventListener("click", (e) => {
+
+    if (e.target === rsvpModal) {
+      rsvpModal.classList.remove("show");
+    }
+
+  });
+
   // Lightbox functionality
   galleryItems.forEach((item) => {
     item.addEventListener("click", function () {
