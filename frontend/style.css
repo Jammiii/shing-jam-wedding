@@ -3664,24 +3664,90 @@ button.details-btn {
   background: #f4efe6;
 }
 
-.status-result {
-  margin-top: 1.5rem;
-}
+.rsvp-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  backdrop-filter: blur(8px);
 
-.status-card {
-  padding: 1.3rem;
-  border-radius: 14px;
-  background: #fff;
-  border-left: 5px solid #07563f;
-}
-
-.status-badge {
-  display: inline-flex;
-  gap: 0.5rem;
+  display: flex;
   align-items: center;
+  justify-content: center;
+
+  z-index: 99999;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: .35s ease;
+}
+
+.rsvp-modal.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.rsvp-modal-content {
+  width: min(90%, 500px);
+
+  background: white;
+  padding: 2rem;
+  border-radius: 24px;
+
+  text-align: center;
+
+  transform: scale(.8);
+  transition: .35s ease;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+
+.rsvp-modal.show .rsvp-modal-content {
+  transform: scale(1);
+}
+
+.rsvp-success-icon {
+  width: 90px;
+  height: 90px;
+
+  margin: auto auto 1rem;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #d4af37,
+    #07563f
+  );
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+  font-size: 2rem;
+}
+
+.rsvp-modal h2 {
   color: #07563f;
-  font-weight: 700;
   margin-bottom: 1rem;
+}
+
+.rsvp-modal p {
+  margin: .6rem 0;
+}
+
+.rsvp-modal-btn {
+  margin-top: 1.5rem;
+
+  background: #07563f;
+  color: white;
+
+  border: none;
+
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+
+  cursor: pointer;
 }
 /* MOBILE FIX */
 @media (max-width: 768px) {
@@ -3737,17 +3803,6 @@ button.details-btn {
     padding: 0.9rem 1rem;
     font-size: 0.92rem;
     line-height: 1.4;
-  }
-
-  .status-card {
-    padding: 1rem;
-    border-radius: 12px;
-  }
-
-  .status-badge {
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-    flex-wrap: wrap;
   }
 
   .guest-suggestion-item {
