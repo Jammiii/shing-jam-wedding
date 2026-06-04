@@ -17,6 +17,7 @@
   <link rel="manifest" href="./frontend/manifest.json">
   <meta name="theme-color" content="#013402">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 
 <body>
@@ -1309,25 +1310,23 @@
             <div id="statusSuggestions" class="status-suggestions"></div>
           </div>
 
-          <!-- RSVP Modal -->
-          <div id="rsvpStatusModal" class="rsvp-modal">
-
+          <!-- RSVP Success Modal -->
+          <div id="rsvpModal" class="rsvp-modal">
             <div class="rsvp-modal-content">
 
-              <div class="rsvp-success-icon">
-                <i class="fas fa-heart"></i>
-              </div>
-
-              <h2>RSVP Confirmed</h2>
-
-              <div id="modalGuestInfo"></div>
-
-              <button id="closeRsvpModal" class="rsvp-modal-btn">
-                Close
+              <button id="closeRsvpModal" class="rsvp-modal-close">
+                <i class="fas fa-times"></i>
               </button>
 
-            </div>
+              <div class="rsvp-success-icon">
+                <i class="fas fa-check-circle"></i>
+              </div>
 
+              <h2>RSVP Confirmed!</h2>
+
+              <div id="rsvpModalDetails"></div>
+
+            </div>
           </div>
         </div>
       </div>
@@ -1638,7 +1637,6 @@
   </div>
 
   <!-- JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script src="/frontend/script.js"></script>
 
 </body>
