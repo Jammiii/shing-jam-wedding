@@ -3664,17 +3664,16 @@ button.details-btn {
   background: #f4efe6;
 }
 
+/* RSVP MODAL */
 .rsvp-modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.7);
+  background: rgba(0,0,0,.55);
   backdrop-filter: blur(8px);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  z-index: 99999;
+  z-index: 9999;
 
   opacity: 0;
   visibility: hidden;
@@ -3687,67 +3686,57 @@ button.details-btn {
 }
 
 .rsvp-modal-content {
-  width: min(90%, 500px);
-
+  width: min(92%, 500px);
   background: white;
-  padding: 2rem;
   border-radius: 24px;
-
+  padding: 2rem;
   text-align: center;
+  position: relative;
 
-  transform: scale(.8);
+  transform: translateY(30px) scale(.9);
   transition: .35s ease;
 
-  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  border: 3px solid #e8dcc4;
+  box-shadow: 0 25px 60px rgba(0,0,0,.25);
 }
 
 .rsvp-modal.show .rsvp-modal-content {
-  transform: scale(1);
+  transform: translateY(0) scale(1);
 }
 
 .rsvp-success-icon {
-  width: 90px;
-  height: 90px;
-
-  margin: auto auto 1rem;
-
-  border-radius: 50%;
-
-  background: linear-gradient(
-    135deg,
-    #d4af37,
-    #07563f
-  );
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-  font-size: 2rem;
-}
-
-.rsvp-modal h2 {
+  font-size: 4rem;
   color: #07563f;
   margin-bottom: 1rem;
 }
 
-.rsvp-modal p {
-  margin: .6rem 0;
+.rsvp-modal-content h2 {
+  margin-bottom: 1rem;
+  color: #07563f;
 }
 
-.rsvp-modal-btn {
-  margin-top: 1.5rem;
+.rsvp-modal-content p {
+  margin: .7rem 0;
+  color: #23453a;
+}
 
-  background: #07563f;
-  color: white;
+.rsvp-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+
+  width: 38px;
+  height: 38px;
 
   border: none;
+  border-radius: 50%;
 
-  padding: 1rem 1.5rem;
-  border-radius: 12px;
-
+  background: #f4f4f4;
   cursor: pointer;
+}
+
+.rsvp-modal-close:hover {
+  background: #ececec;
 }
 /* MOBILE FIX */
 @media (max-width: 768px) {
@@ -3804,7 +3793,6 @@ button.details-btn {
     font-size: 0.92rem;
     line-height: 1.4;
   }
-
   .guest-suggestion-item {
     font-size: 0.9rem;
     padding: 0.9rem;
