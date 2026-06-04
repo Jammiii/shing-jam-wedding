@@ -946,7 +946,11 @@ document.addEventListener("DOMContentLoaded", function () {
         item.className = "status-suggestion";
         item.textContent = guest.guest_name;
 
-        item.addEventListener("click", function () {
+        item.addEventListener("click", function (e) {
+
+          e.preventDefault();
+          e.stopPropagation();
+
           statusSearch.value = guest.guest_name;
           statusSuggestions.style.display = "none";
 
@@ -971,17 +975,26 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   if (closeRsvpModal) {
 
-    closeRsvpModal.addEventListener("click", () => {
+    closeRsvpModal.addEventListener("click", (e) => {
+      e.stopPropagation();
       rsvpModal.classList.remove("show");
     });
 
     rsvpModal.addEventListener("click", (e) => {
+      e.stopPropagation();
+
       if (e.target === rsvpModal) {
         rsvpModal.classList.remove("show");
       }
     });
 
   }
+
+  document
+    .querySelector(".rsvp-modal-content")
+    ?.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
   // Lightbox functionality
   galleryItems.forEach((item) => {
     item.addEventListener("click", function () {
