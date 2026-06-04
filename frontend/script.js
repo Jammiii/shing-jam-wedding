@@ -461,7 +461,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     e.target.closest(".gift-card") ||
 
                     // RSVP Modal
-                    e.target.closest(".rsvp-modal")
+                    e.target.closest(".rsvp-modal") ||
+                    e.target.closest(".rsvp-modal-content") ||
+                    e.target.closest(".rsvp-modal-close")
                   ) {
                     return;
                   }
