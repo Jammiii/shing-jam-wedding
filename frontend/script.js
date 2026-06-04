@@ -458,7 +458,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Gift Registry
                     e.target.closest("#toggleGiftGridBtn") ||
                     e.target.closest(".global-toggle-btn") ||
-                    e.target.closest(".gift-card")
+                    e.target.closest(".gift-card") ||
+
+                    // RSVP Modal
+                    e.target.closest(".rsvp-modal")
                   ) {
                     return;
                   }
