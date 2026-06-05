@@ -3797,7 +3797,7 @@ button.details-btn {
     font-size: 0.9rem;
     padding: 0.9rem;
   }
-  
+
   .rsvp-modal {
     padding: 1rem;
   }
@@ -3832,7 +3832,7 @@ button.details-btn {
     top: 10px;
     right: 10px;
   }
-  
+
 }
 /* ============================================
    MESSAGE SECTION
@@ -8516,10 +8516,10 @@ button.details-btn {
 
   .parallax-bg-video {
     position: absolute;
-    top: -20px;
+    top: -100px;
     left: 0;
     width: 100%;
-    height: calc(100% + 320px);
+    height: calc(100% + 620px);
     object-fit: cover;
     z-index: 0;
     pointer-events: none;
