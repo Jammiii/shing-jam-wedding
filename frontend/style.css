@@ -3701,7 +3701,7 @@ button.details-btn {
 }
 
 .rsvp-modal.show .rsvp-modal-content {
-  transform: translateY(60px) scale(1);
+  transform: translateY(300px) scale(1);
 }
 
 .rsvp-success-icon {
@@ -3834,7 +3834,7 @@ button.details-btn {
   }
 
   .rsvp-modal.show .rsvp-modal-content {
-    transform: translateY(100px) scale(1);
+    transform: translateY(300px) scale(1);
   }
 }
 /* ============================================
