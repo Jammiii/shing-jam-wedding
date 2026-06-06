@@ -28,21 +28,22 @@ async function fetchWeatherForRoxas() {
   const lat = 12.5833;
   const lon = 121.5167;
 
-  const apiUrl = `https://api.open-meteo.com/v1/forecast
+  const apiUrl =
+  `https://api.open-meteo.com/v1/forecast
   ?latitude=${lat}
   &longitude=${lon}
   &current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m
   &hourly=temperature_2m
   &daily=weather_code,temperature_2m_max,temperature_2m_min
   &forecast_days=7
-  &timezone=Asia%2FManila`.replace(/\s+/g, "");
+  &timezone=Asia%2FManila`
+  .replace(/\s+/g,'');
 
-  const weatherContainer = document.getElementById("weddingWeather");
+  const weatherContainer = document.getElementById('weddingWeather');
   if (!weatherContainer) return;
 
   try {
-    weatherContainer.innerHTML =
-      '<div class="weather-loading"><i class="fas fa-spinner fa-spin"></i>Loading forecast</div>';
+    weatherContainer.innerHTML = '<div class="weather-loading"><i class="fas fa-spinner fa-spin"></i>Loading forecast</div>';
 
     const response = await fetch(apiUrl);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -51,10 +52,11 @@ async function fetchWeatherForRoxas() {
     if (data && data.current) {
       displayWeatherData(data);
     } else {
-      throw new Error("Invalid data format");
+      throw new Error('Invalid data format');
     }
+
   } catch (error) {
-    console.error("Weather fetch failed:", error);
+    console.error('Weather fetch failed:', error);
     weatherContainer.innerHTML = `
       <div class="weather-error">
         <i class="fas fa-cloud-moon"></i>
@@ -63,7 +65,14 @@ async function fetchWeatherForRoxas() {
     `;
   }
 }
-function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
+function generateWeddingAdvisory(
+  temp,
+  rain,
+  humidity,
+  wind,
+  weatherCode
+) {
+
   // Thunderstorm
   if (weatherCode === 95) {
     return `
@@ -107,7 +116,9 @@ function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
 }
 
 function displayWeatherData(data) {
-  const weatherContainer = document.getElementById("weddingWeather");
+
+  const weatherContainer =
+    document.getElementById("weddingWeather");
 
   const current = data.current;
   const daily = data.daily;
@@ -121,15 +132,19 @@ function displayWeatherData(data) {
 
   const today = new Date();
 
-  const dayName = today.toLocaleDateString("en-US", {
-    weekday: "long"
-  });
+  const dayName =
+    today.toLocaleDateString("en-US", {
+      weekday: "long"
+    });
 
-  const dailyCards = daily.time
-    .map((date, index) => {
-      const day = new Date(date).toLocaleDateString("en-US", {
-        weekday: "short"
-      });
+  const dailyCards =
+    daily.time.map((date, index) => {
+
+      const day =
+        new Date(date)
+        .toLocaleDateString("en-US", {
+          weekday: "short"
+        });
 
       return `
         <div class="forecast-day">
@@ -143,24 +158,27 @@ function displayWeatherData(data) {
           </small>
         </div>
       `;
-    })
-    .join("");
+    }).join("");
 
-  const hourlyTemps = hourly.temperature_2m
-    .slice(0, 8)
-    .map((t, index) => {
-      const hour = new Date(hourly.time[index]).toLocaleTimeString([], {
-        hour: "numeric"
-      });
+  const hourlyTemps =
+    hourly.temperature_2m
+      .slice(0,8)
+      .map((t,index)=>{
 
-      return `
+        const hour =
+          new Date(hourly.time[index])
+          .toLocaleTimeString([],{
+            hour:'numeric'
+          });
+
+        return `
           <div class="hour-item">
             <span>${hour}</span>
             <strong>${Math.round(t)}°</strong>
           </div>
         `;
-    })
-    .join("");
+      })
+      .join("");
   const advisoryText = generateWeddingAdvisory(
     temp,
     rain,
@@ -256,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const openEnvCheckbox = document.getElementById("open-env");
 
   // Auto-update copyright year
-  const footerYear = document.querySelector(".footer-bottom p:first-child");
+  const footerYear = document.querySelector('.footer-bottom p:first-child');
   if (footerYear) {
     footerYear.innerHTML = `&copy; ${new Date().getFullYear()} Shing & Jam. All rights reserved.`;
   }
@@ -404,6 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 // Toggle music when touching anywhere
                 document.addEventListener("click", function (e) {
+
                   // ignore form elements/buttons
                   if (
                     e.target.closest("button") ||
@@ -411,19 +430,23 @@ document.addEventListener("DOMContentLoaded", function () {
                     e.target.closest("textarea") ||
                     e.target.closest("select") ||
                     e.target.closest("a") ||
+
                     // FAQ
                     e.target.closest(".faq-question") ||
                     e.target.closest(".faq-item") ||
+
                     // Attire
                     e.target.closest(".attire-detail") ||
                     e.target.closest(".attire-sample-btn") ||
                     e.target.closest("summary") ||
                     e.target.closest("details") ||
+
                     // Travel / Details
                     e.target.closest(".travel-route") ||
                     e.target.closest(".travel-link") ||
                     e.target.closest(".details-btn") ||
                     e.target.closest(".copy-btn") ||
+                    
                     // Gallery
                     e.target.closest(".cube-gallery") ||
                     e.target.closest(".cube-nav") ||
@@ -431,10 +454,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     e.target.closest(".cube-track") ||
                     e.target.closest(".cube-dots") ||
                     e.target.closest(".view-gallery-btn") ||
+
                     // Gift Registry
                     e.target.closest("#toggleGiftGridBtn") ||
                     e.target.closest(".global-toggle-btn") ||
                     e.target.closest(".gift-card") ||
+
                     // RSVP Modal
                     e.target.closest(".rsvp-modal") ||
                     e.target.closest(".rsvp-modal-content") ||
@@ -452,8 +477,12 @@ document.addEventListener("DOMContentLoaded", function () {
                       musicToggle.innerHTML =
                         '<i class="fas fa-volume-up"></i>';
 
-                      musicToggle.setAttribute("data-playing", "true");
+                      musicToggle.setAttribute(
+                        "data-playing",
+                        "true"
+                      );
                     }
+
                   } else {
                     backgroundMusic.pause();
 
@@ -461,7 +490,10 @@ document.addEventListener("DOMContentLoaded", function () {
                       musicToggle.innerHTML =
                         '<i class="fas fa-volume-mute"></i>';
 
-                      musicToggle.setAttribute("data-playing", "false");
+                      musicToggle.setAttribute(
+                        "data-playing",
+                        "false"
+                      );
                     }
                   }
                 });
@@ -521,16 +553,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const scrollHeight =
       document.documentElement.scrollHeight - window.innerHeight;
 
-    const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    const progress =
+      scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
 
     scrollProgress.style.width = `${progress}%`;
   }
 
   window.addEventListener("scroll", updateScrollProgress, {
-    passive: true
+    passive: true,
   });
 
   updateScrollProgress();
+
 
   // Wedding Date
   const weddingDate = new Date("2027-03-26T13:00:00");
@@ -882,10 +916,10 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           showToast(result.error || "An error occurred", "error");
         }
-      } catch (error) {
-        console.error("RSVP submission error:", error);
-        showToast("Something went wrong. Please try again.", "error");
-      } finally {
+        } catch (error) {
+          console.error("RSVP submission error:", error);
+          showToast("Something went wrong. Please try again.", "error");
+        }finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
       }
@@ -893,6 +927,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function showRsvpModal(guest) {
+
     rsvpModalDetails.innerHTML = `
       <p><strong>Name:</strong> ${guest.guest_name}</p>
       <p><strong>Attendance:</strong> ${guest.attendance}</p>
@@ -930,58 +965,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Search RSVP confirmation
   if (statusSearch && statusSuggestions) {
-    statusSearch.addEventListener("input", async function () {
-      const name = this.value.trim();
+  statusSearch.addEventListener("input", async function () {
+    const name = this.value.trim();
 
-      statusSuggestions.innerHTML = "";
+    statusSuggestions.innerHTML = "";
 
-      if (name.length < 2) {
+    if (name.length < 2) {
+      statusSuggestions.style.display = "none";
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/check-rsvp?name=${encodeURIComponent(name)}`);
+      const data = await response.json();
+
+      if (!data.success || data.results.length === 0) {
         statusSuggestions.style.display = "none";
         return;
       }
 
-      try {
-        const response = await fetch(
-          `/api/check-rsvp?name=${encodeURIComponent(name)}`
-        );
-        const data = await response.json();
+      data.results.forEach((guest) => {
+        const item = document.createElement("div");
+        item.className = "status-suggestion";
+        item.textContent = guest.guest_name;
 
-        if (!data.success || data.results.length === 0) {
+        item.addEventListener("click", function (e) {
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          statusSearch.value = guest.guest_name;
           statusSuggestions.style.display = "none";
-          return;
-        }
 
-        data.results.forEach((guest) => {
-          const item = document.createElement("div");
-          item.className = "status-suggestion";
-          item.textContent = guest.guest_name;
-
-          item.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            statusSearch.value = guest.guest_name;
-            statusSuggestions.style.display = "none";
-
-            showRsvpModal(guest);
-          });
-
-          statusSuggestions.appendChild(item);
+          showRsvpModal(guest);
         });
 
-        statusSuggestions.style.display = "block";
-      } catch (error) {
-        console.error("RSVP status check error:", error);
-      }
-    });
+        statusSuggestions.appendChild(item);
+      });
 
-    document.addEventListener("click", function (e) {
-      if (!e.target.closest(".status-search-wrapper")) {
-        statusSuggestions.style.display = "none";
+      statusSuggestions.style.display = "block";
+
+    } catch (error) {
+      console.error("RSVP status check error:", error);
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".status-search-wrapper")) {
+      statusSuggestions.style.display = "none";
       }
     });
   }
   if (closeRsvpModal) {
+
     closeRsvpModal.addEventListener("click", (e) => {
       e.stopPropagation();
       rsvpModal.classList.remove("show");
@@ -994,6 +1030,7 @@ document.addEventListener("DOMContentLoaded", function () {
         rsvpModal.classList.remove("show");
       }
     });
+
   }
 
   document
@@ -1122,31 +1159,27 @@ document.addEventListener("DOMContentLoaded", function () {
   // ========== SMOOTH DRAG TO SWIPE IMPLEMENTATION ==========
   if (cubeGallery) {
     // Touch start - begin dragging
-    cubeGallery.addEventListener(
-      "touchstart",
-      function (e) {
-        if (cubeIsMoving) return;
+    cubeGallery.addEventListener("touchstart", function (e) {
+      if (cubeIsMoving) return;
 
-        cubeStartX = e.touches[0].clientX;
-        cubeStartY = e.touches[0].clientY;
-        cubeIsDragging = true;
+      cubeStartX = e.touches[0].clientX;
+      cubeStartY = e.touches[0].clientY;
+      cubeIsDragging = true;
 
-        // Store the current transform angle
-        cubeStartTransform = -cubeIndex * 90;
-        cubeCurrentTransform = cubeStartTransform;
+      // Store the current transform angle
+      cubeStartTransform = -cubeIndex * 90;
+      cubeCurrentTransform = cubeStartTransform;
 
-        // Remove transition during drag for instant response
-        if (cubeTrack) {
-          cubeTrack.style.transition = "none";
-        }
+      // Remove transition during drag for instant response
+      if (cubeTrack) {
+        cubeTrack.style.transition = "none";
+      }
 
-        // Add dragging class for visual feedback
-        cubeGallery.classList.add("dragging");
+      // Add dragging class for visual feedback
+      cubeGallery.classList.add("dragging");
 
-        e.preventDefault();
-      },
-      { passive: false }
-    );
+      e.preventDefault();
+    }, { passive: false });
 
     // Touch move - follow finger in real-time
     cubeGallery.addEventListener("touchmove", function (e) {
@@ -1199,8 +1232,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Re-enable transition for smooth snap back
       if (cubeTrack) {
-        cubeTrack.style.transition =
-          "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
+        cubeTrack.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
       }
 
       // If we're not changing slides, we need to snap back
@@ -1279,8 +1311,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       if (cubeTrack) {
-        cubeTrack.style.transition =
-          "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
+        cubeTrack.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
       }
 
       if (newIndex === cubeIndex) {
@@ -1369,33 +1400,33 @@ document.addEventListener("DOMContentLoaded", function () {
       messageDiv.style.display = "none";
     }, 5000);
   }
-
+  
   function showToast(message, type = "success") {
     let toast = document.querySelector(".toast-notification");
-
+  
     if (!toast) {
       toast = document.createElement("div");
       toast.className = "toast-notification";
       document.body.appendChild(toast);
     }
-
+  
     const icon =
       type === "success"
         ? '<i class="fas fa-heart"></i>'
         : '<i class="fas fa-exclamation-circle"></i>';
-
+  
     toast.className = `toast-notification ${type}`;
     toast.innerHTML = `${icon}<span>${message}</span>`;
-
+  
     setTimeout(() => {
       toast.classList.add("show");
     }, 50);
-
+  
     setTimeout(() => {
       toast.classList.remove("show");
     }, 3500);
   }
-
+  
   // Loading state
   function showLoading(show) {
     if (!submitBtn || !spinner) return;
@@ -1658,18 +1689,17 @@ document.addEventListener("DOMContentLoaded", function () {
       // Manila Time Filename
       const now = new Date();
 
-      const timestamp = now
-        .toLocaleString("en-US", {
-          timeZone: "Asia/Manila",
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true
-        })
-        .replace(/[/:]/g, "-")
-        .replace(", ", "_");
+      const timestamp = now.toLocaleString("en-US", {
+        timeZone: "Asia/Manila",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true
+      })
+      .replace(/[/:]/g, "-")
+      .replace(", ", "_");
 
       const a = document.createElement("a");
       a.href = url;
@@ -1682,6 +1712,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.URL.revokeObjectURL(url);
 
       showMessage("RSVP export downloaded successfully!", "success");
+
     } catch (error) {
       console.error("Export error:", error);
       showMessage("Failed to export RSVP data", "error");
@@ -1722,6 +1753,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
   }
 
+
   async function checkRSVPDeadline() {
     if (!deadlineMessage) return;
 
@@ -1734,10 +1766,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (rsvpForm) {
           // Disable ALL input fields
-          const allInputs = rsvpForm.querySelectorAll(
-            "input, select, textarea, button"
-          );
-          allInputs.forEach((el) => {
+          const allInputs = rsvpForm.querySelectorAll('input, select, textarea, button');
+          allInputs.forEach(el => {
             el.disabled = true;
           });
 
@@ -1767,10 +1797,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Disable meal preference group fields
           if (mealPreferenceGroup) {
-            const mealFields = mealPreferenceGroup.querySelectorAll(
-              "select, input"
-            );
-            mealFields.forEach((field) => {
+            const mealFields = mealPreferenceGroup.querySelectorAll('select, input');
+            mealFields.forEach(field => {
               field.disabled = true;
             });
           }
@@ -1959,10 +1987,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const content = document.getElementById("messageContent").value.trim();
 
       if (!name || !relationship || !content) {
-        showToast(
-          "Please fill in all fields before sharing your message.",
-          "error"
-        );
+        showToast("Please fill in all fields before sharing your message.", "error");
         return;
       }
 
@@ -1991,18 +2016,13 @@ document.addEventListener("DOMContentLoaded", function () {
           throw new Error(result.error || "Failed to post message");
         }
 
-        showToast(
-          "Thank you for your message! Your love has been shared.",
-          "success"
-        );
+        showToast("Thank you for your message! Your love has been shared.", "success");
         this.reset();
         await loadMessages();
+
       } catch (error) {
         console.error("Message post error:", error);
-        showToast(
-          "Message not posted. Please check your API or Supabase table.",
-          "error"
-        );
+        showToast("Message not posted. Please check your API or Supabase table.", "error");
       } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
@@ -2280,33 +2300,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Load saved preference from localStorage
   function loadGridPreference() {
-    const savedState = localStorage.getItem("giftGridHidden");
-    const isHidden = savedState === null ? true : savedState === "true";
+      const savedState = localStorage.getItem("giftGridHidden");
+      const isHidden = savedState === null ? true : savedState === "true";
 
-    if (isHidden) {
-      if (giftGridWrapper) giftGridWrapper.style.display = "none";
-      if (emptyMessage) emptyMessage.style.display = "block";
+      if (isHidden) {
+        if (giftGridWrapper) giftGridWrapper.style.display = "none";
+        if (emptyMessage) emptyMessage.style.display = "block";
 
-      if (toggleIcon) {
-        toggleIcon.className = "fas fa-eye";
-      }
+        if (toggleIcon) {
+          toggleIcon.className = "fas fa-eye";
+        }
 
-      if (toggleText) {
-        toggleText.textContent = "Show Gift Registry";
-      }
-    } else {
-      if (giftGridWrapper) giftGridWrapper.style.display = "block";
-      if (emptyMessage) emptyMessage.style.display = "none";
+        if (toggleText) {
+          toggleText.textContent = "Show Gift Registry";
+        }
+      } else {
+        if (giftGridWrapper) giftGridWrapper.style.display = "block";
+        if (emptyMessage) emptyMessage.style.display = "none";
 
-      if (toggleIcon) {
-        toggleIcon.className = "fas fa-eye-slash";
-      }
+        if (toggleIcon) {
+          toggleIcon.className = "fas fa-eye-slash";
+        }
 
-      if (toggleText) {
-        toggleText.textContent = "Hide Gift Registry";
+        if (toggleText) {
+          toggleText.textContent = "Hide Gift Registry";
+        }
       }
     }
-  }
 
   // Toggle grid visibility with animation
   function toggleGiftGrid() {
@@ -2360,9 +2380,9 @@ document.addEventListener("DOMContentLoaded", function () {
   let tapCount = 0;
   let tapTimer;
 
-  const secretLogo = document.querySelector(".nav-monogram-img");
+  const secretLogo = document.querySelector('.nav-monogram-img');
   if (secretLogo) {
-    secretLogo.addEventListener("click", function (e) {
+    secretLogo.addEventListener('click', function(e) {
       e.stopPropagation();
       tapCount++;
 
@@ -2372,10 +2392,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 800); // Reset after 800ms
 
       if (tapCount >= 3) {
-        const adminPanel = document.getElementById("adminPanel");
+        const adminPanel = document.getElementById('adminPanel');
         if (adminPanel) {
-          adminPanel.style.display = "block";
-          showToast("🔓 Admin Access Granted", "success");
+          adminPanel.style.display = 'block';
+          showToast('🔓 Admin Access Granted', 'success');
         }
         tapCount = 0;
       }
