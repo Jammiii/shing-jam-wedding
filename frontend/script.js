@@ -344,6 +344,16 @@ document.addEventListener("DOMContentLoaded", function () {
   if (openEnvCheckbox) {
     openEnvCheckbox.addEventListener("change", function () {
       if (this.checked) {
+        const weddingTitle = document.querySelector(".background_wedding_title");
+        const weddingName = document.querySelector(".background_wedding_name");
+
+        if (weddingTitle) {
+          weddingTitle.classList.add("hide-title");
+        }
+
+        if (weddingName) {
+          weddingName.classList.add("hide-title");
+        }
         // Add class to env element
         const envElement = this.closest(".env");
         if (envElement) {
