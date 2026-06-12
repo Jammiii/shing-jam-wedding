@@ -4265,8 +4265,8 @@ button.details-btn {
   }
 
   .message-avatar {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     font-size: 1.1rem;
   }
 
@@ -8674,4 +8674,96 @@ button.details-btn {
   to {
     background-position: 200% 50%;
   }
+}
+
+
+.background_wedding_text {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* WEDDING OF */
+.background_wedding_title {
+  position: absolute;
+  top: 18vh;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1rem, 2vw, 2rem);
+  font-weight: var(--font-bold);
+
+  color: var(--gold-primary);
+  letter-spacing: clamp(3px, 0.6vw, 6px);
+
+  text-shadow:
+    0 2px 8px rgba(0,0,0,0.7);
+
+  width: 100%;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+
+/* SHING & JAM */
+.background_wedding_name {
+  position: absolute;
+  bottom: 5vh;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2.2rem, 4vw, 5rem);
+  font-weight: var(--font-regular);
+
+  color: var(--gold-primary);
+
+  white-space: nowrap;
+  max-width: 95%;
+
+  text-shadow:
+    0 0 15px rgba(212,175,55,0.45),
+    0 4px 12px rgba(0,0,0,0.8);
+}
+
+.background_wedding_title.hide-title {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.background_wedding_name.hide-title {
+  opacity: 0;
+  visibility: hidden;
+}
+/* Mobile */
+@media (max-width: 600px) {
+
+  .background_wedding_title {
+    top: 25vh;
+    font-size: clamp(0.9rem, 5vw, 1.3rem);
+    letter-spacing: 3px;
+  }
+
+  .background_wedding_name {
+    bottom: 15vh;
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+}
+
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1200px) {
+
+  .background_wedding_title {
+    top: 25vh;
+  }
+
+  .background_wedding_name {
+    bottom: 15vh;
+  }
+
 }
