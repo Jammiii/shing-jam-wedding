@@ -6890,7 +6890,7 @@ button.details-btn {
    ============================================ */
 .env {
   margin: 280px auto 0;
-  background: var(--emerald-light);
+  background: var(--emerald-darker);
   width: 500px;
   perspective: 3000px;
   -webkit-perspective: 3000px;
@@ -6913,7 +6913,7 @@ button.details-btn {
   width: 0;
   height: 0;
   border: 200px solid transparent;
-  border-top-color: var(--emerald-primary);
+  border-top-color: var(--emerald-darker);
   margin: 0 auto;
   transform: scale(1.25, 1);
   margin-bottom: -400px;
@@ -6931,9 +6931,11 @@ button.details-btn {
   width: 100px;
   height: 0;
   margin: 0 auto;
-  border: 200px solid var(--emerald-light);
-  border-bottom: 150px solid var(--emerald-dark);
+  border-left: 200px solid transparent;
+  border-right: 200px solid transparent;
+  border-bottom: 150px solid var(--emerald-darker);
   border-top: 150px solid transparent;
+  filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
   margin-top: -300px;
 }
 
@@ -6967,7 +6969,7 @@ button.details-btn {
 }
 /* Envelope hover effect */
 .env .top:hover {
-  border-top-color: var(--emerald-lighter);
+  border-top-color: var(--emerald-dark);
 }
 
 /* TOP RIGHT FLOWER */
@@ -7028,6 +7030,65 @@ button.details-btn {
   animation-delay: 0.5s;
 }
 
+@media (max-width: 1024px) {
+  .flower-top-right {
+    width: 230px;
+    top: -8px;
+    right: -8px;
+  }
+
+  .flower-bottom-left {
+    width: 230px;
+    bottom: -8px;
+    left: -8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .flower-top-right {
+    width: 210px;
+    top: -5px;
+    right: -5px;
+  }
+
+  .flower-bottom-left {
+    width: 210px;
+    bottom: -5px;
+    left: -5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flower-top-right {
+    width: 160px;
+    top: -3;
+    right: -3;
+  }
+
+  .flower-bottom-left {
+    width: 160px;
+    bottom: -3;
+    left: -3;
+  }
+
+  .flower-top-right,
+  .flower-bottom-left {
+    animation:
+      flowerFade 1.2s ease,
+      flowerFloat 8s ease-in-out infinite;
+  }
+}
+
+@media (max-width: 360px) {
+  .flower-top-right {
+    width: 130px;
+  }
+
+  .flower-bottom-left {
+    width: 130px;
+  }
+}
+
 /* FLOATING ANIMATION */
 @keyframes flowerFloat {
   0% {
@@ -7083,7 +7144,7 @@ button.details-btn {
 #open-env:checked ~ .top-wrapper .top {
   transform: rotateX(-180deg) scale(1.25, 1);
   z-index: -20;
-  border-top-color: var(--gold-primary);
+  border-top-color: var(--ivory);
 }
 
 #open-env:checked ~ .top-wrapper .envelope-monogram {
@@ -7155,15 +7216,17 @@ button.details-btn {
 
   .env .rest {
     width: 70px;
-    border: 140px solid var(--emerald-light);
-    border-bottom: 105px solid var(--emerald-dark);
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-bottom: 105px solid var(--emerald-darker);
     border-top: 105px solid transparent;
+    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -210px;
   }
 
   .env .top {
     border: 140px solid transparent;
-    border-top-color: var(--emerald-primary);
+    border-top-color: var(--emerald-darker);
     margin-bottom: -280px;
   }
 
@@ -7188,15 +7251,17 @@ button.details-btn {
 
   .env .rest {
     width: 60px;
-    border: 120px solid var(--emerald-light);
-    border-bottom: 90px solid var(--emerald-dark);
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-bottom: 90px solid var(--emerald-darker);
     border-top: 90px solid transparent;
+    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -180px;
   }
 
   .env .top {
     border: 120px solid transparent;
-    border-top-color: var(--emerald-primary);
+    border-top-color: var(--emerald-darker);
     margin-bottom: -240px;
   }
 
@@ -7254,7 +7319,7 @@ button.details-btn {
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  background: #373732;
+  background: var(--emerald-darker);
   opacity: 0;
 }
 
@@ -7267,11 +7332,11 @@ button.details-btn {
 #open-env:checked ~ #envelopeVideo {
   filter: brightness(0.5) blur(5px);
   transition: filter 1.2s ease;
-  background: #373732;
+  background: var(--emerald-darker);
 }
 
 #envelopeContainer:has(#open-env:checked) {
-  background: #373732;
+  background: var(--emerald-darker);
 }
 
 /* Ensure envelope elements are above video */
@@ -7292,7 +7357,7 @@ button.details-btn {
 /* Envelope wrapper - ensure it scales properly */
 .env {
   margin: 0 auto;
-  background: var(--emerald-light);
+  background: var(--emerald-darker);
   perspective: 3000px;
   -webkit-perspective: 3000px;
   perspective-origin: 50% 0;
@@ -7376,7 +7441,7 @@ button.details-btn {
     width: 0;
     height: 0;
     border: 200px solid transparent;
-    border-top-color: var(--emerald-primary);
+    border-top-color: var(--emerald-darker);
     margin-bottom: -400px;
     transform: scale(1.25, 1);
     -webkit-transform: scale(1.25, 1);
@@ -7384,11 +7449,16 @@ button.details-btn {
   }
 
   .env .rest {
+    position: relative;
     width: 100px;
     height: 0;
-    border: 200px solid var(--emerald-light);
-    border-bottom: 150px solid var(--emerald-dark);
+
+    border-left: 200px solid transparent;
+    border-right: 200px solid transparent;
+    border-bottom: 150px solid var(--emerald-darker);
     border-top: 150px solid transparent;
+
+    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
   }
 
   .envelope-monogram {
@@ -7429,7 +7499,7 @@ button.details-btn {
     width: 0;
     height: 0;
     border: 140px solid transparent;
-    border-top-color: var(--emerald-primary);
+    border-top-color: var(--emerald-darker);
     margin-bottom: -280px;
     transform: scale(1.25, 1);
   }
@@ -7437,9 +7507,11 @@ button.details-btn {
   .env .rest {
     width: 70px;
     height: 0;
-    border: 140px solid var(--emerald-light);
-    border-bottom: 105px solid var(--emerald-dark);
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-bottom: 105px solid var(--emerald-darker);
     border-top: 105px solid transparent;
+    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -210px;
   }
   .envelope-monogram {
@@ -7483,7 +7555,7 @@ button.details-btn {
     width: 0;
     height: 0;
     border: 120px solid transparent;
-    border-top-color: var(--emerald-primary);
+    border-top-color: var(--emerald-darker);
     margin-bottom: -240px;
     transform: scale(1.25, 1);
     -webkit-transform: scale(1.25, 1);
@@ -7493,9 +7565,11 @@ button.details-btn {
   .env .rest {
     width: 60px;
     height: 0;
-    border: 120px solid var(--emerald-light);
-    border-bottom: 90px solid var(--emerald-dark);
+    border-left: 120px solid transparent;
+    border-right: 120px solid transparent;
+    border-bottom: 90px solid var(--emerald-darker);
     border-top: 90px solid transparent;
+    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -180px;
   }
 
@@ -7537,15 +7611,17 @@ button.details-btn {
 
   .env .top {
     border: 100px solid transparent;
-    border-top-color: var(--emerald-primary);
+    border-top-color: var(--emerald-darker);
     margin-bottom: -200px;
   }
 
   .env .rest {
     width: 50px;
-    border: 100px solid var(--emerald-light);
-    border-bottom: 75px solid var(--emerald-dark);
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 75px solid var(--emerald-darker);
     border-top: 75px solid transparent;
+    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -150px;
   }
 
