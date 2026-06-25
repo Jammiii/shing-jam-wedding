@@ -4988,59 +4988,241 @@ button.details-btn {
 }
 
 /* ============================================
-   MUSIC TOGGLE
+   SPOTIFY MUSIC PLAYER
    ============================================ */
-.music-toggle {
+
+.spotify-player {
   position: fixed;
-  bottom: 2.5rem;
-  right: 2.5rem;
-  z-index: 100;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+
+  width: 320px;
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: rgba(18, 18, 18, 0.96);
+  backdrop-filter: blur(12px);
+
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.35),
+    0 0 0 1px rgba(255,255,255,0.03);
 }
 
-.music-btn {
-  background: linear-gradient(
-    135deg,
-    var(--gold-primary) 0%,
-    var(--gold-dark) 100%
-  );
-  color: var(--emerald-darker);
+
+.spotify-equalizer {
   width: 50px;
   height: 50px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+  background: #000;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  transition: var(--transition);
-  box-shadow: var(--shadow-lg);
-  position: relative;
+  gap: 4px;
 }
 
-.music-btn::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(
-    45deg,
-    var(--gold-primary),
-    var(--emerald-primary),
-    var(--gold-primary)
-  );
+.spotify-equalizer span {
+  width: 4px;
+  height: 12px;
+  border-radius: 999px;
+  background: #1db954;
+}
+
+.spotify-player.playing .spotify-equalizer span {
+  animation: equalizerBeat 0.8s ease-in-out infinite;
+}
+
+.spotify-player.playing .spotify-equalizer span:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.spotify-player.playing .spotify-equalizer span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.spotify-player.playing .spotify-equalizer span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.spotify-player.playing .spotify-equalizer span:nth-child(4) {
+  animation-delay: 0.1s;
+}
+
+.spotify-player.playing .spotify-equalizer span:nth-child(5) {
+  animation-delay: 0.25s;
+}
+
+@keyframes equalizerBeat {
+  0%,100% {
+    height: 12px;
+  }
+
+  50% {
+    height: 32px;
+  }
+}
+
+
+.spotify-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.spotify-label {
+  display: block;
+
+  color: #b3b3b3;
+  font-size: 0.68rem;
+  margin-bottom: 3px;
+
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.spotify-title {
+  display: block;
+
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotify-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.spotify-control-btn,
+.spotify-play-btn {
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all .25s ease;
+}
+
+.spotify-control-btn {
+  width: 32px;
+  height: 32px;
+
+  background: transparent;
+  color: #b3b3b3;
+
+  font-size: 0.9rem;
+}
+
+.spotify-control-btn:hover {
+  color: #fff;
+  transform: scale(1.08);
+}
+
+.spotify-play-btn {
+  width: 40px;
+  height: 40px;
+
   border-radius: 50%;
-  z-index: -1;
-  opacity: 0;
-  transition: var(--transition);
+
+  background: #1db954;
+  color: #000;
+
+  font-size: 0.95rem;
+  font-weight: bold;
 }
 
-.music-btn:hover::before {
-  opacity: 1;
+.spotify-play-btn:hover {
+  transform: scale(1.08);
 }
 
+
+@media (max-width: 768px) {
+
+  .spotify-player {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    width: auto;
+    max-width: none;
+
+    padding: 10px;
+    gap: 10px;
+
+    border-radius: 18px;
+  }
+
+  .spotify-equalizer {
+    width: 42px;
+    height: 42px;
+    gap: 3px;
+  }
+
+  .spotify-equalizer span {
+    width: 3px;
+  }
+
+  .spotify-label {
+    font-size: 0.58rem;
+  }
+
+  .spotify-title {
+    font-size: 0.8rem;
+  }
+
+  .spotify-controls {
+    gap: 2px;
+  }
+
+  .spotify-control-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+
+  .spotify-play-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+
+  .spotify-player {
+    padding: 8px;
+  }
+
+  .spotify-title {
+    max-width: 95px;
+  }
+
+  .spotify-equalizer {
+    width: 38px;
+    height: 38px;
+  }
+
+  .spotify-play-btn {
+    width: 32px;
+    height: 32px;
+  }
+}
 /* ============================================
     ADMIN PANEL
    ============================================ */
