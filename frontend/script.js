@@ -114,7 +114,50 @@ function generateWeddingAdvisory(
     Bringing a light shawl or jacket may be helpful.
   `;
 }
+function getWeatherIcon(weatherCode) {
 
+  // Clear sky
+  if (weatherCode === 0) {
+    return "fas fa-sun";
+  }
+
+  // Mainly clear / partly cloudy
+  if ([1, 2].includes(weatherCode)) {
+    return "fas fa-cloud-sun";
+  }
+
+  // Overcast
+  if (weatherCode === 3) {
+    return "fas fa-cloud";
+  }
+
+  // Fog
+  if ([45, 48].includes(weatherCode)) {
+    return "fas fa-smog";
+  }
+
+  // Drizzle
+  if ([51, 53, 55, 56, 57].includes(weatherCode)) {
+    return "fas fa-cloud-rain";
+  }
+
+  // Rain
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) {
+    return "fas fa-cloud-showers-heavy";
+  }
+
+  // Snow
+  if ([71, 73, 75, 77, 85, 86].includes(weatherCode)) {
+    return "fas fa-snowflake";
+  }
+
+  // Thunderstorm
+  if ([95, 96, 99].includes(weatherCode)) {
+    return "fas fa-bolt";
+  }
+
+  return "fas fa-cloud";
+}
 function displayWeatherData(data) {
 
   const weatherContainer =
@@ -137,28 +180,31 @@ function displayWeatherData(data) {
       weekday: "long"
     });
 
-  const dailyCards =
-    daily.time.map((date, index) => {
+const dailyCards =
+  daily.time.map((date, index) => {
 
-      const day =
-        new Date(date)
-        .toLocaleDateString("en-US", {
-          weekday: "short"
-        });
+    const day =
+      new Date(date)
+      .toLocaleDateString("en-US", {
+        weekday: "short"
+      });
 
-      return `
-        <div class="forecast-day">
-          <i class="fas fa-cloud-rain"></i>
-          <span>${day}</span>
-          <strong>
-            ${Math.round(daily.temperature_2m_max[index])}°
-          </strong>
-          <small>
-            ${Math.round(daily.temperature_2m_min[index])}°
-          </small>
-        </div>
-      `;
-    }).join("");
+    const iconClass =
+      getWeatherIcon(daily.weather_code[index]);
+
+    return `
+      <div class="forecast-day">
+        <i class="${iconClass}"></i>
+        <span>${day}</span>
+        <strong>
+          ${Math.round(daily.temperature_2m_max[index])}°
+        </strong>
+        <small>
+          ${Math.round(daily.temperature_2m_min[index])}°
+        </small>
+      </div>
+    `;
+  }).join("");
 
   const hourlyTemps =
     hourly.temperature_2m
@@ -192,9 +238,9 @@ function displayWeatherData(data) {
 
       <div class="weather-main">
 
-        <div class="weather-icon">
-          <i class="fas fa-cloud-rain"></i>
-        </div>
+      <div class="weather-icon">
+        <i class="${getWeatherIcon(weatherCode)}"></i>
+      </div>
 
         <div class="weather-temp">
           ${temp}°
@@ -415,8 +461,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Update icon to show volume up
                         if (musicToggle) {
                           musicToggle.innerHTML =
-                            '<i class="fas fa-volume-up"></i>';
+                            '<i class="fas fa-pause"></i>';
                           musicToggle.setAttribute("data-playing", "true");
+                        }
+
+                        if (spotifyPlayer) {
+                          spotifyPlayer.classList.add("playing");
                         }
                       })
                       .catch((e) => {
@@ -424,8 +474,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         // Keep icon as mute if autoplay failed
                         if (musicToggle) {
                           musicToggle.innerHTML =
-                            '<i class="fas fa-volume-mute"></i>';
+                            '<i class="fas fa-play"></i>';
                           musicToggle.setAttribute("data-playing", "false");
+                        }
+
+                        if (spotifyPlayer) {
+                          spotifyPlayer.classList.remove("playing");
                         }
                       });
                   }
@@ -485,7 +539,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (musicToggle) {
                       musicToggle.innerHTML =
-                        '<i class="fas fa-volume-up"></i>';
+                        '<i class="fas fa-pause"></i>';
 
                       musicToggle.setAttribute(
                         "data-playing",
@@ -493,17 +547,25 @@ document.addEventListener("DOMContentLoaded", function () {
                       );
                     }
 
+                    if (spotifyPlayer) {
+                      spotifyPlayer.classList.add("playing");
+                    }
+
                   } else {
                     backgroundMusic.pause();
 
                     if (musicToggle) {
                       musicToggle.innerHTML =
-                        '<i class="fas fa-volume-mute"></i>';
+                        '<i class="fas fa-play"></i>';
 
                       musicToggle.setAttribute(
                         "data-playing",
                         "false"
                       );
+                    }
+
+                    if (spotifyPlayer) {
+                      spotifyPlayer.classList.remove("playing");
                     }
                   }
                 });
@@ -555,7 +617,131 @@ document.addEventListener("DOMContentLoaded", function () {
   const navMenu = document.getElementById("navMenu");
   const footerQuote = document.getElementById("footerQuote");
   const scrollProgress = document.querySelector(".scroll-progress");
+  const songs = [
+    {
+      title: "Tahanan",
+      src: "./frontend/music/Tahanan.webm"
+    },
+    {
+      title: "Bawat Daan",
+      src: "./frontend/music/Bawat_Daan.webm"
+    },
+    {
+      title: "Araw-araw",
+      src: "./frontend/music/Araw-araw.webm"
+    }
+  ];
 
+  let currentSongIndex = 0;
+
+  const prevMusic = document.getElementById("prevMusic");
+  const nextMusic = document.getElementById("nextMusic");
+  const currentSongTitle = document.getElementById("currentSongTitle");
+  const spotifyPlayer = document.querySelector(".spotify-player");
+
+  function loadSong(index) {
+    if (!backgroundMusic) return;
+
+    backgroundMusic.src = songs[index].src;
+
+    if (currentSongTitle) {
+      currentSongTitle.textContent = songs[index].title;
+    }
+  }
+
+  function playCurrentSong() {
+    if (!backgroundMusic) return;
+
+    backgroundMusic.volume = 0.3;
+
+    backgroundMusic.play().then(() => {
+      if (musicToggle) {
+        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+        musicToggle.setAttribute("data-playing", "true");
+      }
+
+      if (spotifyPlayer) {
+        spotifyPlayer.classList.add("playing");
+      }
+    });
+  }
+
+  function pauseCurrentSong() {
+    if (!backgroundMusic) return;
+
+    backgroundMusic.pause();
+
+    if (musicToggle) {
+      musicToggle.innerHTML = '<i class="fas fa-play"></i>';
+      musicToggle.setAttribute("data-playing", "false");
+    }
+
+    if (spotifyPlayer) {
+      spotifyPlayer.classList.remove("playing");
+    }
+  }
+
+  if (musicToggle && backgroundMusic) {
+    loadSong(currentSongIndex);
+
+    musicToggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (backgroundMusic.paused) {
+        playCurrentSong();
+      } else {
+        pauseCurrentSong();
+      }
+    });
+  }
+
+  if (nextMusic) {
+    nextMusic.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      loadSong(currentSongIndex);
+      playCurrentSong();
+    });
+  }
+
+  if (prevMusic) {
+    prevMusic.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      currentSongIndex =
+        (currentSongIndex - 1 + songs.length) % songs.length;
+
+      loadSong(currentSongIndex);
+      playCurrentSong();
+    });
+  }
+
+  if (backgroundMusic) {
+    backgroundMusic.addEventListener("ended", function () {
+      currentSongIndex = (currentSongIndex + 1) % songs.length;
+      loadSong(currentSongIndex);
+      playCurrentSong();
+    });
+  }
+  if (backgroundMusic && spotifyPlayer) {
+
+    backgroundMusic.addEventListener("play", () => {
+      spotifyPlayer.classList.add("playing");
+    });
+
+    backgroundMusic.addEventListener("pause", () => {
+      spotifyPlayer.classList.remove("playing");
+    });
+
+    backgroundMusic.addEventListener("ended", () => {
+      spotifyPlayer.classList.remove("playing");
+    });
+
+  }
   if (!scrollProgress) return;
 
   function updateScrollProgress() {
@@ -1357,47 +1543,6 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "full-gallery.html";
     });
   }
-  // Music toggle
-  if (musicToggle && backgroundMusic) {
-    // Set initial volume
-    backgroundMusic.volume = 0.3;
-
-    // Function to update icon based on actual audio state
-    function updateMusicIcon() {
-      if (backgroundMusic.paused) {
-        musicToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        musicToggle.setAttribute("data-playing", "false");
-      } else {
-        musicToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-        musicToggle.setAttribute("data-playing", "true");
-      }
-    }
-
-    // Initial icon update (starts with mute)
-    updateMusicIcon();
-
-    // Toggle music on click
-    musicToggle.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      if (backgroundMusic.paused) {
-        backgroundMusic
-          .play()
-          .then(() => {
-            updateMusicIcon();
-          })
-          .catch((error) => {
-            console.log("Play failed:", error);
-            updateMusicIcon();
-          });
-      } else {
-        backgroundMusic.pause();
-        updateMusicIcon();
-      }
-    });
-  }
-
   // Show message
   function showMessage(text, type) {
     if (!messageDiv) return;
