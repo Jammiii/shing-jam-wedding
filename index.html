@@ -89,12 +89,35 @@
       </div>
     </nav>
 
-  <!-- Music Toggle -->
-  <div class="music-toggle">
-      <button id="musicToggle" class="music-btn">
-        <i class="fas fa-volume-mute"></i>
-      </button>
-    </div>
+  <!-- Music Playlist -->
+  <div class="music-toggle spotify-player">
+  <div class="spotify-equalizer" id="spotifyEqualizer">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <div class="spotify-info">
+    <span class="spotify-label">Now Playing</span>
+    <span id="currentSongTitle" class="spotify-title">Tahanan</span>
+  </div>
+
+  <div class="spotify-controls">
+    <button id="prevMusic" class="spotify-control-btn">
+      <i class="fas fa-backward-step"></i>
+    </button>
+
+    <button id="musicToggle" class="spotify-play-btn">
+      <i class="fas fa-play"></i>
+    </button>
+
+    <button id="nextMusic" class="spotify-control-btn">
+      <i class="fas fa-forward-step"></i>
+    </button>
+  </div>
+</div>
 
   <div id="weddingContent">
     <!-- Background Music -->
