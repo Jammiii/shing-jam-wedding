@@ -5004,17 +5004,16 @@ button.details-btn {
   align-items: center;
   gap: 12px;
 
-  background: rgba(18, 18, 18, 0.96);
+  background: rgba(1, 52, 2, 0.96);
   backdrop-filter: blur(12px);
 
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(212, 175, 55, 0.25);
 
-  box-shadow:
-    0 10px 40px rgba(0,0,0,0.35),
-    0 0 0 1px rgba(255,255,255,0.03);
+  box-shadow: var(--shadow-lg);
+
+  transition: var(--transition);
 }
-
 
 .spotify-equalizer {
   width: 50px;
@@ -5022,20 +5021,44 @@ button.details-btn {
 
   flex-shrink: 0;
 
-  border-radius: 12px;
-  background: #000;
+  border-radius: var(--radius-md);
+  background: var(--emerald-darker);
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
+
+  border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
+.spotify-player.music-collapsed {
+  width: 58px;
+  height: 58px;
+  padding: 8px;
+  border-radius: 0 18px 18px 0;
+
+  left: 0;
+  right: auto;
+  bottom: 120px;
+
+  justify-content: center;
+}
+
+.spotify-player.music-collapsed .spotify-info,
+.spotify-player.music-collapsed .spotify-controls {
+  display: none;
+}
+
+.spotify-player.music-collapsed .spotify-equalizer {
+  width: 42px;
+  height: 42px;
+}
 .spotify-equalizer span {
   width: 4px;
   height: 12px;
   border-radius: 999px;
-  background: #1db954;
+  background: var(--emerald-lighter);
 }
 
 .spotify-player.playing .spotify-equalizer span {
@@ -5072,7 +5095,6 @@ button.details-btn {
   }
 }
 
-
 .spotify-info {
   flex: 1;
   min-width: 0;
@@ -5081,7 +5103,7 @@ button.details-btn {
 .spotify-label {
   display: block;
 
-  color: #b3b3b3;
+  color: var(--gold-lighter);
   font-size: 0.68rem;
   margin-bottom: 3px;
 
@@ -5092,9 +5114,9 @@ button.details-btn {
 .spotify-title {
   display: block;
 
-  color: #fff;
+  color: var(--ivory);
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: var(--font-bold);
 
   white-space: nowrap;
   overflow: hidden;
@@ -5116,7 +5138,7 @@ button.details-btn {
   align-items: center;
   justify-content: center;
 
-  transition: all .25s ease;
+  transition: var(--transition);
 }
 
 .spotify-control-btn {
@@ -5124,13 +5146,13 @@ button.details-btn {
   height: 32px;
 
   background: transparent;
-  color: #b3b3b3;
+  color: var(--emerald-lighter);
 
   font-size: 0.9rem;
 }
 
 .spotify-control-btn:hover {
-  color: #fff;
+  color: var(--ivory);
   transform: scale(1.08);
 }
 
@@ -5140,17 +5162,17 @@ button.details-btn {
 
   border-radius: 50%;
 
-  background: #1db954;
-  color: #000;
+  background: var(--emerald-lighter);
+  color: var(--ivory);
 
   font-size: 0.95rem;
-  font-weight: bold;
+  font-weight: var(--font-bold);
 }
 
 .spotify-play-btn:hover {
+  background: var(--emerald-light);
   transform: scale(1.08);
 }
-
 
 @media (max-width: 768px) {
 
@@ -5165,13 +5187,23 @@ button.details-btn {
     padding: 10px;
     gap: 10px;
 
-    border-radius: 18px;
+    border-radius: var(--radius-lg);
   }
 
   .spotify-equalizer {
     width: 42px;
     height: 42px;
     gap: 3px;
+  }
+
+  .spotify-player.music-collapsed {
+    left: 0;
+    right: auto;
+    bottom: 90px;
+
+    width: 54px;
+    height: 54px;
+    padding: 8px;
   }
 
   .spotify-equalizer span {
