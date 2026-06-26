@@ -247,7 +247,7 @@ const dailyCards =
         </div>
 
         <div class="weather-details">
-          <div>Precipitation: ${current.precipitation}%</div>
+          <div>Precipitation: ${current.precipitation} mm</div>
           <div>Humidity: ${humidity}%</div>
           <div>Wind: ${wind} km/h</div>
         </div>
@@ -339,6 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+
   // Initialize - Hide wedding content initially
   if (!fromGallery && weddingContent) {
     weddingContent.style.display = "none";
@@ -423,9 +424,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (envelopeContainer) {
               envelopeContainer.style.opacity = "0";
               envelopeContainer.style.transform =
-                "scale(0.8) translateY(-50px)";
+                  "scale(0.8) translateY(-50px)";
               envelopeContainer.style.transition =
-                "all 1s cubic-bezier(0.4, 0, 0.2, 1)";
+                  "all 1s cubic-bezier(0.4, 0, 0.2, 1)";
 
               setTimeout(() => {
                 envelopeContainer.style.display = "none";
@@ -437,13 +438,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 setTimeout(() => {
                   showInstallPrompt();
                 }, 800);
-                document.addEventListener("DOMContentLoaded", function () {
-                  initFAQ();
-                });
                 weddingContent.style.opacity = "0";
                 weddingContent.style.transform = "translateY(30px) scale(0.98)";
                 weddingContent.style.transition =
-                  "opacity 1.2s ease, transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)";
+                    "opacity 1.2s ease, transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)";
 
                 void weddingContent.offsetWidth;
                 weddingContent.style.opacity = "1";
@@ -456,32 +454,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   if (playPromise !== undefined) {
                     playPromise
-                      .then(() => {
-                        console.log("Music started successfully");
-                        // Update icon to show volume up
-                        if (musicToggle) {
-                          musicToggle.innerHTML =
-                            '<i class="fas fa-pause"></i>';
-                          musicToggle.setAttribute("data-playing", "true");
-                        }
+                        .then(() => {
+                          console.log("Music started successfully");
+                          // Update icon to show volume up
+                          if (musicToggle) {
+                            musicToggle.innerHTML =
+                                '<i class="fas fa-pause"></i>';
+                            musicToggle.setAttribute("data-playing", "true");
+                          }
 
-                        if (spotifyPlayer) {
-                          spotifyPlayer.classList.add("playing");
-                        }
-                      })
-                      .catch((e) => {
-                        console.log("Auto-play prevented");
-                        // Keep icon as mute if autoplay failed
-                        if (musicToggle) {
-                          musicToggle.innerHTML =
-                            '<i class="fas fa-play"></i>';
-                          musicToggle.setAttribute("data-playing", "false");
-                        }
+                          if (spotifyPlayer) {
+                            spotifyPlayer.classList.add("playing");
+                          }
+                        })
+                        .catch((e) => {
+                          console.log("Auto-play prevented");
+                          // Keep icon as mute if autoplay failed
+                          if (musicToggle) {
+                            musicToggle.innerHTML =
+                                '<i class="fas fa-play"></i>';
+                            musicToggle.setAttribute("data-playing", "false");
+                          }
 
-                        if (spotifyPlayer) {
-                          spotifyPlayer.classList.remove("playing");
-                        }
-                      });
+                          if (spotifyPlayer) {
+                            spotifyPlayer.classList.remove("playing");
+                          }
+                        });
                   }
                 }
                 // Toggle music when touching anywhere
@@ -489,45 +487,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
                   // ignore form elements/buttons
                   if (
-                    e.target.closest("button") ||
-                    e.target.closest("input") ||
-                    e.target.closest("textarea") ||
-                    e.target.closest("select") ||
-                    e.target.closest("a") ||
+                      e.target.closest("button") ||
+                      e.target.closest("input") ||
+                      e.target.closest("textarea") ||
+                      e.target.closest("select") ||
+                      e.target.closest("a") ||
 
-                    // FAQ
-                    e.target.closest(".faq-question") ||
-                    e.target.closest(".faq-item") ||
+                      e.target.closest(".spotify-player") ||
+                      e.target.closest(".music-toggle") ||
+                      // FAQ
+                      e.target.closest(".faq-question") ||
+                      e.target.closest(".faq-item") ||
 
-                    // Attire
-                    e.target.closest(".attire-detail") ||
-                    e.target.closest(".attire-sample-btn") ||
-                    e.target.closest("summary") ||
-                    e.target.closest("details") ||
+                      // Attire
+                      e.target.closest(".attire-detail") ||
+                      e.target.closest(".attire-sample-btn") ||
+                      e.target.closest("summary") ||
+                      e.target.closest("details") ||
 
-                    // Travel / Details
-                    e.target.closest(".travel-route") ||
-                    e.target.closest(".travel-link") ||
-                    e.target.closest(".details-btn") ||
-                    e.target.closest(".copy-btn") ||
-                    
-                    // Gallery
-                    e.target.closest(".cube-gallery") ||
-                    e.target.closest(".cube-nav") ||
-                    e.target.closest(".cube-face") ||
-                    e.target.closest(".cube-track") ||
-                    e.target.closest(".cube-dots") ||
-                    e.target.closest(".view-gallery-btn") ||
+                      // Travel / Details
+                      e.target.closest(".travel-route") ||
+                      e.target.closest(".travel-link") ||
+                      e.target.closest(".details-btn") ||
+                      e.target.closest(".copy-btn") ||
 
-                    // Gift Registry
-                    e.target.closest("#toggleGiftGridBtn") ||
-                    e.target.closest(".global-toggle-btn") ||
-                    e.target.closest(".gift-card") ||
+                      // Gallery
+                      e.target.closest(".cube-gallery") ||
+                      e.target.closest(".cube-nav") ||
+                      e.target.closest(".cube-face") ||
+                      e.target.closest(".cube-track") ||
+                      e.target.closest(".cube-dots") ||
+                      e.target.closest(".view-gallery-btn") ||
 
-                    // RSVP Modal
-                    e.target.closest(".rsvp-modal") ||
-                    e.target.closest(".rsvp-modal-content") ||
-                    e.target.closest(".rsvp-modal-close")
+                      // Gift Registry
+                      e.target.closest("#toggleGiftGridBtn") ||
+                      e.target.closest(".global-toggle-btn") ||
+                      e.target.closest(".gift-card") ||
+
+                      // RSVP Modal
+                      e.target.closest(".rsvp-modal") ||
+                      e.target.closest(".rsvp-modal-content") ||
+                      e.target.closest(".rsvp-modal-close")
                   ) {
                     return;
                   }
@@ -539,11 +539,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (musicToggle) {
                       musicToggle.innerHTML =
-                        '<i class="fas fa-pause"></i>';
+                          '<i class="fas fa-pause"></i>';
 
                       musicToggle.setAttribute(
-                        "data-playing",
-                        "true"
+                          "data-playing",
+                          "true"
                       );
                     }
 
@@ -556,11 +556,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     if (musicToggle) {
                       musicToggle.innerHTML =
-                        '<i class="fas fa-play"></i>';
+                          '<i class="fas fa-play"></i>';
 
                       musicToggle.setAttribute(
-                        "data-playing",
-                        "false"
+                          "data-playing",
+                          "false"
                       );
                     }
 
@@ -639,6 +639,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const currentSongTitle = document.getElementById("currentSongTitle");
   const spotifyPlayer = document.querySelector(".spotify-player");
 
+  if (spotifyPlayer) {
+    spotifyPlayer.addEventListener("click", function (e) {
+      if (e.target.closest(".spotify-controls")) return;
+
+      e.stopPropagation();
+      spotifyPlayer.classList.toggle("music-collapsed");
+    });
+  }
   function loadSong(index) {
     if (!backgroundMusic) return;
 
@@ -713,7 +721,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.stopPropagation();
 
       currentSongIndex =
-        (currentSongIndex - 1 + songs.length) % songs.length;
+          (currentSongIndex - 1 + songs.length) % songs.length;
 
       loadSong(currentSongIndex);
       playCurrentSong();
@@ -742,25 +750,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
   }
-  if (!scrollProgress) return;
+  if (scrollProgress) {
+    function updateScrollProgress() {
+      const scrollTop = window.pageYOffset;
+      const scrollHeight =
+          document.documentElement.scrollHeight - window.innerHeight;
 
-  function updateScrollProgress() {
-    const scrollTop = window.pageYOffset;
-    const scrollHeight =
-      document.documentElement.scrollHeight - window.innerHeight;
+      const progress =
+          scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
 
-    const progress =
-      scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      scrollProgress.style.width = `${progress}%`;
+    }
 
-    scrollProgress.style.width = `${progress}%`;
+    window.addEventListener("scroll", updateScrollProgress, {
+      passive: true,
+    });
+
+    updateScrollProgress();
   }
-
-  window.addEventListener("scroll", updateScrollProgress, {
-    passive: true,
-  });
-
-  updateScrollProgress();
-
 
   // Wedding Date
   const weddingDate = new Date("2027-03-26T13:00:00");
@@ -774,7 +781,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const countdownSec = document.getElementById("countdown-secondary");
       if (countdownSec) {
         countdownSec.innerHTML =
-          '<div class="countdown-item-secondary"><span class="countdown-number-secondary">🎉</span><span class="countdown-label-secondary">Wedding Day!</span></div>';
+            '<div class="countdown-item-secondary"><span class="countdown-number-secondary">🎉</span><span class="countdown-label-secondary">Wedding Day!</span></div>';
       }
       return;
     }
@@ -917,7 +924,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Eliboy Mendoza"
   ];
 
-  if (guestInput) {
+  if (guestInput && guestSuggestions) {
     guestInput.addEventListener("input", function () {
       const value = this.value.toLowerCase().trim();
 
@@ -929,7 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const matches = guestList.filter((guest) =>
-        guest.toLowerCase().includes(value)
+          guest.toLowerCase().includes(value)
       );
 
       if (matches.length === 0) {
@@ -1064,15 +1071,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       submitBtn.disabled = true;
       submitBtn.innerHTML =
-        '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+          '<i class="fas fa-spinner fa-spin"></i> Submitting...';
 
       const data = {
         guest_name: formData.get("guest_name"),
         attendance: formData.get("attendance"),
         meal_preference:
-          formData.get("attendance") === "Accepts with pleasure"
-            ? formData.get("meal_preference")
-            : null,
+            formData.get("attendance") === "Accepts with pleasure"
+                ? formData.get("meal_preference")
+                : null,
         message: formData.get("guest_message") || "",
         relationship: formData.get("relationship") || null
       };
@@ -1090,15 +1097,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (response.ok) {
           showToast(
-            data.message
-              ? "Thank you for your RSVP and warm wishes ✨"
-              : "Your RSVP has been received with love ✨",
-            "success"
+              data.message
+                  ? "Thank you for your RSVP and warm wishes ✨"
+                  : "Your RSVP has been received with love ✨",
+              "success"
           );
 
           rsvpForm.reset();
 
-          mealPreferenceGroup.classList.remove("visible");
+          if (mealPreferenceGroup) {
+            mealPreferenceGroup.classList.remove("visible");
+          }
 
           if (relationshipGroup) {
             relationshipGroup.style.display = "none";
@@ -1112,10 +1121,10 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           showToast(result.error || "An error occurred", "error");
         }
-        } catch (error) {
-          console.error("RSVP submission error:", error);
-          showToast("Something went wrong. Please try again.", "error");
-        }finally {
+      } catch (error) {
+        console.error("RSVP submission error:", error);
+        showToast("Something went wrong. Please try again.", "error");
+      } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalText;
       }
@@ -1123,7 +1132,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function showRsvpModal(guest) {
-
+    if (!rsvpModal || !rsvpModalDetails) return;
     rsvpModalDetails.innerHTML = `
       <p><strong>Name:</strong> ${guest.guest_name}</p>
       <p><strong>Attendance:</strong> ${guest.attendance}</p>
@@ -1140,79 +1149,82 @@ document.addEventListener("DOMContentLoaded", function () {
 
     rsvpModal.classList.add("show");
 
-    confetti({
-      particleCount: 120,
-      spread: 90,
-      origin: { x: 0 }
-    });
+    if (typeof confetti === "function") {
 
-    confetti({
-      particleCount: 120,
-      spread: 90,
-      origin: { x: 1 }
-    });
+        confetti({
+          particleCount: 120,
+          spread: 90,
+          origin: { x: 0 }
+        });
 
-    confetti({
-      particleCount: 150,
-      spread: 140,
-      origin: { y: 0.7 }
-    });
+        confetti({
+          particleCount: 120,
+          spread: 90,
+          origin: { x: 1 }
+        });
+
+        confetti({
+          particleCount: 150,
+          spread: 140,
+          origin: { y: 0.7 }
+        });
+      }
   }
 
   // Search RSVP confirmation
   if (statusSearch && statusSuggestions) {
-  statusSearch.addEventListener("input", async function () {
-    const name = this.value.trim();
+    statusSearch.addEventListener("input", async function () {
+      const name = this.value.trim();
 
-    statusSuggestions.innerHTML = "";
+      statusSuggestions.innerHTML = "";
 
-    if (name.length < 2) {
-      statusSuggestions.style.display = "none";
-      return;
-    }
-
-    try {
-      const response = await fetch(`/api/check-rsvp?name=${encodeURIComponent(name)}`);
-      const data = await response.json();
-
-      if (!data.success || data.results.length === 0) {
+      if (name.length < 2) {
         statusSuggestions.style.display = "none";
         return;
       }
 
-      data.results.forEach((guest) => {
-        const item = document.createElement("div");
-        item.className = "status-suggestion";
-        item.textContent = guest.guest_name;
+      try {
+        const response = await fetch(`/api/check-rsvp?name=${encodeURIComponent(name)}`);
+        const data = await response.json();
 
-        item.addEventListener("click", function (e) {
-
-          e.preventDefault();
-          e.stopPropagation();
-
-          statusSearch.value = guest.guest_name;
+        if (!data.success || data.results.length === 0) {
           statusSuggestions.style.display = "none";
+          return;
+        }
 
-          showRsvpModal(guest);
+        data.results.forEach((guest) => {
+          const item = document.createElement("div");
+          item.className = "status-suggestion";
+          item.textContent = guest.guest_name;
+
+          item.addEventListener("click", function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            statusSearch.value = guest.guest_name;
+            statusSuggestions.style.display = "none";
+
+            showRsvpModal(guest);
+          });
+
+          statusSuggestions.appendChild(item);
         });
 
-        statusSuggestions.appendChild(item);
-      });
+        statusSuggestions.style.display = "block";
 
-      statusSuggestions.style.display = "block";
+      } catch (error) {
+        console.error("RSVP status check error:", error);
+      }
+    });
 
-    } catch (error) {
-      console.error("RSVP status check error:", error);
-    }
-  });
-
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".status-search-wrapper")) {
-      statusSuggestions.style.display = "none";
+    document.addEventListener("click", function (e) {
+      if (!e.target.closest(".status-search-wrapper")) {
+        statusSuggestions.style.display = "none";
       }
     });
   }
-  if (closeRsvpModal) {
+  if (closeRsvpModal && rsvpModal) {
 
     closeRsvpModal.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -1230,14 +1242,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   document
-    .querySelector(".rsvp-modal-content")
-    ?.addEventListener("click", (e) => {
-      e.stopPropagation();
-    });
+      .querySelector(".rsvp-modal-content")
+      ?.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
   // Lightbox functionality
   galleryItems.forEach((item) => {
     item.addEventListener("click", function () {
       const imgSrc = this.querySelector("img").src;
+      if (!lightbox || !lightboxImg) return;
+
       lightboxImg.src = imgSrc;
       lightbox.classList.add("active");
       document.body.style.overflow = "hidden";
@@ -1257,6 +1271,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function closeLightbox() {
+    if (!lightbox) return;
     lightbox.classList.remove("active");
     document.body.style.overflow = "auto";
   }
@@ -1375,7 +1390,7 @@ document.addEventListener("DOMContentLoaded", function () {
       cubeGallery.classList.add("dragging");
 
       e.preventDefault();
-    }, { passive: false });
+    }, {passive: false});
 
     // Touch move - follow finger in real-time
     cubeGallery.addEventListener("touchmove", function (e) {
@@ -1543,6 +1558,7 @@ document.addEventListener("DOMContentLoaded", function () {
       window.location.href = "full-gallery.html";
     });
   }
+
   // Show message
   function showMessage(text, type) {
     if (!messageDiv) return;
@@ -1555,33 +1571,33 @@ document.addEventListener("DOMContentLoaded", function () {
       messageDiv.style.display = "none";
     }, 5000);
   }
-  
+
   function showToast(message, type = "success") {
     let toast = document.querySelector(".toast-notification");
-  
+
     if (!toast) {
       toast = document.createElement("div");
       toast.className = "toast-notification";
       document.body.appendChild(toast);
     }
-  
+
     const icon =
-      type === "success"
-        ? '<i class="fas fa-heart"></i>'
-        : '<i class="fas fa-exclamation-circle"></i>';
-  
+        type === "success"
+            ? '<i class="fas fa-heart"></i>'
+            : '<i class="fas fa-exclamation-circle"></i>';
+
     toast.className = `toast-notification ${type}`;
     toast.innerHTML = `${icon}<span>${message}</span>`;
-  
+
     setTimeout(() => {
       toast.classList.add("show");
     }, 50);
-  
+
     setTimeout(() => {
       toast.classList.remove("show");
     }, 3500);
   }
-  
+
   // Loading state
   function showLoading(show) {
     if (!submitBtn || !spinner) return;
@@ -1644,8 +1660,8 @@ document.addEventListener("DOMContentLoaded", function () {
       e.stopPropagation();
       navMenu.classList.toggle("active");
       this.innerHTML = navMenu.classList.contains("active")
-        ? '<i class="fas fa-times"></i>'
-        : '<i class="fas fa-bars"></i>';
+          ? '<i class="fas fa-times"></i>'
+          : '<i class="fas fa-bars"></i>';
     });
 
     // Close menu when clicking outside on mobile
@@ -1709,33 +1725,13 @@ document.addEventListener("DOMContentLoaded", function () {
       await loadAdminData();
     } else {
       // Show login form
-      document.getElementById("loginFormContainer").style.display = "block";
-      document.getElementById("adminContent").style.display = "none";
+      const loginFormContainer = document.getElementById("loginFormContainer");
+      const adminContent = document.getElementById("adminContent");
+
+      if (loginFormContainer) loginFormContainer.style.display = "block";
+      if (adminContent) adminContent.style.display = "none";
     }
   }
-
-  // LOGIN
-  adminLoginForm.addEventListener("submit", async function (e) {
-    e.preventDefault();
-
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      localStorage.setItem("adminToken", data.token);
-      loadAdminData();
-    } else {
-      alert("Login failed");
-    }
-  });
 
   // LOAD ADMIN DATA
   async function loadAdminData() {
@@ -1776,7 +1772,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const originalText = submitBtn.innerHTML;
       submitBtn.disabled = true;
       submitBtn.innerHTML =
-        '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+          '<i class="fas fa-spinner fa-spin"></i> Logging in...';
 
       try {
         const response = await fetch("/api/login", {
@@ -1824,56 +1820,57 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // EXPORT
-  exportBtn.addEventListener("click", async () => {
-    try {
-      const token = localStorage.getItem("adminToken");
+  if (exportBtn){
+    exportBtn.addEventListener("click", async () => {
+      try {
+        const token = localStorage.getItem("adminToken");
 
-      const res = await fetch("/api/export", {
-        headers: {
-          Authorization: `Bearer ${token}`
+        const res = await fetch("/api/export", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error("Export failed");
         }
-      });
 
-      if (!res.ok) {
-        throw new Error("Export failed");
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        // Manila Time Filename
+        const now = new Date();
+
+        const timestamp = now.toLocaleString("en-US", {
+          timeZone: "Asia/Manila",
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true
+        })
+            .replace(/[/:]/g, "-")
+            .replace(", ", "_");
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `rsvps_${timestamp}.csv`;
+
+        document.body.appendChild(a);
+        a.click();
+
+        a.remove();
+        window.URL.revokeObjectURL(url);
+
+        showMessage("RSVP export downloaded successfully!", "success");
+
+      } catch (error) {
+        console.error("Export error:", error);
+        showMessage("Failed to export RSVP data", "error");
       }
-
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-
-      // Manila Time Filename
-      const now = new Date();
-
-      const timestamp = now.toLocaleString("en-US", {
-        timeZone: "Asia/Manila",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true
-      })
-      .replace(/[/:]/g, "-")
-      .replace(", ", "_");
-
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `rsvps_${timestamp}.csv`;
-
-      document.body.appendChild(a);
-      a.click();
-
-      a.remove();
-      window.URL.revokeObjectURL(url);
-
-      showMessage("RSVP export downloaded successfully!", "success");
-
-    } catch (error) {
-      console.error("Export error:", error);
-      showMessage("Failed to export RSVP data", "error");
-    }
-  });
-
+    });
+  }
   // Update stats display
   function updateStats(data) {
     if (!statsContainer || !data) return;
@@ -2320,8 +2317,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Start door opening animation
       setTimeout(() => {
-        leftDoor.classList.add("open-left");
-        rightDoor.classList.add("open-right");
+        if (leftDoor) leftDoor.classList.add("open-left");
+        if (rightDoor) rightDoor.classList.add("open-right");
 
         // Start background slideshow after doors open
         setTimeout(() => {
@@ -2531,7 +2528,7 @@ document.addEventListener("DOMContentLoaded", function () {
   startWeatherRefresh();
   console.log("Wedding RSVP App initialized");
 
-  // Secret: Tap the S&J logo 5 times quickly to access admin panel
+  // Secret: Tap the S&J logo 3 times quickly to access admin panel
   let tapCount = 0;
   let tapTimer;
 
