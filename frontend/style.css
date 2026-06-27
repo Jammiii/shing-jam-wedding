@@ -552,7 +552,7 @@ h4,
 .nav-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0.8rem 2rem;
+  padding: 0.35rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -563,7 +563,7 @@ h4,
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.3rem 0;
+  padding: 0;
 }
 
 .nav-monogram:hover .nav-monogram-img {
@@ -610,7 +610,7 @@ h4,
   color: var(--emerald-dark);
   text-decoration: none;
   font-weight: 500;
-  padding: 0.6rem 0;
+  padding: 0.35rem 0;
   border-radius: var(--radius-lg);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -716,7 +716,7 @@ h4,
 
 @media (max-width: 992px) {
   .nav-container {
-    padding: 0.8rem 1.5rem;
+    padding: 0.35rem 1rem;
   }
 
   .nav-menu {
@@ -736,7 +736,7 @@ h4,
 
   .nav-menu {
     position: fixed;
-    top: 80px;
+    top: 58px;
     left: 0;
     width: 100%;
     background: linear-gradient(
@@ -764,7 +764,7 @@ h4,
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
-    top: 80px;
+    top: 58px;
   }
 
   .nav-menu li {
@@ -5198,8 +5198,8 @@ button.details-btn {
   }
 
   .spotify-player.music-collapsed {
-    left: 0;
-    right: auto;
+    right: 0;
+    left: auto;
     bottom: 90px;
 
     width: 54px;
@@ -6561,7 +6561,7 @@ button.details-btn {
   }
 
   .nav-container {
-    padding: 0.8rem 1rem;
+    padding: 0.35rem 1rem;
   }
 
   .nav-menu li a i {
@@ -6607,7 +6607,7 @@ button.details-btn {
 
   .nav-menu {
     position: fixed;
-    top: 80px;
+    top: 58px;
     left: 0;
     width: 100%;
     background: rgba(4, 99, 7, 0.98);
@@ -7103,18 +7103,68 @@ button.details-btn {
 /* ============================================
    ENVELOPE ANIMATION - EMERALD GREEN THEME
    ============================================ */
+#envelopeContainer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  padding: 20px;
+  background: var(--emerald-darker);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#envelopeVideo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
+  filter: brightness(0.8) contrast(1.1);
+  transition: filter 1s ease;
+}
+
+#envelopeContainer::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--emerald-darker);
+  opacity: 0;
+}
+
+#open-env {
+  display: none;
+}
+
 .env {
-  margin: 280px auto 0;
+  margin: 0 auto;
   background: var(--emerald-darker);
   width: 500px;
+  max-width: 500px;
   perspective: 3000px;
   -webkit-perspective: 3000px;
   perspective-origin: 50% 0;
   -webkit-perspective-origin: 50% 0;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  transform-origin: center center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  user-select: none;
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.08),
+    0 0 20px rgba(212, 175, 55, 0.15),
+    0 0 40px rgba(4, 99, 7, 0.35),
+    0 10px 30px rgba(0, 0, 0, 0.35);
+
 }
 
 .top-wrapper {
@@ -7129,122 +7179,106 @@ button.details-btn {
   height: 0;
   border: 200px solid transparent;
   border-top-color: var(--emerald-darker);
-  margin: 0 auto;
-  transform: scale(1.25, 1);
-  margin-bottom: -400px;
-  cursor: pointer;
+  margin: 0 auto -400px;
+  cursor: pointer !important;
   transition: all 0.5s ease;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
+  transform: scale(1.25, 1);
+  -webkit-transform: scale(1.25, 1);
+  -moz-transform: scale(1.25, 1);
   transform-origin: 50% 0;
   -webkit-transform-origin: 50% 0;
+  -moz-transform-origin: 50% 0;
   position: relative;
+  z-index: 2;
   filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.env .rest {
-  width: 100px;
-  height: 0;
-  margin: 0 auto;
-  border-left: 200px solid transparent;
-  border-right: 200px solid transparent;
-  border-bottom: 150px solid var(--emerald-darker);
-  border-top: 150px solid transparent;
-  filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
-  margin-top: -300px;
-}
-
-.envelope-monogram .monogram-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 5px;
-}
-
-/* Floating animation for monogram */
-@keyframes floatMonogram {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-8px);
-  }
-}
-@media (max-width: 768px) {
-  @keyframes floatMonogram {
-    0%,
-    100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(-5px);
-    }
-  }
-}
-/* Envelope hover effect */
 .env .top:hover {
   border-top-color: var(--emerald-dark);
 }
 
-/* TOP RIGHT FLOWER */
-.flower-top-right {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 220px;
-  z-index: 5;
-  pointer-events: none;
+.env .rest {
+  position: relative;
+  width: 100px;
+  height: 0;
+  margin: 0 auto;
+  margin-top: -300px;
+  border-left: 200px solid transparent;
+  border-right: 200px solid transparent;
+  border-bottom: 150px solid var(--emerald-darker);
+  border-top: 150px solid transparent;
+  border-style: solid;
+  filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
 }
 
-/* BOTTOM LEFT FLOWER */
-.flower-bottom-left {
+.envelope-monogram {
   position: absolute;
-  bottom: -10px;
-  left: -10px;
-  width: 240px;
-  z-index: 5;
+  top: 130px;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    135deg,
+    var(--emerald-dark) 0%,
+    var(--emerald-dark) 100%
+  );
+  border: 3px solid var(--gold-primary);
+  border-radius: 50%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  z-index: 10;
   pointer-events: none;
+  animation: floatMonogram 3s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-/* Optional Luxury Glow */
+.envelope-monogram .monogram-img,
+.monogram-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   FLOWERS
+   ============================================ */
+
 .flower-top-right,
 .flower-bottom-left {
-  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
-}
-.flower-top-right,
-.flower-bottom-left {
   position: absolute;
   z-index: 5;
   pointer-events: none;
-
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.18));
-
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.18));
   animation:
     flowerFade 1.5s ease,
     flowerFloat 6s ease-in-out infinite;
 }
 
-/* TOP RIGHT */
 .flower-top-right {
   top: -10px;
   right: -10px;
   width: 220px;
-
   transform-origin: top right;
 }
 
-/* BOTTOM LEFT */
 .flower-bottom-left {
   bottom: -10px;
   left: -10px;
   width: 240px;
-
   transform-origin: bottom left;
-
   animation-delay: 0.5s;
 }
-
 @media (max-width: 1024px) {
   .flower-top-right {
     width: 230px;
@@ -7276,14 +7310,14 @@ button.details-btn {
 @media (max-width: 480px) {
   .flower-top-right {
     width: 160px;
-    top: -3;
-    right: -3;
+    top: -3px;
+    right: -3px;
   }
 
   .flower-bottom-left {
     width: 160px;
-    bottom: -3;
-    left: -3;
+    bottom: -3px;
+    left: -3px;
   }
 
   .flower-top-right,
@@ -7303,41 +7337,33 @@ button.details-btn {
     width: 130px;
   }
 }
+/* ============================================
+   OPEN ENVELOPE STATE
+   ============================================ */
 
-/* FLOATING ANIMATION */
-@keyframes flowerFloat {
-  0% {
-    transform: translateY(0px) rotate(0deg) scale(1);
-  }
-
-  25% {
-    transform: translateY(-4px) rotate(1deg) scale(1.01);
-  }
-
-  50% {
-    transform: translateY(0px) rotate(0deg) scale(1);
-  }
-
-  75% {
-    transform: translateY(4px) rotate(-1deg) scale(0.99);
-  }
-
-  100% {
-    transform: translateY(0px) rotate(0deg) scale(1);
-  }
+#open-env:checked ~ #envelopeVideo {
+  filter: brightness(0.5) blur(5px);
+  transition: filter 1.2s ease;
+  background: var(--emerald-darker);
 }
 
-/* FADE IN */
-@keyframes flowerFade {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
+#envelopeContainer:has(#open-env:checked) {
+  background: var(--emerald-darker);
+}
 
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+#open-env:checked ~ .top-wrapper .top {
+  transform: rotateX(-180deg) scale(1.25, 1);
+  -webkit-transform: rotateX(-180deg) scale(1.25, 1);
+  z-index: -20;
+  border-top-color: var(--ivory);
+}
+
+#open-env:checked ~ .top-wrapper .envelope-monogram {
+  animation: dissolve 0.8s ease forwards;
+}
+
+#open-env:checked ~ .top-wrapper .envelope-monogram::after {
+  animation: particleEffect 0.8s ease forwards;
 }
 
 #open-env:checked ~ .flower-top-right {
@@ -7350,45 +7376,14 @@ button.details-btn {
   transition: 1s ease;
 }
 
-/* Checkbox for envelope animation */
-#open-env {
-  display: none;
-}
-
-/* When envelope is opened */
-#open-env:checked ~ .top-wrapper .top {
-  transform: rotateX(-180deg) scale(1.25, 1);
-  z-index: -20;
-  border-top-color: var(--ivory);
-}
-
-#open-env:checked ~ .top-wrapper .envelope-monogram {
-  animation: dissolve 0.8s ease forwards;
-}
-
-@keyframes dissolve {
-  0% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: translateX(-50%) scale(1.1);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) scale(0.8);
-    visibility: hidden;
-  }
-}
+/* ============================================
+   MONOGRAM EFFECT
+   ============================================ */
 
 .envelope-monogram::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: radial-gradient(
     circle at center,
     rgba(255, 255, 255, 0.8) 0%,
@@ -7399,8 +7394,86 @@ button.details-btn {
   transition: opacity 0.5s ease;
 }
 
-#open-env:checked ~ .top-wrapper .envelope-monogram::after {
-  animation: particleEffect 0.8s ease forwards;
+.env::after {
+  content: "Tap the envelope to open";
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold-lighter);
+  font-size: 1.2rem;
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  opacity: 0.8;
+  animation: pulseText 2s infinite;
+  white-space: nowrap;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes floatMonogram {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-50%) translateY(-8px);
+  }
+}
+
+@keyframes flowerFloat {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  25% {
+    transform: translateY(-4px) rotate(1deg) scale(1.01);
+  }
+
+  50% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  75% {
+    transform: translateY(4px) rotate(-1deg) scale(0.99);
+  }
+
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes flowerFade {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dissolve {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1.1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+    visibility: hidden;
+  }
 }
 
 @keyframes particleEffect {
@@ -7408,302 +7481,44 @@ button.details-btn {
     opacity: 0;
     transform: scale(1);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.5);
   }
+
   100% {
     opacity: 0;
     transform: scale(2);
   }
 }
 
-/* ============================================
-   RESPONSIVE ENVELOPE
-   ============================================ */
-
-@media (max-width: 768px) {
-  .env {
-    width: 90%;
-    max-width: 350px;
-    margin-top: 230px;
+@keyframes dissolveEnvelope {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1) rotate(0);
+    filter: drop-shadow(0 5px 20px rgba(212, 175, 55, 0.5));
   }
 
-  .env .rest {
-    width: 70px;
-    border-left: 140px solid transparent;
-    border-right: 140px solid transparent;
-    border-bottom: 105px solid var(--emerald-darker);
-    border-top: 105px solid transparent;
-    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
-    margin-top: -210px;
+  30% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1.1) rotate(10deg);
+    filter: drop-shadow(0 10px 30px rgba(212, 175, 55, 0.8));
   }
 
-  .env .top {
-    border: 140px solid transparent;
-    border-top-color: var(--emerald-darker);
-    margin-bottom: -280px;
+  70% {
+    opacity: 0.3;
+    transform: translateX(-50%) scale(1.2) rotate(-10deg);
+    filter: drop-shadow(0 15px 40px rgba(212, 175, 55, 1));
   }
 
-  .envelope-monogram {
-    width: 70px;
-    height: 70px;
-    top: -80px;
-  }
-
-  .envelope-monogram .monogram-img {
-    width: 55px;
-    height: 55px;
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.5) rotate(15deg);
+    visibility: hidden;
   }
 }
 
-@media (max-width: 480px) {
-  .env {
-    width: 95%;
-    max-width: 300px;
-    margin-top: 200px;
-  }
-
-  .env .rest {
-    width: 60px;
-    border-left: 120px solid transparent;
-    border-right: 120px solid transparent;
-    border-bottom: 90px solid var(--emerald-darker);
-    border-top: 90px solid transparent;
-    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
-    margin-top: -180px;
-  }
-
-  .env .top {
-    border: 120px solid transparent;
-    border-top-color: var(--emerald-darker);
-    margin-bottom: -240px;
-  }
-
-  .envelope-monogram {
-    width: 60px;
-    height: 60px;
-    top: -70px;
-  }
-
-  .envelope-monogram .monogram-img {
-    width: 45px;
-    height: 45px;
-  }
-}
-
-/* ============================================
-   MOBILE RESPONSIVE FIXES FOR ENVELOPE
-   ============================================ */
-
-/* Base envelope container - ensure it's centered */
-#envelopeContainer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  padding: 20px;
-  background: var(--emerald-darker);
-}
-
-#envelopeVideo {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
-  filter: brightness(0.8) contrast(1.1);
-  transition: filter 1s ease;
-}
-
-#envelopeContainer::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  background: var(--emerald-darker);
-  opacity: 0;
-}
-
-.env {
-  position: relative;
-  z-index: 1;
-}
-
-/* When envelope is opened, enhance video effect */
-#open-env:checked ~ #envelopeVideo {
-  filter: brightness(0.5) blur(5px);
-  transition: filter 1.2s ease;
-  background: var(--emerald-darker);
-}
-
-#envelopeContainer:has(#open-env:checked) {
-  background: var(--emerald-darker);
-}
-
-/* Ensure envelope elements are above video */
-.env,
-.envelope-monogram,
-.env .top {
-  position: relative;
-  z-index: 2;
-}
-
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  #envelopeVideo {
-    object-position: center;
-  }
-}
-
-/* Envelope wrapper - ensure it scales properly */
-.env {
-  margin: 0 auto;
-  background: var(--emerald-darker);
-  perspective: 3000px;
-  -webkit-perspective: 3000px;
-  perspective-origin: 50% 0;
-  -webkit-perspective-origin: 50% 0;
-  transform-style: preserve-3d;
-  -webkit-transform-style: preserve-3d;
-  position: relative;
-  z-index: 1;
-  transform-origin: center center;
-}
-
-/* Top flap - responsive sizing */
-.env .top {
-  display: block;
-  margin: 0 auto;
-  cursor: pointer;
-  transition: all 0.5s ease;
-  -webkit-transition: all 0.5s ease;
-  -moz-transition: all 0.5s ease;
-  transform-origin: 50% 0;
-  -webkit-transform-origin: 50% 0;
-  -moz-transform-origin: 50% 0;
-  position: relative;
-  filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
-}
-
-/* Envelope body - responsive sizing */
-.env .rest {
-  margin: 0 auto;
-  margin-top: -300px;
-  border-style: solid;
-}
-
-/* Envelope monogram - responsive positioning */
-.envelope-monogram {
-  position: absolute;
-  top: 130px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(
-    135deg,
-    var(--emerald-dark) 0%,
-    var(--emerald-dark) 100%
-  );
-  border: 3px solid var(--gold-primary);
-  border-radius: 50%;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  z-index: 10;
-  pointer-events: none;
-  animation: floatMonogram 3s ease-in-out infinite;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.envelope-monogram .monogram-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  padding: 1px;
-  box-sizing: border-box;
-}
-
-.monogram-img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: contain !important;
-}
-
-/* Desktop styles (default) */
-@media (min-width: 769px) {
-  .env {
-    width: 500px;
-    max-width: 500px;
-  }
-
-  .env .top {
-    width: 0;
-    height: 0;
-    border: 200px solid transparent;
-    border-top-color: var(--emerald-darker);
-    margin-bottom: -400px;
-    transform: scale(1.25, 1);
-    -webkit-transform: scale(1.25, 1);
-    -moz-transform: scale(1.25, 1);
-  }
-
-  .env .rest {
-    position: relative;
-    width: 100px;
-    height: 0;
-
-    border-left: 200px solid transparent;
-    border-right: 200px solid transparent;
-    border-bottom: 150px solid var(--emerald-darker);
-    border-top: 150px solid transparent;
-
-    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
-  }
-
-  .envelope-monogram {
-    width: 90px;
-    height: 90px;
-    top: 130px;
-  }
-
-  .envelope-monogram .monogram-img {
-    width: 70px;
-    height: 70px;
-  }
-
-  .env::after {
-    content: "Tap the envelope to open";
-    position: absolute;
-    bottom: -60px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--gold-lighter);
-    font-size: 1.2rem;
-    font-family: "Playfair Display", serif;
-    font-style: italic;
-    opacity: 0.8;
-    animation: pulseText 2s infinite;
-    white-space: nowrap;
-  }
-}
-
-/* Tablet styles */
 @media (max-width: 768px) and (min-width: 481px) {
   .env {
     width: 350px;
@@ -7711,8 +7526,6 @@ button.details-btn {
   }
 
   .env .top {
-    width: 0;
-    height: 0;
     border: 140px solid transparent;
     border-top-color: var(--emerald-darker);
     margin-bottom: -280px;
@@ -7721,14 +7534,13 @@ button.details-btn {
 
   .env .rest {
     width: 70px;
-    height: 0;
     border-left: 140px solid transparent;
     border-right: 140px solid transparent;
     border-bottom: 105px solid var(--emerald-darker);
     border-top: 105px solid transparent;
-    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -210px;
   }
+
   .envelope-monogram {
     width: 70px;
     height: 70px;
@@ -7740,25 +7552,34 @@ button.details-btn {
     height: 55px;
   }
 
+  .env .top {
+    min-height: 100px;
+  }
+
+  #envelopeContainer {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .env::after {
-    content: "Tap the envelope to open";
-    position: absolute;
     bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--gold-lighter);
     font-size: 0.8rem;
-    font-family: "Playfair Display", serif;
-    font-style: italic;
     opacity: 0.7;
-    animation: pulseText 2s infinite;
     text-align: center;
     width: 100%;
-    white-space: nowrap;
+  }
+
+  @keyframes floatMonogram {
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+      transform: translateX(-50%) translateY(-5px);
+    }
   }
 }
 
-/* Mobile styles (small screens) */
 @media (max-width: 480px) {
   .env {
     width: 300px;
@@ -7767,8 +7588,6 @@ button.details-btn {
   }
 
   .env .top {
-    width: 0;
-    height: 0;
     border: 120px solid transparent;
     border-top-color: var(--emerald-darker);
     margin-bottom: -240px;
@@ -7779,12 +7598,10 @@ button.details-btn {
 
   .env .rest {
     width: 60px;
-    height: 0;
     border-left: 120px solid transparent;
     border-right: 120px solid transparent;
     border-bottom: 90px solid var(--emerald-darker);
     border-top: 90px solid transparent;
-    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -180px;
   }
 
@@ -7801,23 +7618,15 @@ button.details-btn {
 
   .env::after {
     content: "Tap to open";
-    position: absolute;
     bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--gold-lighter);
     font-size: 0.8rem;
-    font-family: "Playfair Display", serif;
-    font-style: italic;
     opacity: 0.7;
-    animation: pulseText 2s infinite;
     text-align: center;
     width: 100%;
-    white-space: nowrap;
   }
+
 }
 
-/* Extra small screens */
 @media (max-width: 360px) {
   .env {
     width: 280px;
@@ -7836,7 +7645,6 @@ button.details-btn {
     border-right: 100px solid transparent;
     border-bottom: 75px solid var(--emerald-darker);
     border-top: 75px solid transparent;
-    filter: drop-shadow(0 5px 15px rgba(4, 99, 7, 0.3));
     margin-top: -150px;
   }
 
@@ -7850,9 +7658,9 @@ button.details-btn {
     width: 40px;
     height: 40px;
   }
+
 }
 
-/* Landscape orientation fixes */
 @media (max-height: 600px) and (orientation: landscape) {
   #envelopeContainer {
     padding: 10px;
@@ -7868,33 +7676,6 @@ button.details-btn {
   }
 }
 
-/* Ensure envelope is clickable/tappable on mobile */
-.env .top {
-  cursor: pointer !important;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Improve touch targets on mobile */
-@media (max-width: 768px) {
-  .env .top {
-    min-height: 100px;
-  }
-
-  #envelopeContainer {
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
-/* Prevent text selection on envelope */
-.env,
-.env .top {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Fix for iOS Safari */
 @supports (-webkit-touch-callout: none) {
   .env {
     transform: translateZ(0);
@@ -7905,7 +7686,6 @@ button.details-btn {
     -webkit-appearance: none;
   }
 }
-
 /* Enhanced Envelope Dissolve Animation */
 @keyframes dissolveEnvelope {
   0% {
@@ -8944,6 +8724,7 @@ button.details-btn {
     90deg,
     var(--gold-primary),
     var(--gold-lighter),
+    var(--ivory),
     var(--emerald-light),
     var(--gold-primary)
   );
@@ -9044,7 +8825,6 @@ button.details-btn {
   }
 
 }
-
 
 /* Tablet */
 @media (min-width: 601px) and (max-width: 1200px) {
