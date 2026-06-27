@@ -15,6 +15,11 @@
   <link rel="stylesheet" href="./frontend/style.css">
   <link rel="icon" type="image/png" sizes="16x16" href="./frontend/images/ICON.png">
   <link rel="manifest" href="./frontend/manifest.json">
+  <link rel="preload" as="image" href="./frontend/images/video-poster.webp">
+  <link rel="preload" as="video" href="./frontend/video/BACKGROUND.webm" type="video/webm">
+  <link rel="preload" as="image" href="./frontend/images/Flap/Flap1.webp">
+  <link rel="preload" as="image" href="./frontend/images/Flap/Flap2.webp">
+  <link rel="preload" as="image" href="./frontend/images/WAX-SEAL.png">
   <meta name="theme-color" content="#013402">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -22,8 +27,8 @@
 
 <body>
   <div id="envelopeContainer">
-  <video id="envelopeVideo" autoplay muted loop playsinline preload="metadata">
-    <source src="./frontend/images/BACKGROUND.webm" type="video/webm">
+  <video id="envelopeVideo" autoplay muted loop playsinline preload="auto" poster="./frontend/images/video-poster.webp">
+    <source src="./frontend/video/BACKGROUND.webm" type="video/webm">
   </video>
   <div class="background_wedding_text">
     <div class="background_wedding_title">
@@ -231,7 +236,7 @@
         <div class="timeline-item">
           <div class="timeline-date">2009</div>
           <div class="timeline-content">
-            <img src="frontend/images/story/Story_1.webp" alt="First Meeting" class="timeline-photo">
+            <img src="frontend/images/story/Story_1.webp" alt="First Meeting" class="timeline-photo" loading="lazy">
             <h3>First Meeting</h3>
             <p>“It was not much but…”.Two kids, same classroom. Maybe just a glance, a shared class, or a borrowed 1/4 sheet of paper. No sparks yet, just fate’s quiet setup. Group projects, lunch tables, school events. Inside jokes start forming. Compete through academics and life pulls us apart, but we stay in touch occasionally during birthday and reunions. Distance confirms that the connection for us is real and possible.</p>
           </div>
@@ -239,7 +244,7 @@
         <div class="timeline-item">
           <div class="timeline-date">2021</div>
           <div class="timeline-content">
-            <img src="frontend/images/story/Story_2.webp" alt="First Reconnection" class="timeline-photo">
+            <img src="frontend/images/story/Story_2.webp" alt="First Reconnection" class="timeline-photo" loading="lazy">
             <h3>First Reconnection</h3>
             <p>Through Facebook, we found our way back to each other with a simple “Kamusta ang Japan?” What started as a small message turned into long nights of endless conversations and daily updates we both looked forward to. Little by little, we grew closer again until one day, I asked for permission for us to become officially boyfriend and girlfriend, and from that moment, our story began once more.</p>
           </div>
@@ -247,7 +252,7 @@
         <div class="timeline-item">
           <div class="timeline-date">2022</div>
           <div class="timeline-content">
-            <img src="frontend/images/story/Story_3.webp" alt="First Date" class="timeline-photo">
+            <img src="frontend/images/story/Story_3.webp" alt="First Date" class="timeline-photo" loading="lazy">
             <h3>First Date</h3>
             <p>Bold move. I didn’t just date her. I dated her world. Her family watched, judged kindly, and we ate buffet foods.Somehow I passed. Our first real “us” moment was in Flame Stone Restobar. One sip of smoothies & one bite of chicken wings.</p>
           </div>
@@ -255,7 +260,7 @@
         <div class="timeline-item">
           <div class="timeline-date">2024</div>
           <div class="timeline-content">
-            <img src="frontend/images/story/Story_4.webp" alt="First Plan Together" class="timeline-photo">
+            <img src="frontend/images/story/Story_4.webp" alt="First Plan Together" class="timeline-photo" loading="lazy">
             <h3>First Plan together</h3>
             <p>Not just dreams anymore. Real plans and big step. Conversations turned into decisions. We chose our first house and lot, imagining where the couch would go, what color the walls would be, and the life we’d build inside it. It wasn’t just about property it was about choosing each other, again, but this time for the future.</p>
           </div>
@@ -263,7 +268,7 @@
         <div class="timeline-item">
           <div class="timeline-date">2026</div>
           <div class="timeline-content">
-            <img src="frontend/images/story/Story_5.webp" alt="The Proposal" class="timeline-photo">
+            <img src="frontend/images/story/Story_5.webp" alt="The Proposal" class="timeline-photo" loading="lazy">
             <h3>The Proposal</h3>
             <p>On a quiet, romantic night at Blackbird Makati. Soft lights, good food, and the kind of conversation that feels like home. And pause a moment, nervous but certain. Everything led here. She said a big YES.</p>
           </div>
@@ -284,25 +289,25 @@
         <div class="cube-stage">
           <div class="cube-track" id="cubeTrack">
             <div class="cube-face">
-              <img src="./frontend/images/gallery/gallery_1.webp" alt="Prenup">
+              <img src="./frontend/images/gallery/gallery_1.webp" alt="Prenup" loading="lazy">
               <div class="cube-caption">
               </div>
             </div>
 
             <div class="cube-face">
-              <img src="./frontend/images/gallery/gallery_2.webp" alt="Prenup">
+              <img src="./frontend/images/gallery/gallery_2.webp" alt="Prenup" loading="lazy">
               <div class="cube-caption">
               </div>
             </div>
 
             <div class="cube-face">
-              <img src="./frontend/images/gallery/gallery_3.webp" alt="Prenup">
+              <img src="./frontend/images/gallery/gallery_3.webp" alt="Prenup" loading="lazy">
               <div class="cube-caption">
               </div>
             </div>
 
             <div class="cube-face">
-              <img src="./frontend/images/gallery/gallery_4.webp" alt="Prenup">
+              <img src="./frontend/images/gallery/gallery_4.webp" alt="Prenup" loading="lazy">
               <div class="cube-caption">
               </div>
             </div>
@@ -339,7 +344,7 @@
         <div class="details-card">
 
           <div class="details-hero">
-            <img src="frontend/images/details/ld-ignacios.webp" alt="L.D Ignacio's Island Hotel & Resort" class="details-hero-img">
+            <img src="frontend/images/details/ld-ignacios.webp" alt="L.D Ignacio's Island Hotel & Resort" class="details-hero-img" loading="lazy">
 
             <div class="details-hero-overlay">
               <p class="details-kicker">Wedding Venue</p>
@@ -368,7 +373,7 @@
               <div class="details-panel">
                 <i class="fas fa-champagne-glasses"></i>
                 <h4>Reception Highlights</h4>
-                <p>Pika Pika by L.D</p>
+                <p>Food Cart | Glazing Table</p>
                 <p>Perfume Bar</p>
                 <p>Photoshoot Studio</p>
               </div>
@@ -376,9 +381,9 @@
               <div class="details-panel">
                 <i class="fas fa-bed"></i>
                 <h4>Accommodation</h4>
-                <p>L.D Family Room</p>
-                <p>Room 23 & 24</p>
-                <p>0915 923 9467</p>
+                <p>2 Family Rooms</p>
+                <p>Up to 10 Guests</p>
+                <p>Reserved for Bride & Groom</p>
               </div>
 
             </div>
@@ -808,15 +813,17 @@
                 <p><span>Ninong</span>Vincent Agbayani</p>
                 <p><span>Ninong</span>Benny Basilio</p>
                 <p><span>Ninong</span>Arnel Anastacio</p>
+                <p><span>Ninong</span>Alrey Maning</p>
               </div>
 
               <div>
                 <p><span>Ninang</span>Rosalita Fabic</p>
                 <p><span>Ninang</span>Erly Silanga</p>
-                <p><span>Ninang</span>Agie Basilio</p>
+                <p><span>Ninang</span>Ageline Basilio</p>
                 <p><span>Ninang</span>Evalyn Agbayani</p>
-                <p><span>Ninang</span>Bebeth Basilio</p>
-                <p><span>Ninang</span>Rose Anastacio</p>
+                <p><span>Ninang</span>Maribeth Basilio</p>
+                <p><span>Ninang</span>Rosie Anastacio</p>
+                <p><span>Ninang</span>Ishmylene Fernando</p>
               </div>
             </div>
           </div>
@@ -954,8 +961,8 @@
             <div class="sponsor-logo"><i class="fas fa-utensils"></i></div>
             <h4>Catering</h4>
             <p>Serving delicious food for our celebration.</p>
-            <span class="supplier-name">Wild Rose Catering</span>
-            <a href="https://web.facebook.com/wildrose0514" target="_blank" class="view-btn">
+            <span class="supplier-name">L.D Ignacio Catering</span>
+            <a href="https://web.facebook.com/LDIGNACIORESORT" target="_blank" class="view-btn">
               <i class="fab fa-facebook"></i> View Page
             </a>
           </div>
@@ -1027,7 +1034,7 @@
         <p class="section-subtitle">Dress with elegance as we celebrate our special day</p>
 
         <div class="attire-guide-card">
-          <img src="frontend/images/attire/Full-Picture.webp" alt="Wedding Attire Guide">
+          <img src="frontend/images/attire/Full-Picture.webp" alt="Wedding Attire Guide" loading="lazy">
         </div>
 
         <div class="attire-details">
@@ -1573,9 +1580,9 @@
           <div class="footer-section">
             <h4 class="footer-subtitle">Follow Us</h4>
             <div class="footer-social">
-              <a href="https://www.facebook.com/" class="social-link"><i class="fab fa-facebook"></i></a>
-              <a href="https://www.instagram.com/" class="social-link"><i class="fab fa-instagram"></i></a>
-              <a href="https://www.tiktok.com/" class="social-link"><i class="fab fa-tiktok"></i></a>
+              <a href="https://www.facebook.com//ZeppyShing" class="social-link"><i class="fab fa-facebook"></i></a>
+              <a href="https://www.instagram.com/zayne_zaida" class="social-link"><i class="fab fa-instagram"></i></a>
+              <a href="https://www.tiktok.com/@kingdeymi" class="social-link"><i class="fab fa-tiktok"></i></a>
             </div>
 
             <h4 class="footer-subtitle" style="margin-top: 1.5rem;">
