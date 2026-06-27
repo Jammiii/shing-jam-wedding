@@ -4265,9 +4265,9 @@ button.details-btn {
   }
 
   .message-avatar {
-    width: 60px;
-    height: 60px;
-    font-size: 1.35rem;
+    width: 80px;
+    height: 80px;
+    font-size: 1.45rem;
     flex-shrink: 0;
   }
   
