@@ -5036,10 +5036,11 @@ button.details-btn {
   width: 58px;
   height: 58px;
   padding: 8px;
-  border-radius: 0 18px 18px 0;
 
-  left: 0;
-  right: auto;
+  border-radius: 18px 0 0 18px;
+
+  right: 0;
+  left: auto;
   bottom: 120px;
 
   justify-content: center;
