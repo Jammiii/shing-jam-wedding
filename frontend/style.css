@@ -308,7 +308,8 @@ h4,
     padding: 0 18px 30px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
+    top: -40px;
     align-items: center;
     text-align: center;
   }
@@ -4270,7 +4271,7 @@ button.details-btn {
     font-size: 1.45rem;
     flex-shrink: 0;
   }
-  
+
   .message-author h4 {
     font-size: 0.95rem;
   }
@@ -8192,23 +8193,21 @@ button.details-btn {
 
 @media (max-width: 768px) {
   .cta-group {
-    position: fixed;
-    bottom: 10px;
+    flex-wrap: nowrap;
     left: 0;
-    width: 100%;
-    padding: 0 10px;
+    width: calc(100% + 30px);
+    padding: 0 6px;
     display: flex;
-    gap: 8px;
+    gap: 6px;
     z-index: 999;
   }
 
   .cta-button {
     flex: 1;
-    min-width: auto;
+    min-width: 0;
     position: relative;
-    padding: 0.65rem 0.6rem;
+    padding: 0.65rem 0.8rem;
     font-size: 0.8rem;
-    bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -8220,14 +8219,14 @@ button.details-btn {
 
   .cta-button i {
     font-size: 0.8rem;
-    left: 20px;
+    left: auto;
+    position: static;
     flex-shrink: 0;
-    position: relative;
-
   }
 
   .btn-text {
-    display: inline-block;
+    flex-grow: 0;
+    text-align: center;
   }
 
   body {
@@ -8243,9 +8242,8 @@ button.details-btn {
 
   .cta-button i {
     font-size: 0.75rem;
-    left: 20px;
-    flex-shrink: 0;
-    position: relative;
+    left: auto;
+    position: static;
   }
 }
 
