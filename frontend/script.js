@@ -20,43 +20,43 @@ function initVideoParallax() {
 
   requestAnimationFrame(updateParallax);
 }
-// ============================================
-// WEATHER ADVISORY - MINIMALIST LUXURY
-// ============================================
 
 async function fetchWeatherForRoxas() {
   const lat = 12.5833;
   const lon = 121.5167;
 
   const apiUrl =
-  `https://api.open-meteo.com/v1/forecast
-  ?latitude=${lat}
-  &longitude=${lon}
-  &current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m
-  &hourly=temperature_2m
-  &daily=weather_code,temperature_2m_max,temperature_2m_min
-  &forecast_days=7
-  &timezone=Asia%2FManila`
-  .replace(/\s+/g,'');
+    `https://api.open-meteo.com/v1/forecast
+    ?latitude=${lat}
+    &longitude=${lon}
+    &current=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m
+    &hourly=temperature_2m
+    &daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max
+    &forecast_days=7
+    &timezone=Asia%2FManila`
+    .replace(/\s+/g, "");
 
-  const weatherContainer = document.getElementById('weddingWeather');
+  const weatherContainer = document.getElementById("weddingWeather");
   if (!weatherContainer) return;
 
   try {
-    weatherContainer.innerHTML = '<div class="weather-loading"><i class="fas fa-spinner fa-spin"></i>Loading forecast</div>';
+    weatherContainer.innerHTML =
+      '<div class="weather-loading"><i class="fas fa-spinner fa-spin"></i>Loading forecast</div>';
 
     const response = await fetch(apiUrl);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const data = await response.json();
+
     if (data && data.current) {
       displayWeatherData(data);
     } else {
-      throw new Error('Invalid data format');
+      throw new Error("Invalid data format");
     }
 
   } catch (error) {
-    console.error('Weather fetch failed:', error);
+    console.error("Weather fetch failed:", error);
+
     weatherContainer.innerHTML = `
       <div class="weather-error">
         <i class="fas fa-cloud-moon"></i>
@@ -65,19 +65,9 @@ async function fetchWeatherForRoxas() {
     `;
   }
 }
-function generateWeddingAdvisory(
-  temp,
-  rain,
-  humidity,
-  wind,
-  weatherCode
-) {
 
-  const isRaining =
-    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)
-    || rain >= 0.2;
+function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
 
-  // Thunderstorm
   if ([95, 96, 99].includes(weatherCode)) {
     return `
       ⛈️ Thunderstorms are possible during the day.
@@ -86,28 +76,19 @@ function generateWeddingAdvisory(
     `;
   }
 
-  // Hot Weather (>33°C)
-  if (temp > 33) {
-    return `
-      🌡️ Hot weather is expected.
-      Light and breathable attire is recommended.
-      Please stay hydrated throughout the celebration.
-    `;
-  }
+  if (
+    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)
+    || rain >= 0.2
+  ) {
+    if (temp >= 10 && temp <= 20) {
+      return `
+        🌧️ Cold rain is expected.
+        Guests are encouraged to bring a light jacket and umbrella.
+        Please allow extra travel time for comfort and safety.
+      `;
+    }
 
-  // Warm Weather (29–32°C)
-  if (temp >= 29 && temp <= 32) {
-    return `
-      ☀️ Warm tropical temperatures are expected.
-      Light and comfortable attire is recommended.
-      Stay hydrated and enjoy the celebration.
-    `;
-  }
-
-  // 26–28°C
-  if (temp >= 26 && temp <= 28) {
-
-    if (isRaining) {
+    if (temp >= 21 && temp <= 28) {
       return `
         🌦️ Cool rainy weather is expected.
         Bringing an umbrella is recommended.
@@ -116,38 +97,35 @@ function generateWeddingAdvisory(
     }
 
     return `
-      ☀️ Pleasant weather is expected for the celebration.
-      Perfect conditions for a beautiful day with family and friends.
+      🌧️ Rain showers may occur during the day.
+      Guests may wish to bring a small umbrella.
+      Our celebration will proceed rain or shine.
     `;
   }
 
-  // 20–25°C
-  if (temp >= 20 && temp <= 25) {
+  if (temp > 33) {
+    return `
+      🌡️ Hot weather is expected.
+      Light and breathable attire is recommended.
+      Stay hydrated and comfortable throughout the celebration.
+    `;
+  }
 
-    if (isRaining) {
-      return `
-        🌧️ Light rain showers may occur.
-        Guests are encouraged to bring a small umbrella.
-        Our celebration will proceed comfortably rain or shine.
-      `;
-    }
+  if (temp >= 29 && temp <= 32) {
+    return `
+      ☀️ Warm tropical temperatures are expected.
+      Light and comfortable attire is recommended.
+      A beautiful day is expected for the celebration.
+    `;
+  }
 
+  if (temp >= 20 && temp <= 28) {
     return `
       ☀️ Pleasant weather is expected for the celebration.
       Perfect conditions for a beautiful day with family and friends.
     `;
   }
 
-  // Cold Rain (10–19°C)
-  if (temp >= 10 && temp < 20) {
-    return `
-      🌧️ Cold rain is expected.
-      Guests are encouraged to bring a light jacket and umbrella.
-      Please allow extra travel time for comfort and safety.
-    `;
-  }
-
-  // Freezing Conditions (<0°C)
   if (temp < 0) {
     return `
       ❄️ Temperatures are below freezing.
@@ -156,60 +134,58 @@ function generateWeddingAdvisory(
     `;
   }
 
-  // Default
   return `
-    🌤️ Comfortable weather conditions are expected.
-    We look forward to celebrating with you.
+    🌤️ Cooler temperatures are expected.
+    Bringing a light shawl or jacket may be helpful.
   `;
 }
-function getWeatherIcon(weatherCode) {
 
-  // Clear sky
-  if (weatherCode === 0) {
-    return "fas fa-sun";
-  }
+function getWeatherIcon(weatherCode, rain = 0) {
+  if (rain >= 0.2) return "fas fa-cloud-rain";
 
-  // Mainly clear / partly cloudy
-  if ([1, 2].includes(weatherCode)) {
-    return "fas fa-cloud-sun";
-  }
-
-  // Overcast
-  if (weatherCode === 3) {
-    return "fas fa-cloud";
-  }
-
-  // Fog
-  if ([45, 48].includes(weatherCode)) {
-    return "fas fa-smog";
-  }
-
-  // Drizzle
-  if ([51, 53, 55, 56, 57].includes(weatherCode)) {
-    return "fas fa-cloud-rain";
-  }
-
-  // Rain
-  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) {
-    return "fas fa-cloud-showers-heavy";
-  }
-
-  // Snow
-  if ([71, 73, 75, 77, 85, 86].includes(weatherCode)) {
-    return "fas fa-snowflake";
-  }
-
-  // Thunderstorm
-  if ([95, 96, 99].includes(weatherCode)) {
-    return "fas fa-bolt";
-  }
+  if (weatherCode === 0) return "fas fa-sun";
+  if ([1, 2].includes(weatherCode)) return "fas fa-cloud-sun";
+  if (weatherCode === 3) return "fas fa-cloud";
+  if ([45, 48].includes(weatherCode)) return "fas fa-smog";
+  if ([51, 53, 55, 56, 57].includes(weatherCode)) return "fas fa-cloud-rain";
+  if ([61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)) return "fas fa-cloud-showers-heavy";
+  if ([71, 73, 75, 77, 85, 86].includes(weatherCode)) return "fas fa-snowflake";
+  if ([95, 96, 99].includes(weatherCode)) return "fas fa-bolt";
 
   return "fas fa-cloud";
 }
-function displayWeatherData(data) {
 
-  const weatherContainer =
-    document.getElementById("weddingWeather");
+function getWeatherDescription(weatherCode, rain = 0, rainChance = 0) {
+  if (rainChance >= 20 || rain >= 0.2) {
+    return "Light Rain";
+  }
+
+  const descriptions = {
+    0: "Clear Sky",
+    1: "Mainly Clear",
+    2: "Partly Cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Fog",
+    51: "Light Drizzle",
+    53: "Moderate Drizzle",
+    55: "Heavy Drizzle",
+    61: "Light Rain",
+    63: "Moderate Rain",
+    65: "Heavy Rain",
+    80: "Light Rain Showers",
+    81: "Moderate Rain Showers",
+    82: "Heavy Rain Showers",
+    95: "Thunderstorm",
+    96: "Thunderstorm with Hail",
+    99: "Severe Thunderstorm"
+  };
+
+  return descriptions[weatherCode] || "Weather Conditions";
+}
+
+function displayWeatherData(data) {
+  const weatherContainer = document.getElementById("weddingWeather");
 
   const current = data.current;
   const daily = data.daily;
@@ -219,50 +195,42 @@ function displayWeatherData(data) {
   const humidity = current.relative_humidity_2m;
   const wind = Math.round(current.wind_speed_10m);
   const rain = current.precipitation;
+  const rainChance = daily.precipitation_probability_max?.[0] || 0;
   const weatherCode = current.weather_code;
 
   const today = new Date();
 
-  const dayName =
-    today.toLocaleDateString("en-US", {
-      weekday: "long"
-    });
+  const dayName = today.toLocaleDateString("en-US", {
+    weekday: "long"
+  });
 
-const dailyCards =
-  daily.time.map((date, index) => {
+  const dailyCards =
+    daily.time.map((date, index) => {
+      const day =
+        new Date(date).toLocaleDateString("en-US", {
+          weekday: "short"
+        });
 
-    const day =
-      new Date(date)
-      .toLocaleDateString("en-US", {
-        weekday: "short"
-      });
+      const iconClass =
+        getWeatherIcon(daily.weather_code[index]);
 
-    const iconClass =
-      getWeatherIcon(daily.weather_code[index]);
-
-    return `
-      <div class="forecast-day">
-        <i class="${iconClass}"></i>
-        <span>${day}</span>
-        <strong>
-          ${Math.round(daily.temperature_2m_max[index])}°
-        </strong>
-        <small>
-          ${Math.round(daily.temperature_2m_min[index])}°
-        </small>
-      </div>
-    `;
-  }).join("");
+      return `
+        <div class="forecast-day">
+          <i class="${iconClass}"></i>
+          <span>${day}</span>
+          <strong>${Math.round(daily.temperature_2m_max[index])}°</strong>
+          <small>${Math.round(daily.temperature_2m_min[index])}°</small>
+        </div>
+      `;
+    }).join("");
 
   const hourlyTemps =
     hourly.temperature_2m
-      .slice(0,8)
-      .map((t,index)=>{
-
+      .slice(0, 8)
+      .map((t, index) => {
         const hour =
-          new Date(hourly.time[index])
-          .toLocaleTimeString([],{
-            hour:'numeric'
+          new Date(hourly.time[index]).toLocaleTimeString([], {
+            hour: "numeric"
           });
 
         return `
@@ -273,6 +241,7 @@ const dailyCards =
         `;
       })
       .join("");
+
   const advisoryText = generateWeddingAdvisory(
     temp,
     rain,
@@ -280,22 +249,22 @@ const dailyCards =
     wind,
     weatherCode
   );
+
   weatherContainer.innerHTML = `
-  
     <div class="weather-top">
 
       <div class="weather-main">
 
-      <div class="weather-icon">
-        <i class="${getWeatherIcon(weatherCode)}"></i>
-      </div>
+        <div class="weather-icon">
+          <i class="${getWeatherIcon(weatherCode, rain)}"></i>
+        </div>
 
         <div class="weather-temp">
           ${temp}°
         </div>
 
         <div class="weather-details">
-          <div>Precipitation: ${current.precipitation} mm</div>
+          <div>Precipitation: ${rainChance}%</div>
           <div>Humidity: ${humidity}%</div>
           <div>Wind: ${wind} km/h</div>
         </div>
@@ -305,6 +274,7 @@ const dailyCards =
       <div class="weather-right">
         <h2>Weather</h2>
         <p>${dayName}</p>
+        <p>${getWeatherDescription(weatherCode, rain, rainChance)}</p>
       </div>
 
     </div>
@@ -320,7 +290,6 @@ const dailyCards =
     <div class="wedding-advisory">
       ${advisoryText}
     </div>
-
   `;
 }
 
@@ -328,9 +297,15 @@ let weatherRefreshInterval;
 
 function startWeatherRefresh() {
   fetchWeatherForRoxas();
-  if (weatherRefreshInterval) clearInterval(weatherRefreshInterval);
-  weatherRefreshInterval = setInterval(fetchWeatherForRoxas, 1800000);
+
+  if (weatherRefreshInterval) {
+    clearInterval(weatherRefreshInterval);
+  }
+
+  weatherRefreshInterval =
+    setInterval(fetchWeatherForRoxas, 1800000);
 }
+
 let deferredPrompt = null;
 
 // Capture install prompt
