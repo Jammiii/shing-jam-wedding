@@ -2053,6 +2053,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       messagesGrid.innerHTML = "";
 
+      const messagesCount =
+        document.getElementById("messagesCount");
+
+      if (messagesCount) {
+        messagesCount.textContent = data.length;
+      }
+
       data.forEach((msg) => {
         addMessageToGrid(msg);
       });
@@ -2097,26 +2104,46 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     messageCard.innerHTML = `
-                <div class="message-header">
-                    <div class="message-avatar">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="message-author">
-                    <h4>${escapeHtml(message.name)}</h4>
-                  
-                    <span class="message-relation">
-                      ${escapeHtml(message.relationship || "Guest")}
-                    </span>
-                  
-                    <span class="message-date">
-                      ${shortDate} • ${fullDate}
-                    </span>
-                  </div>
-                </div>
-                <div class="message-content">
-                    <p>${escapeHtml(message.content)}</p>
-                </div>
-            `;
+      <div class="message-header">
+    
+        <div class="message-avatar">
+          ${escapeHtml(message.name)
+            .split(" ")
+            .map(word => word[0])
+            .slice(0, 2)
+            .join("")
+            .toUpperCase()}
+        </div>
+    
+        <div class="message-author">
+          <h4>${escapeHtml(message.name)}</h4>
+    
+          <div class="message-meta">
+            <span class="message-relation">
+              ${escapeHtml(message.relationship || "Guest")}
+            </span>
+    
+            <span class="message-date">
+              ${new Date(message.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+              })}
+              •
+              ${new Date(message.date).toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit"
+              })}
+            </span>
+          </div>
+        </div>
+    
+      </div>
+    
+      <div class="message-content">
+        <p>${escapeHtml(message.content)}</p>
+      </div>
+    `;
 
     messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
 
