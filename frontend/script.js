@@ -73,6 +73,10 @@ function generateWeddingAdvisory(
   weatherCode
 ) {
 
+  const isRaining =
+    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)
+    || rain >= 0.2;
+
   // Thunderstorm
   if ([95, 96, 99].includes(weatherCode)) {
     return `
@@ -82,39 +86,80 @@ function generateWeddingAdvisory(
     `;
   }
 
-  // Rain / Showers
-  if (
-    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)
-    || rain >= 0.2
-  ) {
+  // Hot Weather (>33°C)
+  if (temp > 33) {
     return `
-      🌧️ Light to moderate rain showers may occur.
-      Guests are encouraged to bring a small umbrella.
-      Our celebration will proceed comfortably rain or shine.
-    `;
-  }
-
-  // Hot Weather
-  if (temp >= 32) {
-    return `
-      🌡️ Warm tropical temperatures are expected.
+      🌡️ Hot weather is expected.
       Light and breathable attire is recommended.
-      Stay hydrated and comfortable throughout the celebration.
+      Please stay hydrated throughout the celebration.
     `;
   }
 
-  // Pleasant Weather
-  if (temp >= 26) {
+  // Warm Weather (29–32°C)
+  if (temp >= 29 && temp <= 32) {
+    return `
+      ☀️ Warm tropical temperatures are expected.
+      Light and comfortable attire is recommended.
+      Stay hydrated and enjoy the celebration.
+    `;
+  }
+
+  // 26–28°C
+  if (temp >= 26 && temp <= 28) {
+
+    if (isRaining) {
+      return `
+        🌦️ Cool rainy weather is expected.
+        Bringing an umbrella is recommended.
+        Comfortable temperatures are expected throughout the celebration.
+      `;
+    }
+
     return `
       ☀️ Pleasant weather is expected for the celebration.
       Perfect conditions for a beautiful day with family and friends.
     `;
   }
 
-  // Cooler Weather
+  // 20–25°C
+  if (temp >= 20 && temp <= 25) {
+
+    if (isRaining) {
+      return `
+        🌧️ Light rain showers may occur.
+        Guests are encouraged to bring a small umbrella.
+        Our celebration will proceed comfortably rain or shine.
+      `;
+    }
+
+    return `
+      ☀️ Pleasant weather is expected for the celebration.
+      Perfect conditions for a beautiful day with family and friends.
+    `;
+  }
+
+  // Cold Rain (10–19°C)
+  if (temp >= 10 && temp < 20) {
+    return `
+      🌧️ Cold rain is expected.
+      Guests are encouraged to bring a light jacket and umbrella.
+      Please allow extra travel time for comfort and safety.
+    `;
+  }
+
+  // Freezing Conditions (<0°C)
+  if (temp < 0) {
+    return `
+      ❄️ Temperatures are below freezing.
+      Rain may turn into sleet, freezing rain, or snow.
+      Please take extra precautions when traveling.
+    `;
+  }
+
+  // Default
   return `
-    🌤️ Cooler temperatures are expected.
-    Bringing a light shawl or jacket may be helpful.
+    🌤️ Comfortable weather conditions are expected.
+    We look forward to celebrating with you.
   `;
 }
 function getWeatherIcon(weatherCode) {
