@@ -74,7 +74,7 @@ function generateWeddingAdvisory(
 ) {
 
   // Thunderstorm
-  if (weatherCode === 95) {
+  if ([95, 96, 99].includes(weatherCode)) {
     return `
       ⛈️ Thunderstorms are possible during the day.
       Please allow extra travel time and bring rain protection.
@@ -82,12 +82,15 @@ function generateWeddingAdvisory(
     `;
   }
 
-  // Heavy Rain
-  if (rain >= 60) {
+  // Rain / Showers
+  if (
+    [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)
+    || rain >= 0.2
+  ) {
     return `
-      🌧️ Rain showers are expected.
-      Guests may wish to bring a small umbrella.
-      Our celebration will proceed rain or shine.
+      🌧️ Light to moderate rain showers may occur.
+      Guests are encouraged to bring a small umbrella.
+      Our celebration will proceed comfortably rain or shine.
     `;
   }
 
@@ -2260,7 +2263,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initFAQ();
   initMessageForm();
   loadMessages();
-  
+
   const loadMoreMessagesBtn =
     document.getElementById("loadMoreMessagesBtn");
 
