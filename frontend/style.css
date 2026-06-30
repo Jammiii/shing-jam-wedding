@@ -3826,7 +3826,11 @@ button.details-btn {
 }
 /* MOBILE FIX */
 @media (max-width: 768px) {
-
+  
+  .rsvp-section .form-group label .form-group select .form-group textarea {
+    font-size: 1rem;
+  }
+  
   .rsvp-status-checker {
     margin-top: 2rem;
     padding: 1.4rem;
