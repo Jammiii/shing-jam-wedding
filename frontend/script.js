@@ -66,7 +66,14 @@ async function fetchWeatherForRoxas() {
   }
 }
 
-function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
+function generateWeddingAdvisory(
+  temp,
+  rain,
+  rainChance,
+  humidity,
+  wind,
+  weatherCode
+) {
 
   if ([95, 96, 99].includes(weatherCode)) {
     return `
@@ -79,10 +86,11 @@ function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
   if (
     [51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(weatherCode)
     || rain >= 0.2
+    || rainChance >= 40
   ) {
     if (temp >= 10 && temp <= 20) {
       return `
-        🌧️ Cold rain is expected.
+        🌧️ Cold rain is possible.
         Guests are encouraged to bring a light jacket and umbrella.
         Please allow extra travel time for comfort and safety.
       `;
@@ -90,7 +98,7 @@ function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
 
     if (temp >= 21 && temp <= 28) {
       return `
-        🌦️ Cool rainy weather is expected.
+        🌦️ There is a chance of cool rainy weather.
         Bringing an umbrella is recommended.
         Comfortable temperatures are expected throughout the celebration.
       `;
@@ -121,7 +129,7 @@ function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
 
   if (temp >= 20 && temp <= 28) {
     return `
-      ☀️ Pleasant weather is expected for the celebration.
+      🌤️ Pleasant weather is expected for the celebration.
       Perfect conditions for a beautiful day with family and friends.
     `;
   }
@@ -140,9 +148,7 @@ function generateWeddingAdvisory(temp, rain, humidity, wind, weatherCode) {
   `;
 }
 
-function getWeatherIcon(weatherCode, rain = 0) {
-  if (rain >= 0.2) return "fas fa-cloud-rain";
-
+function getWeatherIcon(weatherCode) {
   if (weatherCode === 0) return "fas fa-sun";
   if ([1, 2].includes(weatherCode)) return "fas fa-cloud-sun";
   if (weatherCode === 3) return "fas fa-cloud";
@@ -155,27 +161,43 @@ function getWeatherIcon(weatherCode, rain = 0) {
   return "fas fa-cloud";
 }
 
-function getWeatherDescription(weatherCode, rain = 0, rainChance = 0) {
-  if (rainChance >= 20 || rain >= 0.2) {
-    return "Light Rain";
-  }
-
+function getWeatherDescription(weatherCode) {
   const descriptions = {
     0: "Clear Sky",
     1: "Mainly Clear",
     2: "Partly Cloudy",
     3: "Overcast",
+
     45: "Fog",
     48: "Fog",
+
     51: "Light Drizzle",
     53: "Moderate Drizzle",
     55: "Heavy Drizzle",
+
+    56: "Freezing Drizzle",
+    57: "Dense Freezing Drizzle",
+
     61: "Light Rain",
     63: "Moderate Rain",
     65: "Heavy Rain",
+
+    66: "Freezing Rain",
+    67: "Heavy Freezing Rain",
+
+    71: "Light Snow",
+    73: "Moderate Snow",
+    75: "Heavy Snow",
+
+    77: "Snow Grains",
+
     80: "Light Rain Showers",
     81: "Moderate Rain Showers",
     82: "Heavy Rain Showers",
+
+    85: "Snow Showers",
+    86: "Heavy Snow Showers",
+
     95: "Thunderstorm",
     96: "Thunderstorm with Hail",
     99: "Severe Thunderstorm"
@@ -195,8 +217,10 @@ function displayWeatherData(data) {
   const humidity = current.relative_humidity_2m;
   const wind = Math.round(current.wind_speed_10m);
   const rain = current.precipitation;
-  const rainChance = daily.precipitation_probability_max?.[0] || 0;
   const weatherCode = current.weather_code;
+
+  const rainChance =
+    daily.precipitation_probability_max?.[0] || 0;
 
   const today = new Date();
 
@@ -245,6 +269,7 @@ function displayWeatherData(data) {
   const advisoryText = generateWeddingAdvisory(
     temp,
     rain,
+    rainChance,
     humidity,
     wind,
     weatherCode
@@ -256,7 +281,7 @@ function displayWeatherData(data) {
       <div class="weather-main">
 
         <div class="weather-icon">
-          <i class="${getWeatherIcon(weatherCode, rain)}"></i>
+          <i class="${getWeatherIcon(weatherCode)}"></i>
         </div>
 
         <div class="weather-temp">
@@ -274,7 +299,7 @@ function displayWeatherData(data) {
       <div class="weather-right">
         <h2>Weather</h2>
         <p>${dayName}</p>
-        <p>${getWeatherDescription(weatherCode, rain, rainChance)}</p>
+        <p>${getWeatherDescription(weatherCode)}</p>
       </div>
 
     </div>
@@ -305,7 +330,6 @@ function startWeatherRefresh() {
   weatherRefreshInterval =
     setInterval(fetchWeatherForRoxas, 1800000);
 }
-
 let deferredPrompt = null;
 
 // Capture install prompt
