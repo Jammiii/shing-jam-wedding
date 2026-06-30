@@ -494,8 +494,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       e.target.closest("a") ||
 
                       e.target.closest(".guest-search-wrapper") ||
-                      e.target.closest(".guest-suggestion-item") ||      
-                      
+                      e.target.closest(".guest-suggestion-item") ||
+
                       e.target.closest(".spotify-player") ||
                       e.target.closest(".music-toggle") ||
                       // FAQ
@@ -2045,29 +2045,54 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   }
-
+  let allMessages = [];
+  let visibleMessages = 20;
   async function loadMessages() {
     const messagesGrid = document.getElementById("messagesGrid");
+    const loadMoreBtn = document.getElementById("loadMoreMessagesBtn");
+
     if (!messagesGrid) return;
 
     try {
       const response = await fetch("/api/messages");
       const data = await response.json();
 
-      messagesGrid.innerHTML = "";
+      allMessages = data;
 
-      const messagesCount =
-        document.getElementById("messagesCount");
+      const messagesCount = document.getElementById("messagesCount");
 
       if (messagesCount) {
-        messagesCount.textContent = data.length;
+        messagesCount.textContent = allMessages.length;
       }
 
-      data.forEach((msg) => {
-        addMessageToGrid(msg);
-      });
+      renderMessages();
+
+      if (loadMoreBtn) {
+        loadMoreBtn.style.display =
+          visibleMessages < allMessages.length ? "inline-flex" : "none";
+      }
+
     } catch (error) {
       console.error("Failed to load messages:", error);
+    }
+  }
+  function renderMessages() {
+    const messagesGrid = document.getElementById("messagesGrid");
+    const loadMoreBtn = document.getElementById("loadMoreMessagesBtn");
+
+    if (!messagesGrid) return;
+
+    messagesGrid.innerHTML = "";
+
+    allMessages
+      .slice(0, visibleMessages)
+      .forEach((msg) => {
+        addMessageToGrid(msg);
+      });
+
+    if (loadMoreBtn) {
+      loadMoreBtn.style.display =
+        visibleMessages < allMessages.length ? "inline-flex" : "none";
     }
   }
 
@@ -2150,9 +2175,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     messagesGrid.insertBefore(messageCard, messagesGrid.firstChild);
 
-    if (messagesGrid.children.length > 20) {
-      messagesGrid.removeChild(messagesGrid.lastChild);
-    }
   }
 
   // Message Form
@@ -2238,6 +2260,17 @@ document.addEventListener("DOMContentLoaded", function () {
   initFAQ();
   initMessageForm();
   loadMessages();
+  
+  const loadMoreMessagesBtn =
+    document.getElementById("loadMoreMessagesBtn");
+
+  if (loadMoreMessagesBtn) {
+    loadMoreMessagesBtn.addEventListener("click", function () {
+      visibleMessages += 20;
+      renderMessages();
+    });
+  }
+
   setInterval(() => {
     loadMessages();
   }, 60000);
