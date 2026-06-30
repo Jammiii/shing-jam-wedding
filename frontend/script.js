@@ -492,6 +492,9 @@ document.addEventListener("DOMContentLoaded", function () {
                       e.target.closest("textarea") ||
                       e.target.closest("select") ||
                       e.target.closest("a") ||
+                      
+                      e.target.closest(".guest-search-wrapper") ||
+                      e.target.closest(".guest-suggestion-item") ||
 
                       e.target.closest(".spotify-player") ||
                       e.target.closest(".music-toggle") ||
@@ -950,6 +953,9 @@ document.addEventListener("DOMContentLoaded", function () {
         item.textContent = guest;
 
         item.addEventListener("click", () => {
+          e.preventDefault();
+          e.stopPropagation();
+
           guestInput.value = guest;
           guestSuggestions.style.display = "none";
         });
