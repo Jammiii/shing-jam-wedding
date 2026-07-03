@@ -1436,7 +1436,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       cubeGallery.classList.add("dragging");
     }, { passive: true });
-
     // Touch move - follow finger in real-time
     cubeGallery.addEventListener("touchmove", function (e) {
       if (!cubeIsDragging || cubeIsMoving) return;
@@ -1447,11 +1446,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const diffX = currentX - cubeStartX;
       const diffY = currentY - cubeStartY;
 
-      // If user scrolls vertically, allow normal page scroll
+      // Allow page scroll when finger movement is mostly vertical
       if (Math.abs(diffY) > Math.abs(diffX)) {
+        cubeIsDragging = false;
+        cubeGallery.classList.remove("dragging");
+
+        if (cubeTrack) {
+          cubeTrack.style.transition = "";
+          cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+        }
+
         return;
       }
-
       // Calculate new angle based on drag distance
       // The divisor controls sensitivity (lower = more sensitive)
       let dragAngle = diffX / 2.2;
