@@ -1427,27 +1427,30 @@ document.addEventListener("DOMContentLoaded", function () {
       cubeStartY = e.touches[0].clientY;
       cubeIsDragging = true;
 
-      // Store the current transform angle
       cubeStartTransform = -cubeIndex * 90;
       cubeCurrentTransform = cubeStartTransform;
 
-      // Remove transition during drag for instant response
       if (cubeTrack) {
         cubeTrack.style.transition = "none";
       }
 
-      // Add dragging class for visual feedback
       cubeGallery.classList.add("dragging");
-
-      e.preventDefault();
-    }, {passive: false});
+    }, { passive: true });
 
     // Touch move - follow finger in real-time
     cubeGallery.addEventListener("touchmove", function (e) {
       if (!cubeIsDragging || cubeIsMoving) return;
 
       const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+
       const diffX = currentX - cubeStartX;
+      const diffY = currentY - cubeStartY;
+
+      // If user scrolls vertically, allow normal page scroll
+      if (Math.abs(diffY) > Math.abs(diffX)) {
+        return;
+      }
 
       // Calculate new angle based on drag distance
       // The divisor controls sensitivity (lower = more sensitive)
