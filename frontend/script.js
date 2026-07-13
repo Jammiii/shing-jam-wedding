@@ -1425,20 +1425,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
       cubeStartX = e.touches[0].clientX;
       cubeStartY = e.touches[0].clientY;
-      cubeIsDragging = true;
+
+      // Do not start gallery dragging immediately
+      cubeIsDragging = false;
 
       cubeStartTransform = -cubeIndex * 90;
       cubeCurrentTransform = cubeStartTransform;
-
-      if (cubeTrack) {
-        cubeTrack.style.transition = "none";
-      }
-
-      cubeGallery.classList.add("dragging");
     }, { passive: true });
     // Touch move - follow finger in real-time
     cubeGallery.addEventListener("touchmove", function (e) {
-      if (!cubeIsDragging || cubeIsMoving) return;
+      if (cubeIsMoving) return;
 
       const currentX = e.touches[0].clientX;
       const currentY = e.touches[0].clientY;
@@ -1446,7 +1442,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const diffX = currentX - cubeStartX;
       const diffY = currentY - cubeStartY;
 
-      // Allow page scroll when finger movement is mostly vertical
+      // Vertical movement: allow normal page scrolling
       if (Math.abs(diffY) > Math.abs(diffX)) {
         cubeIsDragging = false;
         cubeGallery.classList.remove("dragging");
@@ -1458,19 +1454,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return;
       }
-      // Calculate new angle based on drag distance
-      // The divisor controls sensitivity (lower = more sensitive)
+
+      // Start gallery dragging only for horizontal movement
+      if (!cubeIsDragging && Math.abs(diffX) > 10) {
+        cubeIsDragging = true;
+
+        if (cubeTrack) {
+          cubeTrack.style.transition = "none";
+        }
+
+        cubeGallery.classList.add("dragging");
+      }
+
+      if (!cubeIsDragging) return;
+
       let dragAngle = diffX / 2.2;
       let newAngle = cubeStartTransform + dragAngle;
 
-      // Apply the transform immediately (follows finger)
       if (cubeTrack) {
         cubeTrack.style.transform = `rotateY(${newAngle}deg)`;
         cubeCurrentTransform = newAngle;
       }
 
+      // Block scrolling only when swiping left or right
       e.preventDefault();
-    });
+    }, { passive: false });
 
     // Touch end - snap to nearest face
     cubeGallery.addEventListener("touchend", function (e) {
