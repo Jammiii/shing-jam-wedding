@@ -1341,6 +1341,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let cubeIsDragging = false;
   let cubeIsMoving = false;
   let cubeDragThreshold = 60;
+  let cubeTouchDirection = null;
   const cubeTotal = cubeFaces.length;
 
   function createCubeDots() {
@@ -1420,107 +1421,172 @@ document.addEventListener("DOMContentLoaded", function () {
   // ========== SMOOTH DRAG TO SWIPE IMPLEMENTATION ==========
   if (cubeGallery) {
     // Touch start - begin dragging
-    cubeGallery.addEventListener("touchstart", function (e) {
-      if (cubeIsMoving) return;
+    cubeGallery.addEventListener(
+      "touchstart",
+      function (e) {
+        if (cubeIsMoving) return;
 
-      cubeStartX = e.touches[0].clientX;
-      cubeStartY = e.touches[0].clientY;
-      cubeIsDragging = true;
+        cubeStartX = e.touches[0].clientX;
+        cubeStartY = e.touches[0].clientY;
+        cubeIsDragging = true;
 
-      // Store the current transform angle
-      cubeStartTransform = -cubeIndex * 90;
-      cubeCurrentTransform = cubeStartTransform;
+        /*
+         Reset direction for every new touch.
+         Direction will be identified in touchmove.
+        */
+        cubeTouchDirection = null;
 
-      // Remove transition during drag for instant response
-      if (cubeTrack) {
-        cubeTrack.style.transition = "none";
-      }
+        // Store the current transform angle
+        cubeStartTransform = -cubeIndex * 90;
+        cubeCurrentTransform = cubeStartTransform;
 
-      // Add dragging class for visual feedback
-      cubeGallery.classList.add("dragging");
+        // Add dragging class for visual feedback
+        cubeGallery.classList.add("dragging");
+      },
+      { passive: true }
+    );
 
-      e.preventDefault();
-    }, {passive: false});
+    cubeGallery.addEventListener(
+      "touchmove",
+      function (e) {
+        if (!cubeIsDragging || cubeIsMoving) return;
 
-    // Touch move - follow finger in real-time
-    cubeGallery.addEventListener("touchmove", function (e) {
-      if (!cubeIsDragging || cubeIsMoving) return;
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
 
-      const currentX = e.touches[0].clientX;
-      const diffX = currentX - cubeStartX;
+        const diffX = currentX - cubeStartX;
+        const diffY = currentY - cubeStartY;
 
-      // Calculate new angle based on drag distance
-      // The divisor controls sensitivity (lower = more sensitive)
-      let dragAngle = diffX / 2.2;
-      let newAngle = cubeStartTransform + dragAngle;
+        /*
+         Wait for a small amount of movement before deciding
+         whether the gesture is horizontal or vertical.
+        */
+        if (!cubeTouchDirection) {
+          if (Math.abs(diffX) < 8 && Math.abs(diffY) < 8) {
+            return;
+          }
 
-      // Apply the transform immediately (follows finger)
-      if (cubeTrack) {
-        cubeTrack.style.transform = `rotateY(${newAngle}deg)`;
-        cubeCurrentTransform = newAngle;
-      }
+          cubeTouchDirection =
+            Math.abs(diffX) > Math.abs(diffY)
+              ? "horizontal"
+              : "vertical";
+        }
 
-      e.preventDefault();
-    });
+        /*
+         Vertical movement:
+         allow normal page scrolling and stop cube dragging.
+        */
+        if (cubeTouchDirection === "vertical") {
+          cubeIsDragging = false;
+          cubeGallery.classList.remove("dragging");
 
-    // Touch end - snap to nearest face
-    cubeGallery.addEventListener("touchend", function (e) {
-      if (!cubeIsDragging || cubeIsMoving) {
+          if (cubeTrack) {
+            cubeTrack.style.transition = "";
+            cubeTrack.style.transform =
+              `rotateY(${-cubeIndex * 90}deg)`;
+          }
+
+          return;
+        }
+
+        /*
+         Horizontal movement:
+         stop browser movement and control the cube.
+        */
+        e.preventDefault();
+
+        // Remove transition only during horizontal dragging
+        if (cubeTrack) {
+          cubeTrack.style.transition = "none";
+
+          const dragAngle = diffX / 2.2;
+          const newAngle = cubeStartTransform + dragAngle;
+
+          cubeTrack.style.transform = `rotateY(${newAngle}deg)`;
+          cubeCurrentTransform = newAngle;
+        }
+      },
+      { passive: false }
+    );
+
+    cubeGallery.addEventListener(
+      "touchend",
+      function (e) {
+        /*
+         If the gesture was vertical, normal page scrolling
+         was already allowed. Reset only the touch state.
+        */
+        if (
+          !cubeIsDragging ||
+          cubeIsMoving ||
+          cubeTouchDirection === "vertical"
+        ) {
+          cubeIsDragging = false;
+          cubeTouchDirection = null;
+          cubeGallery.classList.remove("dragging");
+          return;
+        }
+
         cubeIsDragging = false;
         cubeGallery.classList.remove("dragging");
-        return;
-      }
 
-      cubeIsDragging = false;
-      cubeGallery.classList.remove("dragging");
+        // Calculate how far the finger moved horizontally
+        const endX = e.changedTouches[0].clientX;
+        const diffX = endX - cubeStartX;
 
-      // Calculate how far we dragged
-      const endX = e.changedTouches[0].clientX;
-      const diffX = endX - cubeStartX;
+        // Keep your existing slide-change logic
+        let newIndex = cubeIndex;
 
-      // Determine if we should change slides
-      let newIndex = cubeIndex;
-
-      if (Math.abs(diffX) > cubeDragThreshold) {
-        if (diffX > 0) {
-          // Dragged right - go to previous
-          newIndex = (cubeIndex - 1 + cubeTotal) % cubeTotal;
-        } else {
-          // Dragged left - go to next
-          newIndex = (cubeIndex + 1) % cubeTotal;
+        if (Math.abs(diffX) > cubeDragThreshold) {
+          if (diffX > 0) {
+            // Dragged right - go to previous
+            newIndex =
+              (cubeIndex - 1 + cubeTotal) % cubeTotal;
+          } else {
+            // Dragged left - go to next
+            newIndex =
+              (cubeIndex + 1) % cubeTotal;
+          }
         }
-      }
 
-      // Re-enable transition for smooth snap back
-      if (cubeTrack) {
-        cubeTrack.style.transition = "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
-      }
-
-      // If we're not changing slides, we need to snap back
-      if (newIndex === cubeIndex) {
-        // Snap back to current position smoothly
+        // Re-enable transition for smooth snap
         if (cubeTrack) {
-          cubeTrack.style.transform = `rotateY(${-cubeIndex * 90}deg)`;
+          cubeTrack.style.transition =
+            "transform 500ms cubic-bezier(0.2, 0.9, 0.4, 1.1)";
         }
-        setTimeout(() => {
-          if (cubeTrack) {
-            cubeTrack.style.transition = "";
-          }
-        }, 500);
-      } else {
-        // Change to new slide
-        cubeIsMoving = true;
-        cubeIndex = newIndex;
-        updateCube();
 
-        setTimeout(() => {
-          cubeIsMoving = false;
+        if (newIndex === cubeIndex) {
+          // Snap back to current photo
           if (cubeTrack) {
-            cubeTrack.style.transition = "";
+            cubeTrack.style.transform =
+              `rotateY(${-cubeIndex * 90}deg)`;
           }
-        }, 600);
-      }
-    });
+
+          setTimeout(() => {
+            if (cubeTrack) {
+              cubeTrack.style.transition = "";
+            }
+          }, 500);
+        } else {
+          // Change to the selected photo
+          cubeIsMoving = true;
+          cubeIndex = newIndex;
+          updateCube();
+
+          setTimeout(() => {
+            cubeIsMoving = false;
+
+            if (cubeTrack) {
+              cubeTrack.style.transition = "";
+            }
+          }, 600);
+        }
+
+        // Reset direction after completing the gesture
+        cubeTouchDirection = null;
+      },
+      { passive: true }
+    );
 
     // Optional: Mouse support for desktop
     let mouseIsDragging = false;
