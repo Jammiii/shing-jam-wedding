@@ -1319,7 +1319,7 @@ h4,
 
 .details-main-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -8949,4 +8949,93 @@ button.details-btn {
     bottom: 15vh;
   }
 
+}
+
+/* Admin RSVP deletion: isolated styles (existing dashboard styles preserved) */
+.rsvp-table .delete-rsvp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 8px;
+  background: #b42332;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.rsvp-table .delete-rsvp-btn:hover,
+.rsvp-table .delete-rsvp-btn:focus-visible {
+  background: #8c1928;
+}
+.delete-rsvp-dialog {
+  width: min(calc(100% - 2rem), 440px);
+  max-width: 440px;
+  padding: 1.6rem;
+  border: none;
+  border-radius: 14px;
+  background: #fff;
+  color: #212121;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+.delete-rsvp-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.68);
+}
+.delete-rsvp-dialog h3 {
+  margin: 0 0 0.7rem;
+  color: #9e1b2b;
+}
+.delete-rsvp-dialog p {
+  margin: 0.5rem 0;
+}
+.delete-rsvp-dialog .delete-rsvp-warning {
+  font-size: 0.92rem;
+}
+.delete-rsvp-dialog label {
+  display: block;
+  margin: 1rem 0 0.4rem;
+  font-weight: 600;
+}
+.delete-rsvp-dialog input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+}
+.delete-rsvp-dialog .delete-rsvp-error {
+  color: #b42332;
+  font-size: 0.9rem;
+}
+.delete-rsvp-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+.delete-rsvp-actions button {
+  border: 0;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.cancel-delete-rsvp {
+  background: #e9ecef;
+  color: #202020;
+}
+.confirm-delete-rsvp {
+  background: #b42332;
+  color: #fff;
+}
+.confirm-delete-rsvp:hover {
+  background: #8c1928;
+}
+.delete-rsvp-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
