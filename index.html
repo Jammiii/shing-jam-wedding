@@ -1672,6 +1672,7 @@
                   <th>Meal Preference</th>
                   <th>Message</th>
                   <th>Date</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -1680,6 +1681,23 @@
             </table>
           </div>
         </div>
+          <!-- RSVP delete confirmation (admin only) -->
+          <dialog id="deleteRsvpDialog" class="delete-rsvp-dialog" aria-labelledby="deleteRsvpHeading">
+            <h3 id="deleteRsvpHeading">Delete RSVP?</h3>
+            <p id="deleteRsvpTarget"></p>
+            <p class="delete-rsvp-warning">This permanently deletes the selected RSVP. It cannot be undone.</p>
+            <form id="deleteRsvpForm">
+              <label for="deleteRsvpPassword">Confirm your admin password</label>
+              <input type="password" id="deleteRsvpPassword" name="password" autocomplete="off" required>
+              <p id="deleteRsvpError" class="delete-rsvp-error" role="alert" aria-live="polite"></p>
+              <div class="delete-rsvp-actions">
+                <button type="button" id="cancelDeleteRsvp" class="cancel-delete-rsvp">Cancel</button>
+                <button type="submit" id="confirmDeleteRsvp" class="confirm-delete-rsvp">
+                  <i class="fas fa-trash-alt" aria-hidden="true"></i> Delete RSVP
+                </button>
+              </div>
+            </form>
+          </dialog>
       </div>
     </div>
   </div>
