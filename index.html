@@ -1654,32 +1654,100 @@
 
         <!-- Stats & Data (shown after login) -->
         <div id="adminContent" style="display: none;">
-          <div id="statsContainer" class="admin-stats">
-            <!-- Stats will be loaded here -->
+          <div class="dashboard-overview-heading">
+            <div>
+              <p class="dashboard-eyebrow">WEDDING GUEST MANAGEMENT</p>
+              <p class="dashboard-overview-description">Your RSVP overview, updated from the guest list.</p>
+            </div>
+            <span class="dashboard-live-label"><span aria-hidden="true"></span> RSVP summary</span>
           </div>
 
-          <button id="exportBtn" class="submit-btn" style="margin: 1rem 0;">
-            <i class="fas fa-download"></i> Export to CSV
-          </button>
-
-          <h3>All RSVPs</h3>
-          <div style="overflow-x: auto;">
-            <table id="rsvpTable" class="rsvp-table">
-              <thead>
-                <tr>
-                  <th>Guest Name</th>
-                  <th>Attendance</th>
-                  <th>Meal Preference</th>
-                  <th>Message</th>
-                  <th>Date</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- RSVPs will be loaded here -->
-              </tbody>
-            </table>
+          <div id="statsContainer" class="admin-stats" aria-label="RSVP summary statistics">
+            <!-- Stats loaded by existing admin data fetch -->
           </div>
+
+          <div class="dashboard-charts" aria-label="RSVP charts">
+            <section class="dashboard-chart-card dashboard-chart-card--attendance" aria-labelledby="attendanceChartHeading">
+              <div class="dashboard-chart-title-row">
+                <div>
+                  <p class="dashboard-chart-kicker">GUEST RESPONSES</p>
+                  <h3 id="attendanceChartHeading">Attendance breakdown</h3>
+                </div>
+                <span class="dashboard-chart-symbol" aria-hidden="true"><i class="fas fa-chart-pie"></i></span>
+              </div>
+              <div class="dashboard-attendance-layout">
+                <div id="attendanceDonut" class="dashboard-attendance-donut" role="img" aria-label="Attendance chart loading">
+                  <div class="dashboard-donut-inner"><strong id="attendancePercent">0%</strong><span>accepting</span></div>
+                </div>
+                <div class="dashboard-attendance-legend">
+                  <div><span class="dashboard-legend-dot dashboard-dot-attending" aria-hidden="true"></span><span>Attending</span><strong id="attendanceAccepted">0</strong></div>
+                  <div><span class="dashboard-legend-dot dashboard-dot-declining" aria-hidden="true"></span><span>Declining</span><strong id="attendanceDeclined">0</strong></div>
+                  <div><span class="dashboard-legend-dot dashboard-dot-other" aria-hidden="true"></span><span>Other</span><strong id="attendanceOther">0</strong></div>
+                  <p class="dashboard-chart-note">Percentage of all RSVP responses</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="dashboard-chart-card dashboard-chart-card--activity" aria-labelledby="activityChartHeading">
+              <div class="dashboard-chart-title-row">
+                <div>
+                  <p class="dashboard-chart-kicker">RESPONSE HISTORY</p>
+                  <h3 id="activityChartHeading">RSVP activity</h3>
+                </div>
+                <span class="dashboard-chart-symbol" aria-hidden="true"><i class="fas fa-chart-column"></i></span>
+              </div>
+              <p id="rsvpTrendSubtitle" class="dashboard-chart-note">Monthly submissions</p>
+              <div id="rsvpTrendChart" class="dashboard-trend-chart" role="img" aria-label="RSVP submissions by month"></div>
+            </section>
+
+            <section class="dashboard-chart-card dashboard-chart-card--meals" aria-labelledby="mealChartHeading">
+              <div class="dashboard-chart-title-row">
+                <div>
+                  <p class="dashboard-chart-kicker">DINING PREFERENCES</p>
+                  <h3 id="mealChartHeading">Meal preferences</h3>
+                </div>
+                <span class="dashboard-chart-symbol" aria-hidden="true"><i class="fas fa-utensils"></i></span>
+              </div>
+              <p class="dashboard-chart-note">Based on attending RSVPs</p>
+              <div id="mealPreferenceChart" class="dashboard-meal-chart"></div>
+            </section>
+          </div>
+
+          <section class="dashboard-table-panel" aria-labelledby="allRsvpsHeading">
+            <div class="dashboard-table-heading">
+              <div>
+                <p class="dashboard-chart-kicker">GUEST LIST</p>
+                <h3 id="allRsvpsHeading">All RSVPs</h3>
+                <p id="rsvpVisibleCount" class="dashboard-chart-note" aria-live="polite">Guest entries</p>
+              </div>
+              <div class="dashboard-table-tools">
+                <label class="dashboard-table-search">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                  <input id="rsvpSearchInput" type="search" placeholder="Search guests, meals, messages…" aria-label="Search RSVPs" autocomplete="off">
+                </label>
+                <button id="exportBtn" class="submit-btn" type="button">
+                  <i class="fas fa-download" aria-hidden="true"></i> Export to CSV
+                </button>
+              </div>
+            </div>
+            <div class="dashboard-table-scroll" role="region" aria-label="All RSVP entries" tabindex="0">
+              <table id="rsvpTable" class="rsvp-table">
+                <thead>
+                  <tr>
+                    <th>Guest Name</th>
+                    <th>Attendance</th>
+                    <th>Meal Preference</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- RSVPs loaded by existing admin table renderer -->
+                </tbody>
+              </table>
+            </div>
+          </section>
         </div>
           <!-- RSVP delete confirmation (admin only) -->
           <dialog id="deleteRsvpDialog" class="delete-rsvp-dialog" aria-labelledby="deleteRsvpHeading">
