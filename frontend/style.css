@@ -9493,3 +9493,111 @@ button.details-btn {
   #adminContent .dashboard-trend-bar,
   #adminContent .stat-card { transition: none; }
 }
+
+
+/* ============================================================
+   RSVP DASHBOARD: authenticated Logout + guest table pagination
+   ============================================================ */
+#adminPanel #logoutBtn[hidden],
+#adminContent #rsvpPagination[hidden] {
+  display: none !important;
+}
+
+#adminContent .dashboard-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  padding: 1.05rem 1.5rem;
+  border-top: 1px solid #e3ede6;
+  background: #f9fcfa;
+}
+#adminContent .dashboard-pagination-range {
+  color: #60736b;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+#adminContent .dashboard-pagination-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+#adminContent .dashboard-page-size {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 0.5rem;
+  color: #60736b;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+#adminContent .dashboard-page-size select {
+  background: #fff;
+  border: 1px solid #dce8df;
+  border-radius: 8px;
+  padding: 0.45rem 0.55rem;
+  color: #15362b;
+  font: inherit;
+  cursor: pointer;
+}
+#adminContent .dashboard-page-arrow,
+#adminContent .dashboard-page-number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 36px;
+  min-width: 36px;
+  padding: 0.4rem 0.65rem;
+  background: #fff;
+  color: #29533a;
+  border: 1px solid #dce8df;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 0.79rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+#adminContent .dashboard-page-arrow:hover:not(:disabled),
+#adminContent .dashboard-page-number:hover:not(:disabled) {
+  background: #eaf5ed;
+  border-color: #92c6a2;
+}
+#adminContent .dashboard-page-number.is-current {
+  background: #086b30;
+  border-color: #086b30;
+  color: #fff;
+}
+#adminContent .dashboard-page-arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+#adminContent .dashboard-page-arrow:focus-visible,
+#adminContent .dashboard-page-number:focus-visible,
+#adminContent .dashboard-page-size select:focus-visible {
+  outline: 2px solid #b9932c;
+  outline-offset: 2px;
+}
+#adminContent .dashboard-page-numbers {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+#adminContent .dashboard-page-ellipsis {
+  color: #73877b;
+  font-size: 0.85rem;
+  padding: 0 0.2rem;
+}
+@media (max-width: 760px) {
+  #adminContent .dashboard-pagination { padding: 1rem; justify-content: center; }
+  #adminContent .dashboard-pagination-range { width: 100%; text-align: center; }
+  #adminContent .dashboard-pagination-controls { justify-content: center; }
+}
+@media (max-width: 420px) {
+  #adminContent .dashboard-page-size { width: 100%; justify-content: center; margin: 0 0 0.25rem; }
+  #adminContent .dashboard-page-arrow { padding: 0.4rem; }
+  #adminContent .dashboard-page-arrow span { display: none; }
+}
