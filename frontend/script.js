@@ -657,6 +657,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const exportBtn = document.getElementById("exportBtn");
   const statsContainer = document.getElementById("statsContainer");
   const rsvpTableBody = document.querySelector("#rsvpTable tbody");
+  const rsvpSearchInput = document.getElementById("rsvpSearchInput");
+  const rsvpVisibleCount = document.getElementById("rsvpVisibleCount");
+  let adminAllRsvps = [];
+
   const statusSearch = document.getElementById("statusSearch");
   const statusSuggestions = document.getElementById("statusSuggestions");
   const rsvpModal = document.getElementById("rsvpModal");
@@ -1867,7 +1871,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const data = await res.json();
 
     updateStats(data.stats);
-    updateRSVPTable(data.stats.recent_rsvps);
+    renderDashboardCharts(data.stats);
+    // All rows are already returned by the stats endpoint; keep the old 10-row
+    // field as a fallback for deployments where the API has not updated yet.
+    adminAllRsvps = data.stats.all_rsvps || data.stats.recent_rsvps || [];
+    updateRSVPTable(adminAllRsvps);
 
     document.getElementById("loginFormContainer").style.display = "none";
     document.getElementById("adminContent").style.display = "block";
@@ -1987,40 +1995,92 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-  // Update stats display
+  // Visual changes are scoped to the admin dashboard only.
+  function dashboardCount(value) {
+    const count = Number(value);
+    return Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
+  }
+
   function updateStats(data) {
     if (!statsContainer || !data) return;
 
-    statsContainer.innerHTML = `
-                <div class="stat-card">
-                    <span class="stat-number">${
-                      data.total_responses || 0
-                    }</span>
-                    <span>Total Responses</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">${data.total_guests || 0}</span>
-                    <span>Total Guests</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">${
-                      data.attending_count || 0
-                    }</span>
-                    <span>Attending</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">${
-                      data.declining_count || 0
-                    }</span>
-                    <span>Declining</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">${data.messages_count || 0}</span>
-                    <span>Messages</span>
-                </div>
-            `;
+    const cards = [
+      { key: "total_responses", label: "Total Responses", icon: "fa-clipboard-check", tone: "responses" },
+      { key: "total_guests", label: "Total Guests", icon: "fa-users", tone: "guests" },
+      { key: "attending_count", label: "Attending", icon: "fa-check-circle", tone: "attending" },
+      { key: "declining_count", label: "Declining", icon: "fa-user-times", tone: "declining" },
+      { key: "messages_count", label: "Messages", icon: "fa-envelope-open-text", tone: "messages" }
+    ];
+    statsContainer.innerHTML = cards.map(card => `
+      <div class="stat-card dashboard-stat dashboard-stat--${card.tone}">
+        <span class="dashboard-stat-icon"><i class="fas ${card.icon}" aria-hidden="true"></i></span>
+        <span class="stat-number">${dashboardCount(data[card.key]).toLocaleString()}</span>
+        <span class="dashboard-stat-label">${card.label}</span>
+      </div>
+    `).join("");
   }
 
+  function renderDashboardCharts(data) {
+    if (!data) return;
+    const total = dashboardCount(data.total_responses);
+    const accepted = dashboardCount(data.attending_count);
+    const declined = dashboardCount(data.declining_count);
+    const other = Math.max(0, total - accepted - declined);
+    const acceptedPercent = total ? Math.min(100, accepted / total * 100) : 0;
+    const declinedEnd = total ? Math.min(100, (accepted + declined) / total * 100) : 0;
+    const donut = document.getElementById("attendanceDonut");
+
+    if (donut) {
+      donut.style.background = total
+        ? `conic-gradient(#138045 0% ${acceptedPercent}%, #cb5264 ${acceptedPercent}% ${declinedEnd}%, #cbd5d1 ${declinedEnd}% 100%)`
+        : "conic-gradient(#e6ebe8 0% 100%)";
+      donut.setAttribute("aria-label", `${accepted} attending, ${declined} declining, ${other} other responses out of ${total} RSVPs`);
+    }
+    const percentText = document.getElementById("attendancePercent");
+    if (percentText) percentText.textContent = `${Math.round(acceptedPercent)}%`;
+    const countTargets = { attendanceAccepted: accepted, attendanceDeclined: declined, attendanceOther: other };
+    Object.entries(countTargets).forEach(([id, value]) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value.toLocaleString();
+    });
+
+    const trendChart = document.getElementById("rsvpTrendChart");
+    const monthly = Array.isArray(data.monthly_rsvps) ? data.monthly_rsvps : [];
+    if (trendChart) {
+      const max = Math.max(1, ...monthly.map(entry => dashboardCount(entry.count)));
+      trendChart.innerHTML = monthly.length ? monthly.map(entry => {
+        const value = dashboardCount(entry.count);
+        const label = escapeHtml(String(entry.label || ""));
+        // Chart labels come from the server; counts/heights are sanitized numbers.
+        const height = value ? Math.max(5, Math.round(value / max * 100)) : 0;
+        return `<div class="dashboard-trend-month" title="${label}: ${value} RSVPs">
+          <div class="dashboard-trend-bar-area">
+            <span class="dashboard-trend-value">${value}</span>
+            <span class="dashboard-trend-bar" style="height:${height}%" aria-hidden="true"></span>
+          </div>
+          <span class="dashboard-trend-label">${label}</span>
+        </div>`;
+      }).join("") : '<p class="dashboard-chart-empty">No RSVP activity yet.</p>';
+      trendChart.setAttribute("aria-label", monthly.map(entry => `${entry.label}: ${dashboardCount(entry.count)}`).join(", ") || "No monthly RSVP submissions");
+    }
+    const trendSubtitle = document.getElementById("rsvpTrendSubtitle");
+    if (trendSubtitle) trendSubtitle.textContent = data.trend_description || "Monthly submissions";
+
+    const mealChart = document.getElementById("mealPreferenceChart");
+    if (mealChart) {
+      const meals = Array.isArray(data.meal_preferences) ? data.meal_preferences : [];
+      const mealTotal = meals.reduce((sum, entry) => sum + dashboardCount(entry.count), 0);
+      mealChart.innerHTML = meals.length ? meals.map(entry => {
+        const value = dashboardCount(entry.count);
+        const name = escapeHtml(String(entry.name || "Not specified"));
+        const width = mealTotal ? Math.min(100, value / mealTotal * 100) : 0;
+        return `<div class="dashboard-meal-row">
+          <div class="dashboard-meal-label"><span>${name}</span><strong>${value}</strong></div>
+          <div class="dashboard-meal-track"><span class="dashboard-meal-fill" style="width:${width}%"></span></div>
+        </div>`;
+      }).join("") : '<p class="dashboard-chart-empty">No attending guest meal preferences yet.</p>';
+    }
+  }
 
   async function checkRSVPDeadline() {
     if (!deadlineMessage) return;
@@ -2175,23 +2235,48 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  if (rsvpSearchInput) {
+    rsvpSearchInput.addEventListener("input", () => updateRSVPTable(adminAllRsvps));
+  }
+
   function updateRSVPTable(rsvps) {
     if (!rsvpTableBody) return;
 
+    const all = Array.isArray(rsvps) ? rsvps : [];
+    const query = (rsvpSearchInput?.value || "").trim().toLocaleLowerCase();
+    const filtered = query ? all.filter(rsvp => [
+      rsvp.guest_name, rsvp.attendance, rsvp.meal_preference, rsvp.message
+    ].some(field => String(field || "").toLocaleLowerCase().includes(query))) : all;
+
+    if (rsvpVisibleCount) {
+      rsvpVisibleCount.textContent = `Showing ${filtered.length} of ${all.length} RSVP entries`;
+    }
     rsvpTableBody.innerHTML = "";
 
-    rsvps.forEach((rsvp) => {
+    if (!filtered.length) {
       const row = document.createElement("tr");
+      const cell = document.createElement("td");
+      cell.colSpan = 6;
+      cell.className = "dashboard-empty-row";
+      cell.textContent = query ? "No RSVPs match your search." : "No RSVPs received yet.";
+      row.appendChild(cell);
+      rsvpTableBody.appendChild(row);
+      return;
+    }
+
+    filtered.forEach((rsvp) => {
+      const row = document.createElement("tr");
+      const submitted = rsvp.submission_date ? new Date(rsvp.submission_date) : null;
+      const date = submitted && !Number.isNaN(submitted.getTime())
+        ? submitted.toLocaleDateString() : "-";
       row.innerHTML = `
-                    <tr><td>${escapeHtml(rsvp.guest_name || "")}</td>
-                    <td>${escapeHtml(rsvp.attendance || "")}</td>
-                    <td>${escapeHtml(rsvp.meal_preference || "-")}</td>
-                    <td>${escapeHtml(rsvp.message || "-")}</td>
-                    <td>${new Date(
-                      rsvp.submission_date
-                    ).toLocaleDateString()}</td>
-                `;
-      // Add one admin-only action without changing the existing RSVP cells.
+        <td>${escapeHtml(rsvp.guest_name || "")}</td>
+        <td>${escapeHtml(rsvp.attendance || "")}</td>
+        <td>${escapeHtml(rsvp.meal_preference || "-")}</td>
+        <td>${escapeHtml(rsvp.message || "-")}</td>
+        <td>${escapeHtml(date)}</td>
+      `;
+      // Preserve the existing admin delete flow: ID, guest name, and click handler.
       const actionCell = document.createElement("td");
       if (rsvp.id !== null && rsvp.id !== undefined) {
         const deleteButton = document.createElement("button");
