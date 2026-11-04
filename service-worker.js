@@ -1,4 +1,4 @@
-const CACHE_NAME = 'wedding-rsvp-sj-delete-action-v1';
+const CACHE_NAME = 'wedding-rsvp-sj-dashboard-v2';
 
 const urlsToCache = [
   '/',
