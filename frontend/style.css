@@ -1056,6 +1056,7 @@ h4,
 
 .rsvp-section {
   background: linear-gradient(135deg, var(--cream) 0%, #f0e6d6 100%);
+  padding: clamp(3rem, 8vw, 6rem) 1rem;
 }
 
 .details-section {
@@ -2818,12 +2819,15 @@ button.details-btn {
   font-weight: 600;
   margin-bottom: 1rem;
   color: #4b5f57;
+  text-align: center;
 }
 
 .palette-colors {
   display: flex;
   gap: 0.9rem;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .color-circle {
@@ -3447,7 +3451,7 @@ button.details-btn {
   box-shadow: var(--shadow-lg);
   border: 1px solid rgba(212, 175, 55, 0.2);
   position: relative;
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -4368,7 +4372,8 @@ button.details-btn {
 
 @media (max-width: 480px) {
 
-  .messages-section {
+  .messages-section,
+  .rsvp-section {
     padding: 3.5rem 0.75rem;
   }
 
@@ -6764,7 +6769,7 @@ button.details-btn {
   }
 
   .rsvp-container {
-    padding: 2.5rem;
+    padding: 1.4rem;
   }
 
   .admin-content {
