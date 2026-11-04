@@ -8966,13 +8966,23 @@ button.details-btn {
   cursor: pointer;
   white-space: nowrap;
 }
+
 .rsvp-table .delete-rsvp-btn:hover,
 .rsvp-table .delete-rsvp-btn:focus-visible {
   background: #8c1928;
 }
+
 .delete-rsvp-dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+
   width: min(calc(100% - 2rem), 440px);
   max-width: 440px;
+  height: fit-content;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+
   padding: 1.6rem;
   border: none;
   border-radius: 14px;
@@ -8980,9 +8990,11 @@ button.details-btn {
   color: #212121;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
 }
+
 .delete-rsvp-dialog::backdrop {
   background: rgba(0, 0, 0, 0.68);
 }
+
 .delete-rsvp-dialog h3 {
   margin: 0 0 0.7rem;
   color: #9e1b2b;
@@ -8990,14 +9002,17 @@ button.details-btn {
 .delete-rsvp-dialog p {
   margin: 0.5rem 0;
 }
+
 .delete-rsvp-dialog .delete-rsvp-warning {
   font-size: 0.92rem;
 }
+
 .delete-rsvp-dialog label {
   display: block;
   margin: 1rem 0 0.4rem;
   font-weight: 600;
 }
+
 .delete-rsvp-dialog input {
   width: 100%;
   box-sizing: border-box;
@@ -9005,10 +9020,12 @@ button.details-btn {
   border: 1px solid #bbb;
   border-radius: 8px;
 }
+
 .delete-rsvp-dialog .delete-rsvp-error {
   color: #b42332;
   font-size: 0.9rem;
 }
+
 .delete-rsvp-actions {
   display: flex;
   justify-content: flex-end;
@@ -9016,6 +9033,7 @@ button.details-btn {
   gap: 0.7rem;
   margin-top: 1rem;
 }
+
 .delete-rsvp-actions button {
   border: 0;
   border-radius: 8px;
@@ -9024,17 +9042,21 @@ button.details-btn {
   font-weight: 600;
   cursor: pointer;
 }
+
 .cancel-delete-rsvp {
   background: #e9ecef;
   color: #202020;
 }
+
 .confirm-delete-rsvp {
   background: #b42332;
   color: #fff;
 }
+
 .confirm-delete-rsvp:hover {
   background: #8c1928;
 }
+
 .delete-rsvp-actions button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
