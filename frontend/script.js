@@ -659,7 +659,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const rsvpTableBody = document.querySelector("#rsvpTable tbody");
   const rsvpSearchInput = document.getElementById("rsvpSearchInput");
   const rsvpVisibleCount = document.getElementById("rsvpVisibleCount");
+  const rsvpPagination = document.getElementById("rsvpPagination");
+  const rsvpPageRange = document.getElementById("rsvpPageRange");
+  const rsvpPageSizeSelect = document.getElementById("rsvpPageSize");
+  const rsvpPrevPage = document.getElementById("rsvpPrevPage");
+  const rsvpNextPage = document.getElementById("rsvpNextPage");
+  const rsvpPageNumbers = document.getElementById("rsvpPageNumbers");
   let adminAllRsvps = [];
+  let rsvpCurrentPage = 1;
+  let rsvpPageSize = 10;
 
   const statusSearch = document.getElementById("statusSearch");
   const statusSuggestions = document.getElementById("statusSuggestions");
@@ -1831,31 +1839,36 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Keep the header action in sync with the visible, authenticated view.
+  function setAdminLoggedIn(isLoggedIn) {
+    const loginFormContainer = document.getElementById("loginFormContainer");
+    const adminContent = document.getElementById("adminContent");
+    if (loginFormContainer) loginFormContainer.style.display = isLoggedIn ? "none" : "block";
+    if (adminContent) adminContent.style.display = isLoggedIn ? "block" : "none";
+    if (logoutBtn) logoutBtn.hidden = !isLoggedIn;
+  }
+
   async function showAdminPanel() {
     if (!adminPanel) return;
-
     adminPanel.style.display = "block";
 
-    // Check if already logged in from localStorage
     const token = localStorage.getItem("adminToken");
     const user = localStorage.getItem("adminUser");
 
+    // Do not display private dashboard content or Logout until data loads.
+    setAdminLoggedIn(false);
     if (token && user) {
-      // Already logged in, load data directly
       await loadAdminData();
-    } else {
-      // Show login form
-      const loginFormContainer = document.getElementById("loginFormContainer");
-      const adminContent = document.getElementById("adminContent");
-
-      if (loginFormContainer) loginFormContainer.style.display = "block";
-      if (adminContent) adminContent.style.display = "none";
     }
   }
 
   // LOAD ADMIN DATA
   async function loadAdminData() {
     const token = localStorage.getItem("adminToken");
+    if (!token) {
+      setAdminLoggedIn(false);
+      return;
+    }
 
     const res = await fetch("/api/stats", {
       headers: {
@@ -1864,7 +1877,16 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (!res.ok) {
-      alert("Unauthorized");
+      // Invalid or expired credentials must return to the login view.
+      if (res.status === 401 || res.status === 403) {
+        localStorage.removeItem("adminToken");
+        localStorage.removeItem("adminUser");
+        setAdminLoggedIn(false);
+        showMessage("Your admin session has expired. Please log in again.", "error");
+      } else {
+        setAdminLoggedIn(false);
+        showMessage("Unable to load the RSVP dashboard. Please try again.", "error");
+      }
       return;
     }
 
@@ -1872,13 +1894,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateStats(data.stats);
     renderDashboardCharts(data.stats);
-    // All rows are already returned by the stats endpoint; keep the old 10-row
-    // field as a fallback for deployments where the API has not updated yet.
+    // Keep all returned RSVP rows for full-list client-side search and paging.
     adminAllRsvps = data.stats.all_rsvps || data.stats.recent_rsvps || [];
     updateRSVPTable(adminAllRsvps);
-
-    document.getElementById("loginFormContainer").style.display = "none";
-    document.getElementById("adminContent").style.display = "block";
+    setAdminLoggedIn(true);
   }
 
   // Update admin login form
@@ -1936,8 +1955,12 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.removeItem("adminToken");
       localStorage.removeItem("adminUser");
 
-      document.getElementById("loginFormContainer").style.display = "block";
-      document.getElementById("adminContent").style.display = "none";
+      setAdminLoggedIn(false);
+      adminAllRsvps = [];
+      rsvpCurrentPage = 1;
+      if (rsvpSearchInput) rsvpSearchInput.value = "";
+      if (rsvpTableBody) rsvpTableBody.replaceChildren();
+      if (rsvpPagination) rsvpPagination.hidden = true;
 
       showMessage("Logged out successfully", "success");
     });
@@ -2235,8 +2258,79 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Pagination applies to the filtered guest list, not to statistics or exports.
   if (rsvpSearchInput) {
-    rsvpSearchInput.addEventListener("input", () => updateRSVPTable(adminAllRsvps));
+    rsvpSearchInput.addEventListener("input", () => {
+      rsvpCurrentPage = 1;
+      updateRSVPTable(adminAllRsvps);
+    });
+  }
+  if (rsvpPageSizeSelect) {
+    rsvpPageSizeSelect.addEventListener("change", () => {
+      rsvpPageSize = Number(rsvpPageSizeSelect.value) || 10;
+      rsvpCurrentPage = 1;
+      updateRSVPTable(adminAllRsvps);
+    });
+  }
+  if (rsvpPrevPage) {
+    rsvpPrevPage.addEventListener("click", () => {
+      if (rsvpCurrentPage <= 1) return;
+      rsvpCurrentPage--;
+      updateRSVPTable(adminAllRsvps);
+    });
+  }
+  if (rsvpNextPage) {
+    rsvpNextPage.addEventListener("click", () => {
+      rsvpCurrentPage++;
+      updateRSVPTable(adminAllRsvps);
+    });
+  }
+
+  function renderRSVPPagination(total, pageCount, startIndex, endIndex) {
+    if (!rsvpPagination) return;
+    rsvpPagination.hidden = total === 0;
+    if (total === 0) return;
+
+    if (rsvpPageRange) {
+      rsvpPageRange.textContent = `Showing ${startIndex + 1}–${endIndex} of ${total} matching RSVPs`;
+    }
+    if (rsvpPrevPage) rsvpPrevPage.disabled = rsvpCurrentPage === 1;
+    if (rsvpNextPage) rsvpNextPage.disabled = rsvpCurrentPage === pageCount;
+    if (!rsvpPageNumbers) return;
+
+    rsvpPageNumbers.replaceChildren();
+    // Show nearby page numbers plus first/last for long guest lists.
+    const pages = new Set([1, pageCount]);
+    for (let page = Math.max(1, rsvpCurrentPage - 1);
+      page <= Math.min(pageCount, rsvpCurrentPage + 1); page++) {
+      pages.add(page);
+    }
+    let lastPage = 0;
+    [...pages].sort((a, b) => a - b).forEach((page) => {
+      if (lastPage && page > lastPage + 1) {
+        const dots = document.createElement("span");
+        dots.className = "dashboard-page-ellipsis";
+        dots.textContent = "…";
+        dots.setAttribute("aria-hidden", "true");
+        rsvpPageNumbers.appendChild(dots);
+      }
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "dashboard-page-number";
+      button.textContent = String(page);
+      button.setAttribute("aria-label", `Page ${page}`);
+      if (page === rsvpCurrentPage) {
+        button.classList.add("is-current");
+        button.setAttribute("aria-current", "page");
+      }
+      button.addEventListener("click", () => {
+        if (rsvpCurrentPage === page) return;
+        rsvpCurrentPage = page;
+        updateRSVPTable(adminAllRsvps);
+      });
+      rsvpPageNumbers.appendChild(button);
+      lastPage = page;
+    });
   }
 
   function updateRSVPTable(rsvps) {
@@ -2248,10 +2342,19 @@ document.addEventListener("DOMContentLoaded", function () {
       rsvp.guest_name, rsvp.attendance, rsvp.meal_preference, rsvp.message
     ].some(field => String(field || "").toLocaleLowerCase().includes(query))) : all;
 
+    const pageCount = Math.max(1, Math.ceil(filtered.length / rsvpPageSize));
+    rsvpCurrentPage = Math.max(1, Math.min(rsvpCurrentPage, pageCount));
+    const startIndex = (rsvpCurrentPage - 1) * rsvpPageSize;
+    const endIndex = Math.min(startIndex + rsvpPageSize, filtered.length);
+    const visible = filtered.slice(startIndex, endIndex);
+
     if (rsvpVisibleCount) {
-      rsvpVisibleCount.textContent = `Showing ${filtered.length} of ${all.length} RSVP entries`;
+      rsvpVisibleCount.textContent = query
+        ? `${filtered.length} matching of ${all.length} total RSVPs`
+        : `${all.length} RSVP entries`;
     }
     rsvpTableBody.innerHTML = "";
+    renderRSVPPagination(filtered.length, pageCount, startIndex, endIndex);
 
     if (!filtered.length) {
       const row = document.createElement("tr");
@@ -2264,7 +2367,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    filtered.forEach((rsvp) => {
+    visible.forEach((rsvp) => {
       const row = document.createElement("tr");
       const submitted = rsvp.submission_date ? new Date(rsvp.submission_date) : null;
       const date = submitted && !Number.isNaN(submitted.getTime())
@@ -2899,7 +3002,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (tapCount >= 3) {
         const adminPanel = document.getElementById('adminPanel');
         if (adminPanel) {
-          adminPanel.style.display = 'block';
+          showAdminPanel();
           showToast('🔓 Admin Access Granted', 'success');
         }
         tapCount = 0;
