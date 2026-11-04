@@ -2096,6 +2096,85 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+
+  // DELETE RSVP: separate admin-only feature; existing RSVP and export logic remains intact.
+  const deleteRsvpDialog = document.getElementById("deleteRsvpDialog");
+  const deleteRsvpForm = document.getElementById("deleteRsvpForm");
+  const deleteRsvpPassword = document.getElementById("deleteRsvpPassword");
+  const deleteRsvpTarget = document.getElementById("deleteRsvpTarget");
+  const deleteRsvpError = document.getElementById("deleteRsvpError");
+  const confirmDeleteRsvp = document.getElementById("confirmDeleteRsvp");
+  const cancelDeleteRsvp = document.getElementById("cancelDeleteRsvp");
+  let pendingDeleteRsvpId = null;
+
+  if (rsvpTableBody && deleteRsvpDialog) {
+    rsvpTableBody.addEventListener("click", (event) => {
+      const button = event.target.closest(".delete-rsvp-btn");
+      if (!button || !rsvpTableBody.contains(button)) return;
+
+      pendingDeleteRsvpId = button.dataset.rsvpId;
+      deleteRsvpTarget.textContent = `Guest: ${button.dataset.guestName}`;
+      deleteRsvpError.textContent = "";
+      deleteRsvpForm.reset();
+      deleteRsvpDialog.showModal();
+      deleteRsvpPassword.focus();
+    });
+
+    // Keep Escape from also closing the entire admin panel.
+    deleteRsvpDialog.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") event.stopPropagation();
+    });
+
+    deleteRsvpDialog.addEventListener("close", () => {
+      pendingDeleteRsvpId = null;
+      deleteRsvpForm.reset();
+      deleteRsvpError.textContent = "";
+    });
+  }
+
+  if (cancelDeleteRsvp) {
+    cancelDeleteRsvp.addEventListener("click", () => deleteRsvpDialog.close());
+  }
+
+  if (deleteRsvpForm) {
+    deleteRsvpForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!pendingDeleteRsvpId) return;
+
+      const id = pendingDeleteRsvpId;
+      const token = localStorage.getItem("adminToken");
+      deleteRsvpError.textContent = "";
+      confirmDeleteRsvp.disabled = true;
+      cancelDeleteRsvp.disabled = true;
+
+      try {
+        const response = await fetch("/api/delete-rsvp", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token || ""}`
+          },
+          body: JSON.stringify({ id, password: deleteRsvpPassword.value })
+        });
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error || "Could not delete RSVP.");
+        }
+
+        deleteRsvpDialog.close();
+        await loadAdminData();
+        showMessage("RSVP deleted successfully.", "success");
+      } catch (error) {
+        console.error("RSVP deletion error:", error);
+        deleteRsvpError.textContent = error.message || "Deletion failed. Please try again.";
+      } finally {
+        confirmDeleteRsvp.disabled = false;
+        cancelDeleteRsvp.disabled = false;
+      }
+    });
+  }
+
   function updateRSVPTable(rsvps) {
     if (!rsvpTableBody) return;
 
@@ -2112,6 +2191,19 @@ document.addEventListener("DOMContentLoaded", function () {
                       rsvp.submission_date
                     ).toLocaleDateString()}</td>
                 `;
+      // Add one admin-only action without changing the existing RSVP cells.
+      const actionCell = document.createElement("td");
+      if (rsvp.id !== null && rsvp.id !== undefined) {
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-rsvp-btn";
+        deleteButton.dataset.rsvpId = String(rsvp.id);
+        deleteButton.dataset.guestName = rsvp.guest_name || "this guest";
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt" aria-hidden="true"></i> Delete';
+        deleteButton.setAttribute("aria-label", `Delete RSVP for ${rsvp.guest_name || "guest"}`);
+        actionCell.appendChild(deleteButton);
+      }
+      row.appendChild(actionCell);
       rsvpTableBody.appendChild(row);
     });
   }
