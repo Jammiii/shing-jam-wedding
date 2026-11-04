@@ -1628,7 +1628,7 @@
     <!-- Admin Panel -->
     <div id="adminPanel" class="admin-panel">
       <div class="admin-content">
-        <button id="logoutBtn" class="logout-btn" style="float: right;">
+        <button id="logoutBtn" class="logout-btn" type="button" hidden>
           <i class="fas fa-sign-out-alt"></i> Logout
         </button>
 
@@ -1747,6 +1747,25 @@
                 </tbody>
               </table>
             </div>
+            <nav id="rsvpPagination" class="dashboard-pagination" aria-label="RSVP table pagination" hidden>
+              <span id="rsvpPageRange" class="dashboard-pagination-range" aria-live="polite"></span>
+              <div class="dashboard-pagination-controls">
+                <label class="dashboard-page-size" for="rsvpPageSize">Rows per page
+                  <select id="rsvpPageSize" aria-label="RSVP rows per page">
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                  </select>
+                </label>
+                <button id="rsvpPrevPage" type="button" class="dashboard-page-arrow" aria-label="Previous page">
+                  <i class="fas fa-chevron-left" aria-hidden="true"></i> <span>Previous</span>
+                </button>
+                <div id="rsvpPageNumbers" class="dashboard-page-numbers" aria-label="Select a page"></div>
+                <button id="rsvpNextPage" type="button" class="dashboard-page-arrow" aria-label="Next page">
+                  <span>Next</span> <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </nav>
           </section>
         </div>
           <!-- RSVP delete confirmation (admin only) -->
